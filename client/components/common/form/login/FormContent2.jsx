@@ -4,7 +4,9 @@ import LoginWithSocial from "./LoginWithSocial";
 const FormContent2 = () => {
   return (
     <div className="form-inner">
-      <h3>Login to Superio</h3>
+      <h3>Login to Trance</h3>
+
+
 
       {/* <!--Login Form--> */}
       <form method="post">

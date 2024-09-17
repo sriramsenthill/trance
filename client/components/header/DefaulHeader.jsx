@@ -20,9 +20,8 @@ const DefaulHeader = () => {
   return (
     // <!-- Main Header-->
     <header
-      className={`main-header  ${
-        navbar ? "fixed-header animated slideInDown" : ""
-      }`}
+      className={`main-header  ${navbar ? "fixed-header animated slideInDown" : ""
+        }`}
     >
       {/* <!-- Main box --> */}
       <div className="main-box">
@@ -30,9 +29,7 @@ const DefaulHeader = () => {
         <div className="nav-outer">
           <div className="logo-box">
             <div className="logo">
-              <Link href="/">
-                <img src="/images/logo.svg" alt="brand" />
-              </Link>
+              <h1 style={{ fontFamily: 'Arima' }}>Trance</h1>
             </div>
           </div>
           {/* End .logo-box */}

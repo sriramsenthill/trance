@@ -17,9 +17,8 @@ const Header = () => {
 
   return (
     <header
-      className={`main-header ${
-        navbar ? "fixed-header animated slideInDown" : ""
-      }`}
+      className={`main-header ${navbar ? "fixed-header animated slideInDown" : ""
+        }`}
     >
       <div className="container-fluid">
         {/* <!-- Main box --> */}
@@ -28,12 +27,12 @@ const Header = () => {
           <div className="nav-outer">
             <div className="logo-box">
               <div className="logo">
-                <Link href="/" className="noSticky">
-                  <img src="/images/logo-2.svg" alt="logo" title="brand" />
-                </Link>
-                <Link href="/" className="isSticky">
-                  <img src="/images/logo.svg" alt="logo" title="brand" />
-                </Link>
+                <div style={{
+                  fontFamily: 'Armio',
+                  color: "white",
+                }}>
+                  <h1>Trance</h1>
+                </div>
               </div>
             </div>
           </div>

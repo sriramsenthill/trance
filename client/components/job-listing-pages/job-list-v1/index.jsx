@@ -1,7 +1,7 @@
 import FooterDefault from "../../../components/footer/common-footer";
 import Breadcrumb from "../../common/Breadcrumb";
 import LoginPopup from "../../common/form/login/LoginPopup";
-import DefaulHeader2 from "../../header/DefaulHeader2";
+import DefaulHeader from "../../header/DefaulHeader";
 import MobileMenu from "../../header/MobileMenu";
 import FilterJobsBox from "./FilterJobsBox";
 import FilterSidebar from "./FilterSidebar";
@@ -15,7 +15,7 @@ const index = () => {
             <LoginPopup />
             {/* End Login Popup Modal */}
 
-            <DefaulHeader2 />
+            <DefaulHeader />
             {/* End Header with upload cv btn */}
 
             <MobileMenu />
