@@ -79,9 +79,9 @@ const index = () => {
         <div className="container-fluid">
           {/* <!-- Sec Title --> */}
           <div className="sec-title text-center light">
-            <h2>Testimonials From Our Customers</h2>
+            <h2>Testimonials From Our Employees</h2>
             <div className="text">
-              Lorem ipsum dolor sit amet elit, sed do eiusmod tempor
+              listen to what our employees have to say
             </div>
           </div>
           {/* End sec-title */}
@@ -153,22 +153,7 @@ const index = () => {
       </section>
       {/* <!-- End Candidates Section --> */}
 
-      <section className="news-section style-three">
-        <div className="auto-container">
-          <div className="sec-title text-center">
-            <h2>Recent News Articles</h2>
-            <div className="text">
-              Fresh job related news content posted each day.
-            </div>
-          </div>
-          {/* End .sec-title */}
 
-          <div className="row" data-aos="fade-up">
-            <Blog3 />
-          </div>
-        </div>
-      </section>
-      {/* <!-- End News Section --> */}
 
       <section className="browse-jobs">
         <div className="auto-container">
