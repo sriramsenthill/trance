@@ -45,37 +45,26 @@ const PostBoxForm = () => {
         {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Email Address</label>
-          <input type="text" name="name" placeholder="" />
+          <input type="text" name="name" />
         </div>
 
         {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Username</label>
-          <input type="text" name="name" placeholder="" />
-        </div>
-
-        {/* <!-- Search Select --> */}
-        <div className="form-group col-lg-6 col-md-12">
-          <label>Specialisms </label>
-          <Select
-            defaultValue={[specialisms[2]]}
-            isMulti
-            name="colors"
-            options={specialisms}
-            className="basic-multi-select"
-            classNamePrefix="select"
-          />
+          <input type="text" name="name"/>
         </div>
 
         <div className="form-group col-lg-6 col-md-12">
           <label>Job Type</label>
           <select className="chosen-single form-select">
             <option>Select</option>
-            <option>Banking</option>
-            <option>Digital & Creative</option>
-            <option>Retail</option>
-            <option>Human Resources</option>
-            <option>Management</option>
+            <option>Full-Time</option>
+            <option>Part-Time</option>
+            <option>Contract</option>
+            <option>Internship</option>
+            <option>Remote</option>
+            <option>On-Site</option>
+            <option>Apprenticeship</option>
           </select>
         </div>
 
@@ -97,11 +86,14 @@ const PostBoxForm = () => {
           <label>Career Level</label>
           <select className="chosen-single form-select">
             <option>Select</option>
-            <option>Banking</option>
-            <option>Digital & Creative</option>
-            <option>Retail</option>
-            <option>Human Resources</option>
-            <option>Management</option>
+            <option>Entry Level</option>
+            <option>Junior Level</option>
+            <option>Mid-Level</option>
+            <option>Senior Level</option>
+            <option>Lead Level</option>
+            <option>Executive Level</option>
+            <option>Internship/Apprenticeship</option>
+            <option>Freelance/Contract</option>
           </select>
         </div>
 
@@ -109,11 +101,11 @@ const PostBoxForm = () => {
           <label>Experience</label>
           <select className="chosen-single form-select">
             <option>Select</option>
-            <option>Banking</option>
-            <option>Digital & Creative</option>
-            <option>Retail</option>
-            <option>Human Resources</option>
-            <option>Management</option>
+            <option>0-2 years</option>
+            <option>2-5 years</option>
+            <option>5-10 years</option>
+            <option>10+ years</option>
+            <option>15+ years</option>
           </select>
         </div>
 
@@ -143,18 +135,20 @@ const PostBoxForm = () => {
           <label>Qualification</label>
           <select className="chosen-single form-select">
             <option>Select</option>
-            <option>Banking</option>
-            <option>Digital & Creative</option>
-            <option>Retail</option>
-            <option>Human Resources</option>
-            <option>Management</option>
+            <option>10th Grade</option>
+            <option>12th Grade</option>
+            <option>Diploma </option>
+            <option>Bachelor’s Degree</option>
+            <option>Bachelor of Engineering/Technology</option>
+            <option>Master’s Degree</option>
+            <option>Master of Business Administration</option>
           </select>
         </div>
 
         {/* <!-- Input --> */}
         <div className="form-group col-lg-12 col-md-12">
           <label>Application Deadline Date</label>
-          <input type="text" name="name" placeholder="06.04.2020" />
+          <input type="text" name="deadlinedate" placeholder="06.04.2020" />
         </div>
 
         {/* <!-- Input --> */}
