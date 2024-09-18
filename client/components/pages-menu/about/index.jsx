@@ -65,9 +65,9 @@ const index = () => {
           {/* End right img group */}
 
           <div className="sec-title text-center">
-            <h2>Testimonials From Our Customers</h2>
+            <h2>Testimonials from Our Employees</h2>
             <div className="text">
-              Lorem ipsum dolor sit amet elit, sed do eiusmod tempor
+              listen to what our employees have to say
             </div>
           </div>
           {/* <!-- Sec Title --> */}
