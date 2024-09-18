@@ -30,12 +30,15 @@ const Header = () => {
           <div className="nav-outer">
             <div className="logo-box">
               <div className="logo">
-                <div style={{
-                  fontFamily: 'Armio',
-                  color: "white",
-                }}>
-                  <h1>Trance</h1>
-                </div>
+                <a href="#">
+                  <div style={{
+                    fontFamily: 'Armio',
+                    color: "white",
+                  }}>
+                    <h1>Trance</h1>
+                  </div>
+                </a>
+
               </div>
             </div>
             {/* End .logo-box */}

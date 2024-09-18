@@ -117,14 +117,6 @@ const CandidateSingleDynamicV1 = () => {
                     pulvinar tortor luctus. Suspendisse condimentum lorem ut
                     elementum aliquam.
                   </p>
-                  <p>
-                    Mauris nec erat ut libero vulputate pulvinar. Aliquam ante
-                    erat, blandit at pretium et, accumsan ac est. Integer
-                    vehicula rhoncus molestie. Morbi ornare ipsum sed sem
-                    condimentum, et pulvinar tortor luctus. Suspendisse
-                    condimentum lorem ut elementum aliquam. Mauris nec erat ut
-                    libero vulputate pulvinar.
-                  </p>
 
                   {/* <!-- Portfolio --> */}
                   <div className="portfolio-outer">
@@ -175,6 +167,12 @@ const CandidateSingleDynamicV1 = () => {
                   <div className="sidebar-widget">
                     <div className="widget-content">
                       <ul className="job-overview">
+                      <li>
+                          <i className="icon icon-calendar"></i>
+                          <h5>Applied on:</h5>
+                          <span>08-08-2023</span>
+                        </li>
+
                         <li>
                           <i className="icon icon-calendar"></i>
                           <h5>Experience:</h5>

@@ -18,6 +18,11 @@ const PostBoxForm = () => {
       <div className="row">
         {/* <!-- Input --> */}
         <div className="form-group col-lg-12 col-md-12">
+          <label>Company Name</label>
+          <input type="text" name="name" placeholder="Netflix" />
+        </div>
+
+        <div className="form-group col-lg-12 col-md-12">
           <label>Job Title</label>
           <input type="text" name="name" placeholder="Title" />
         </div>
@@ -26,6 +31,15 @@ const PostBoxForm = () => {
         <div className="form-group col-lg-12 col-md-12">
           <label>Job Description</label>
           <textarea placeholder="Spent several years working on sheep on Wall Street. Had moderate success investing in Yugo's on Wall Street. Managed a small team buying and selling Pogo sticks for farmers. Spent several years licensing licorice in West Palm Beach, FL. Developed several new methods for working it banjos in the aftermarket. Spent a weekend importing banjos in West Palm Beach, FL.In this position, the Software Engineer collaborates with Evention's Development team to continuously enhance our current software solutions as well as create new solutions to eliminate the back-office operations and management challenges present"></textarea>
+        </div>
+
+        <div className="form-group col-lg-12 col-md-12">
+          <label>Key Resonsibilities</label>
+          <textarea placeholder="Be involved in every step of the product design cycle from discovery to developer handoff and user acceptance testing.
+          Work with BAs, product managers and tech teams to lead the Product Design.
+          Maintain quality of the design process and ensure that when designs are translated into code they accurately reflect the design specifications.
+          Accurately estimate design tickets during planning sessions.
+          "></textarea>
         </div>
 
         {/* <!-- Input --> */}
@@ -149,7 +163,7 @@ const PostBoxForm = () => {
           <select className="chosen-single form-select">
             <option>Australia</option>
             <option>Pakistan</option>
-            <option>Chaina</option>
+            <option>China</option>
             <option>Japan</option>
             <option>India</option>
           </select>
@@ -161,7 +175,7 @@ const PostBoxForm = () => {
           <select className="chosen-single form-select">
             <option>Melbourne</option>
             <option>Pakistan</option>
-            <option>Chaina</option>
+            <option>China</option>
             <option>Japan</option>
             <option>India</option>
           </select>
@@ -175,41 +189,6 @@ const PostBoxForm = () => {
             name="name"
             placeholder="329 Queensberry Street, North Melbourne VIC 3051, Australia."
           />
-        </div>
-
-        {/* <!-- Input --> */}
-        <div className="form-group col-lg-6 col-md-12">
-          <label>Find On Map</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="329 Queensberry Street, North Melbourne VIC 3051, Australia."
-          />
-        </div>
-
-        {/* <!-- Input --> */}
-        <div className="form-group col-lg-3 col-md-12">
-          <label>Latitude</label>
-          <input type="text" name="name" placeholder="Melbourne" />
-        </div>
-
-        {/* <!-- Input --> */}
-        <div className="form-group col-lg-3 col-md-12">
-          <label>Longitude</label>
-          <input type="text" name="name" placeholder="Melbourne" />
-        </div>
-
-        {/* <!-- Input --> */}
-        <div className="form-group col-lg-12 col-md-12">
-          <button className="theme-btn btn-style-three">Search Location</button>
-        </div>
-
-        <div className="form-group col-lg-12 col-md-12">
-          <div className="map-outer">
-            <div style={{ height: "420px", width: "100%" }}>
-              <Map />
-            </div>
-          </div>
         </div>
 
         {/* <!-- Input --> */}

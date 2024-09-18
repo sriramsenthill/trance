@@ -1,36 +1,82 @@
+import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { signIn } from "next-auth/react";
 import LoginWithSocial from "./LoginWithSocial";
 
 const FormContent2 = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+
+  const router = useRouter();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      const res = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (res.error) {
+        setError("Invalid Credentials");
+        return;
+      }
+
+      router.replace("/");
+    } catch (error) {
+      console.log(error);
+      setError("An unexpected error occurred");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="form-inner">
       <h3>Login to Trance</h3>
 
-
-
-      {/* <!--Login Form--> */}
-      <form method="post">
+      <form onSubmit={handleLogin}>
         <div className="form-group">
-          <label>Username</label>
-          <input type="text" name="username" placeholder="Username" required />
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            required
+          />
         </div>
-        {/* name */}
 
         <div className="form-group">
-          <label>Password</label>
+          <label htmlFor="password">Password</label>
           <input
             type="password"
-            name="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
             required
           />
         </div>
-        {/* password */}
 
         <div className="form-group">
           <div className="field-outer">
             <div className="input-group checkboxes square">
-              <input type="checkbox" name="remember-me" id="remember" />
+              <input
+                type="checkbox"
+                id="remember"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+              />
               <label htmlFor="remember" className="remember">
                 <span className="custom-checkbox"></span> Remember me
               </label>
@@ -40,20 +86,19 @@ const FormContent2 = () => {
             </a>
           </div>
         </div>
-        {/* forgot password */}
+
+        {error && <div className="error-message">{error}</div>}
 
         <div className="form-group">
           <button
             className="theme-btn btn-style-one"
             type="submit"
-            name="log-in"
+            disabled={loading}
           >
-            Log In
+            {loading ? "Logging in..." : "Log In"}
           </button>
         </div>
-        {/* login */}
       </form>
-      {/* End form */}
 
       <div className="bottom-box">
         <div className="text">
@@ -66,7 +111,6 @@ const FormContent2 = () => {
 
         <LoginWithSocial />
       </div>
-      {/* End bottom-box LoginWithSocial */}
     </div>
   );
 };
