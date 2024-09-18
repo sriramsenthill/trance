@@ -120,9 +120,8 @@ const index = () => {
                 <div className="sec-title">
                   <h2>Top Jobs For You</h2>
                   <div className="text">
-                    Sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                    incididunt. Labore et dolore magna aliqua. Ut enim ad minim
-                    veniam, quis nostrud exercitation.
+                  Discover exciting career opportunities tailored to your skills and interests.
+                   Our curated list of top jobs spans various industries and experience levels.
                   </div>
                 </div>
                 {/* End .sec-title */}
@@ -174,10 +173,8 @@ const index = () => {
       <section className="browse-jobs">
         <div className="auto-container">
           <div className="sec-title text-center">
-            <h2>Browse USA Jobs</h2>
-            <div className="text">
-              Lorem ipsum dolor sit amet elit, sed do eiusmod tempor
-            </div>
+            <h2>Browse Jobs</h2>
+            
           </div>
           {/* End sec-title */}
 

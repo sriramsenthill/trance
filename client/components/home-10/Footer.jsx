@@ -12,18 +12,18 @@ const Footer = () => {
               <div className="footer-column about-widget">
                 <div className="logo">
                   <a href="#">
-                    <img src="/images/logo-2.svg" alt="brand" />
+                    <h1 style={{fontFamily:"Arima", color:"white"}}>Trance</h1>
                   </a>
                 </div>
                 <p className="phone-num">
                   <span>Call us </span>
-                  <a href="thebeehost@support.com">123 456 7890</a>
+                  <a href="thebeehost@support.com">1800 - 425 - 1770</a>
                 </p>
                 <p className="address">
-                  329 Queensberry Street, North Melbourne VIC
-                  <br /> 3051, Australia. <br />
+                  Sathyabama university, jeppiar nagar
+                  <br /> chennai-600119 <br />
                   <a href="mailto:support@superio.com" className="email">
-                    support@superio.com
+                    sriram.senthilnathan@gmail.com
                   </a>
                 </p>
               </div>
