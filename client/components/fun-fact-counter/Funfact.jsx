@@ -9,7 +9,7 @@ const Funfact = () => {
     {
       id: 1,
       startCount: "0",
-      endCount: "4",
+      endCount: "5",
       endPointText: "M",
       meta: "4 million daily active users",
       animationDelay: "0",

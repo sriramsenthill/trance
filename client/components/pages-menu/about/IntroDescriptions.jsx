@@ -1,24 +1,9 @@
 const IntroDescriptions = () => {
   return (
     <div className="text-box">
-      <h4>About Superio</h4>
+      <h4>About Trance</h4>
       <p>
-        Far much that one rank beheld bluebird after outside ignobly allegedly
-        more when oh arrogantly vehement irresistibly fussy penguin insect
-        additionally wow absolutely crud meretriciously hastily dalmatian a
-        glowered inset one echidna cassowary some parrot and much as goodness
-        some froze the sullen much connected bat wonderfully on instantaneously
-        eel valiantly petted this along across highhandedly much.
-      </p>
-      <p>
-        Repeatedly dreamed alas opossum but dramatically despite expeditiously
-        that jeepers loosely yikes that as or eel underneath kept and slept
-        compactly far purred sure abidingly up above fitting to strident wiped
-        set waywardly far the and pangolin horse approving paid chuckled
-        cassowary oh above a much opposite far much hypnotically more therefore
-        wasp less that hey apart well like while superbly orca and far hence
-        one.Far much that one rank beheld bluebird after outside ignobly
-        allegedly more when oh arrogantly vehement irresistibly fussy.
+      At Trance, we believe that finding the right talent shouldn’t be a guessing game. Our smart recruiting platform leverages cutting-edge technology and data-driven insights to streamline the hiring process for employers and candidates alike. With our intuitive interface, advanced algorithms, and personalized matchmaking features, we connect organizations with top talent quickly and efficiently. We’re passionate about transforming the recruitment landscape, making it easier for businesses to build exceptional teams and for job seekers to discover fulfilling careers. Join us on a journey to redefine how recruitment works—because the right fit can change everything.
       </p>
     </div>
   );

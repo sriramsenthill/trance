@@ -12,7 +12,7 @@ const index = ({ footerStyle = "" }) => {
               <div className="footer-column about-widget">
                 <div className="logo">
                   <a href="#">
-                    <img src="/images/logo.svg" alt="brand" />
+                    <h1 style={{fontFamily:"Arima", color:'black'}}>Trance</h1>
                   </a>
                 </div>
                 <p className="phone-num">
@@ -20,10 +20,10 @@ const index = ({ footerStyle = "" }) => {
                   <a href="thebeehost@support.com">123 456 7890</a>
                 </p>
                 <p className="address">
-                  329 Queensberry Street, North Melbourne VIC
-                  <br /> 3051, Australia. <br />
-                  <a href="mailto:support@superio.com" className="email">
-                    support@superio.com
+                Sathyabama Institute of Science and Technology  
+                  <br /> Jeppiaar Nagar, Rajiv Gandhi Salai, Chennai - 600 119, Tamilnadu, INDIA. <br />
+                  <a href="sriram.senthilnathan@gmail.com" className="email">
+                    sriram.senthilnathan@gmail.com
                   </a>
                 </p>
               </div>
