@@ -10,7 +10,7 @@ const ContactInfoBox = () => {
           <select className="chosen-single form-select" required>
             <option>Australia</option>
             <option>Pakistan</option>
-            <option>Chaina</option>
+            <option>China</option>
             <option>Japan</option>
             <option>India</option>
           </select>
@@ -22,7 +22,7 @@ const ContactInfoBox = () => {
           <select className="chosen-single form-select" required>
             <option>Melbourne</option>
             <option>Pakistan</option>
-            <option>Chaina</option>
+            <option>China</option>
             <option>Japan</option>
             <option>India</option>
           </select>
