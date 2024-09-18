@@ -4,8 +4,8 @@ const RegBanner2 = () => {
   const regBannerContent = [
     {
       id: 1,
-      name: "Employer login",
-      text: "Explore thousands of job opportunities that match your skills and preferences.Create a profile, apply for jobs, and start your career journey with ease.",
+      name: "Employer",
+      text: "Efficiently manage your job postings and review qualified candidates. Streamline your recruitment process, communicate with applicants, and find the perfect fit for your team.",
       avatar: "/images/resource/employ.png",
       bannerClass: "banner-style-one",
     },
