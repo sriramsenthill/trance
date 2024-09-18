@@ -10,11 +10,12 @@ const MobileMenu = () => {
         <div className="inner-box">
           <div className="nav-outer">
             <div className="logo-box">
-              <div className="logo">
-                <Link href="/">
-                  <img src="/images/logo.svg" alt="brand" />
-                </Link>
-              </div>
+              <a>
+                <div className="logo">
+
+                  <h1 style={{ fontFamily: "Arima", color: "black" }}>Trance</h1>
+                </div>
+              </a>
             </div>
             {/* End .logo-box */}
 

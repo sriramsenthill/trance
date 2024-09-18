@@ -4,7 +4,7 @@ const SidebarHeader = () => {
   return (
     <div className="pro-header">
       <Link href="/">
-        <img src="/images/logo.svg" alt="brand" />
+        <h1 style={{ fontFamily: "Arima", color: "black" }}>Trance</h1>
       </Link>
       {/* End logo */}
 
