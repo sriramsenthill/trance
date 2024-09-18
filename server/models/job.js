@@ -5,7 +5,6 @@ const jobSchema = new mongoose.Schema({
     companyName: {
         type: String,
         required: true,
-        unique: true,
         trim: true,
     },
     jobTitle: {
@@ -24,78 +23,65 @@ const jobSchema = new mongoose.Schema({
         type: String,
         required: true,
         lowercase: true,
-        unique: true,
         trim: true,
     },
     username: {
         type: String,
         required: true,
-        unique: true,
         trim: true,
     },
     jobType: {
         type: String,
         required: true,
-        unique: true,
         trim: true,
     },
     offeredSalary: {
         type: String,
         required: true,
-        unique: true,
         trim: true,
     },
     careerlevel: {
         type: String,
         required: true,
-        unique: true,
         trim: true,
     },
     experience: {
         type: String,
         required: true,
-        unique: true,
         trim: true,
     },
     gender: {
         type: String,
         required: true,
-        unique: true,
     },
     industry: {
         type: String,
         required: true,
-        unique: true,
     },
     qualification: {
         type: String,
         required: true,
-        unique: true,
     },
     AppDeadLine: {
-        type: string,
+        type: String,
         required: true,
-        unique: true,
     },
     country: {
         type: String,
         required: true,
-        unique: true,
         trim: true,
     },
     city: {
         type: String,
         required: true,
-        unique: true,
         trim: true,
     },
     completeAddress: {
         type: String,
         required: true,
-        unique: true,
         trim: true,
     },
-    
+
 });
 
 // Create the User model
