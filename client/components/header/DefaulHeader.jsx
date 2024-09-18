@@ -29,7 +29,14 @@ const DefaulHeader = () => {
         <div className="nav-outer">
           <div className="logo-box">
             <div className="logo">
-              <h1 style={{ fontFamily: 'Arima' }}>Trance</h1>
+              <a href="/">
+                <div style={{
+                  fontFamily: 'Armio',
+                  color: "black",
+                }}>
+                  <h1>Trance</h1>
+                </div>
+              </a>
             </div>
           </div>
           {/* End .logo-box */}

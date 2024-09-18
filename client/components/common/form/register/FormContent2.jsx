@@ -1,28 +1,73 @@
+import { useState } from "react";
+import axios from "axios";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-const FormContent2 = () => {
-  return (
-    <form method="post" action="add-parcel.html">
-      <div className="form-group register-dual">
-        <TabList className="btn-box row">
-          <Tab className="col-lg-6 col-md-12">
-            <button className="theme-btn btn-style-four">
-              <i className="la la-user"></i> Candidate
-            </button>
-          </Tab>
+import { useRouter } from 'next/router'; // Import useRouter from next/router
 
-          <Tab className="col-lg-6 col-md-12">
-            <button className="theme-btn btn-style-four">
-              <i className="la la-briefcase"></i> Employer
-            </button>
-          </Tab>
-        </TabList>
+const FormContent2 = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("candidate"); // Default role
+  const router = useRouter(); // Initialize the router
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+
+    try {
+      const response = await axios.post("http://localhost:3000/register", {
+        email,
+        password,
+        role,
+      });
+
+      console.log("Response:", response.data);
+
+      // Check if registration was successful
+      if (response.status === 201) { // Adjust based on your backend response structure
+        // Redirect to the login page after successful registration
+        router.push('/login'); // Use router.push to navigate to the login page
+      } else {
+        console.error("Registration failed:", response.data.message);
+        // Handle error (e.g., show an error message)
+      }
+    } catch (error) {
+      console.error("Error during registration:", error);
+      // Handle error (e.g., show an error message)
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className="form-group register-dual">
+        <Tabs>
+          <TabList className="btn-box row">
+            <Tab className="col-lg-6 col-md-12" onClick={() => setRole("candidate")}>
+              <button type="button" className="theme-btn btn-style-four">
+                <i className="la la-user"></i> Candidate
+              </button>
+            </Tab>
+
+            <Tab className="col-lg-6 col-md-12" onClick={() => setRole("employer")}>
+              <button type="button" className="theme-btn btn-style-four">
+                <i className="la la-briefcase"></i> Employer
+              </button>
+            </Tab>
+          </TabList>
+        </Tabs>
       </div>
+
       <div className="form-group">
         <label>Email Address</label>
-        <input type="email" name="username" placeholder="Username" required />
+        <input
+          type="email"
+          name="username"
+          placeholder="Username"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
       </div>
-      {/* name */}
 
+      {/* Password Field */}
       <div className="form-group">
         <label>Password</label>
         <input
@@ -30,16 +75,18 @@ const FormContent2 = () => {
           type="password"
           name="password"
           placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
         />
       </div>
-      {/* password */}
 
+      {/* Submit Button */}
       <div className="form-group">
         <button className="theme-btn btn-style-one" type="submit">
           Register
         </button>
       </div>
-      {/* login */}
     </form>
   );
 };

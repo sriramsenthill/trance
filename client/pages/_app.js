@@ -13,9 +13,8 @@ if (typeof window !== "undefined") {
   require("bootstrap/dist/js/bootstrap");
 }
 
-function MyApp({ Component, pageProps, session }) {
+function MyApp({ Component, pageProps }) {
   // aos animation activation
-
   useEffect(() => {
     Aos.init({
       duration: 1400,
@@ -24,30 +23,28 @@ function MyApp({ Component, pageProps, session }) {
   }, []);
 
   return (
-
-    <Provider store={store}>
-      <div className="page-wrapper">
-        <SessionProvider session={session}>
+    <SessionProvider session={pageProps.session}>
+      <Provider store={store}>
+        <div className="page-wrapper">
           <Component {...pageProps} />
-        </SessionProvider>
-
-        {/* Toastify */}
-        <ToastContainer
-          position="bottom-right"
-          autoClose={500}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="colored"
-        />
-        {/* <!-- Scroll To Top --> */}
-        <ScrollToTop />
-      </div>
-    </Provider>
+          {/* Toastify */}
+          <ToastContainer
+            position="bottom-right"
+            autoClose={500}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
+          />
+          {/* <!-- Scroll To Top --> */}
+          <ScrollToTop />
+        </div>
+      </Provider>
+    </SessionProvider>
   );
 }
 
