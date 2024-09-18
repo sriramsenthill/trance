@@ -23,16 +23,6 @@ const JobOverView = () => {
           <span>Designer</span>
         </li>
         <li>
-          <i className="icon icon-clock"></i>
-          <h5>Hours:</h5>
-          <span>50h / week</span>
-        </li>
-        <li>
-          <i className="icon icon-rate"></i>
-          <h5>Rate:</h5>
-          <span>$15 - $25 / hour</span>
-        </li>
-        <li>
           <i className="icon icon-salary"></i>
           <h5>Salary:</h5>
           <span>$35k - $45k</span>

@@ -175,16 +175,8 @@ const JobSingleDynamicV1 = () => {
                   <div className="sidebar-widget">
                     {/* <!-- Job Overview --> */}
                     <h4 className="widget-title">Job Overview</h4>
-                    <JobOverView />
-
-                    {/* <!-- Map Widget --> */}
-                    <h4 className="widget-title mt-5">Job Location</h4>
-                    <div className="widget-content">
-                      <div className="map-outer">
-                        <div style={{ height: "300px", width: "100%" }}>
-                          <MapJobFinder />
-                        </div>
-                      </div>
+                    <div style={{ marginBottom: '20px' }}>  {/* Adjust the value as needed */}
+                      <JobOverView />
                     </div>
                     {/* <!--  Map Widget --> */}
 
