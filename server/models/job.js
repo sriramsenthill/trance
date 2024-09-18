@@ -40,7 +40,7 @@ const jobSchema = new mongoose.Schema({
         required: true,
         trim: true,
     },
-    careerlevel: {
+    careerLevel: {
         type: String,
         required: true,
         trim: true,
@@ -62,7 +62,7 @@ const jobSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    AppDeadLine: {
+    appDeadLine: {
         type: String,
         required: true,
     },

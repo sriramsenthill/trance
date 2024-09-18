@@ -11,7 +11,7 @@ const postJob = async (req, res) => {
       username,
       jobType,
       offeredSalary,
-      careerlevel,
+      careerLevel,
       experience,
       gender,
       industry,
@@ -25,8 +25,8 @@ const postJob = async (req, res) => {
     // Check if all required fields are present
     const requiredFields = [
       'companyName', 'jobTitle', 'jobDesc', 'keyRes', 'email', 'username',
-      'jobType', 'offeredSalary', 'careerlevel', 'experience', 'gender',
-      'industry', 'qualification', 'AppDeadLine', 'country', 'city', 'completeAddress'
+      'jobType', 'offeredSalary', 'careerLevel', 'experience', 'gender',
+      'industry', 'qualification', 'appDeadLine', 'country', 'city', 'completeAddress'
     ];
 
     for (const field of requiredFields) {
