@@ -51,10 +51,8 @@ const Header = () => {
           <div className="outer-box">
             <div className="btn-box">
               <a
-                href="#"
+                href="/login"
                 className="theme-btn btn-style-six call-modal"
-                data-bs-toggle="modal"
-                data-bs-target="#loginPopupModal"
               >
                 Login / Register
               </a>
