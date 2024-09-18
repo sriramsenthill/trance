@@ -1,35 +1,30 @@
 const mongoose = require("mongoose");
 
+// Define the schema for User (Candidate or Employer)
 const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
         unique: true,
-        trim: true,
         lowercase: true,
+        trim: true,
     },
     password: {
         type: String,
         required: true,
     },
-    name: {
+    role: {
         type: String,
-        required: true,
-        trim: true,
-    },
-    number: {
-        type: String,
-        trim: true,
-    },
-    type: {
-        type: String,
+        enum: ['candidate', 'employer'], // Restrict role to either "candidate" or "employer"
         required: true,
     },
-    REG_NO: {
-        type: String,
-    }
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
 });
 
+// Create the User model
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;

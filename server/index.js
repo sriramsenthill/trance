@@ -1,5 +1,5 @@
 const express = require("express");
-const connectToDatabase = require("./db");
+const connectToDatabase = require("./configuration/config");
 const routes = require("./routes");
 const cors = require("cors");
 const bodyParser = require('body-parser');
@@ -17,5 +17,5 @@ connectToDatabase();
 app.use("/", routes);
 
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    console.log(`Server is running on port https://localhost:${port}`);
 });
