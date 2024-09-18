@@ -11,7 +11,7 @@ const FaqChild = () => {
               data-bs-target="#collapseOne"
               aria-expanded="true"
             >
-              Why won&apos;t my payment go through?
+              Can I apply for multiple jobs with one application?
             </button>
           </h2>
           <div
@@ -23,15 +23,11 @@ const FaqChild = () => {
             <div className="accordion-body ">
               <div className="content">
                 <p>
-                  Pharetra nulla ullamcorper sit lectus. Fermentum mauris
-                  pellentesque nec nibh sed et, vel diam, massa. Placerat quis
-                  vel fames interdum urna lobortis sagittis sed pretium. Aliquam
-                  eget posuere sit enim elementum nulla vulputate magna. Morbi
-                  sed arcu proin quis tortor non risus.
-                </p>
-                <p>
-                  Elementum lectus a porta commodo suspendisse arcu, aliquam
-                  lectus faucibus.
+                No, you cannot apply for multiple jobs with a single application.
+                 Each job posting requires a separate application. This allows you
+                  to tailor your application to the specific requirements of each position,
+                   increasing your chances of success. However, our platform does allow you to
+                    save your basic information and documents, making it quicker and easier to apply for multiple positions.
                 </p>
               </div>
             </div>
@@ -47,7 +43,7 @@ const FaqChild = () => {
               aria-expanded="false"
               aria-controls="collapseTwo"
             >
-              How do I get a refund?
+              How can I update my resume/CV?
             </button>
           </h2>
           <div
@@ -59,16 +55,15 @@ const FaqChild = () => {
             <div className="accordion-body">
               <div className="content">
                 <p>
-                  Pharetra nulla ullamcorper sit lectus. Fermentum mauris
-                  pellentesque nec nibh sed et, vel diam, massa. Placerat quis
-                  vel fames interdum urna lobortis sagittis sed pretium. Aliquam
-                  eget posuere sit enim elementum nulla vulputate magna. Morbi
-                  sed arcu proin quis tortor non risus.
+                To update your resume/CV:
+
+                Log into your account,
+                Go to your profile or dashboard,
+                Click on the "Edit Resume" or "Update CV" button,
+                Upload a new file or make changes directly in the online editor,
+                Save your changes.
                 </p>
-                <p>
-                  Elementum lectus a porta commodo suspendisse arcu, aliquam
-                  lectus faucibus.
-                </p>
+                
               </div>
             </div>
           </div>
@@ -83,7 +78,7 @@ const FaqChild = () => {
               aria-expanded="false"
               aria-controls="collapseThree"
             >
-              How do I redeem a coupon?
+              What file formats are accepted for document uploads?
             </button>
           </h2>
           <div
@@ -95,15 +90,9 @@ const FaqChild = () => {
             <div className="accordion-body">
               <div className="content">
                 <p>
-                  Pharetra nulla ullamcorper sit lectus. Fermentum mauris
-                  pellentesque nec nibh sed et, vel diam, massa. Placerat quis
-                  vel fames interdum urna lobortis sagittis sed pretium. Aliquam
-                  eget posuere sit enim elementum nulla vulputate magna. Morbi
-                  sed arcu proin quis tortor non risus.
-                </p>
-                <p>
-                  Elementum lectus a porta commodo suspendisse arcu, aliquam
-                  lectus faucibus.
+                We accept the following file formats:
+                          PDF (.pdf),
+          Microsoft Word (.doc, .docx).
                 </p>
               </div>
             </div>
@@ -119,7 +108,7 @@ const FaqChild = () => {
               aria-expanded="false"
               aria-controls="collapseFour"
             >
-              Changing account name
+              How will I know if an employer has viewed my application?
             </button>
           </h2>
           <div
@@ -131,16 +120,14 @@ const FaqChild = () => {
             <div className="accordion-body">
               <div className="content">
                 <p>
-                  Pharetra nulla ullamcorper sit lectus. Fermentum mauris
-                  pellentesque nec nibh sed et, vel diam, massa. Placerat quis
-                  vel fames interdum urna lobortis sagittis sed pretium. Aliquam
-                  eget posuere sit enim elementum nulla vulputate magna. Morbi
-                  sed arcu proin quis tortor non risus.
+                You can check the status of your application in your dashboard. Look for:
+
+                "Viewed" - The employer has opened your application
+                "Under review" - Your application is being considered
+                "Interviewed" - You've been or will be interviewed
+                We'll also send you email notifications for significant status changes
                 </p>
-                <p>
-                  Elementum lectus a porta commodo suspendisse arcu, aliquam
-                  lectus faucibus.
-                </p>
+                
               </div>
             </div>
           </div>

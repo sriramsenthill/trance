@@ -30,17 +30,13 @@ const index = () => {
             <div className="text">Home / Faq</div>
           </div>
 
-          <h3>Payments</h3>
+          <h3>Questions</h3>
           {/* <!--Accordian Box--> */}
           <ul className="accordion-box">
             <FaqChild />
           </ul>
 
-          <h3>Suggestions</h3>
-          {/* <!--Accordian Box--> */}
-          <ul className="accordion-box mb-0">
-            <FaqChild />
-          </ul>
+         
         </div>
       </section>
       {/* <!-- End Faqs Section --> */}

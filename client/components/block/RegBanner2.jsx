@@ -4,17 +4,15 @@ const RegBanner2 = () => {
   const regBannerContent = [
     {
       id: 1,
-      name: "Employers",
-      text: ` Sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt. Labore et dolore nostrud exercitation.`,
+      name: "Employer login",
+      text: "Explore thousands of job opportunities that match your skills and preferences.Create a profile, apply for jobs, and start your career journey with ease.",
       avatar: "/images/resource/employ.png",
       bannerClass: "banner-style-one",
     },
     {
       id: 2,
       name: "Candidate",
-      text: ` Sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt. Labore et dolore nostrud exercitation.`,
+      text: "Explore thousands of job opportunities that match your skills and preferences.Create a profile, apply for jobs, and start your career journey with ease.",
       avatar: "/images/resource/candidate.png",
       bannerClass: "banner-style-two",
     },
@@ -31,7 +29,7 @@ const RegBanner2 = () => {
               <h3>{item.name}</h3>
               <p>{item.text}</p>
               <Link href="/register" className="theme-btn btn-style-five">
-                Register Account
+                login
               </Link>
             </div>
             <figure className="image">
