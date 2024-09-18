@@ -7,12 +7,13 @@ import { Provider } from "react-redux";
 import { store } from "../app/store";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import { SessionProvider } from 'next-auth/react';
 
 if (typeof window !== "undefined") {
   require("bootstrap/dist/js/bootstrap");
 }
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, session }) {
   // aos animation activation
 
   useEffect(() => {
@@ -23,9 +24,12 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   return (
+
     <Provider store={store}>
       <div className="page-wrapper">
-        <Component {...pageProps} />
+        <SessionProvider session={session}>
+          <Component {...pageProps} />
+        </SessionProvider>
 
         {/* Toastify */}
         <ToastContainer

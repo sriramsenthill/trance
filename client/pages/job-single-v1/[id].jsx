@@ -25,7 +25,7 @@ const JobSingleDynamicV1 = () => {
     if (!id) <h1>Loading...</h1>;
     else setCompany(jobs.find((item) => item.id == id));
 
-    return () => {};
+    return () => { };
   }, [id]);
 
   return (

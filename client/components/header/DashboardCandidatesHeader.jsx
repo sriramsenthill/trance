@@ -26,9 +26,8 @@ const DashboardCandidatesHeader = () => {
     return (
         // <!-- Main Header-->
         <header
-            className={`main-header header-shaddow  ${
-                navbar ? "fixed-header " : ""
-            }`}
+            className={`main-header header-shaddow  ${navbar ? "fixed-header " : ""
+                }`}
         >
             <div className="container-fluid">
                 {/* <!-- Main box --> */}
@@ -38,13 +37,7 @@ const DashboardCandidatesHeader = () => {
                         <div className="logo-box">
                             <div className="logo">
                                 <Link href="/">
-                                    <Image
-                                        alt="brand"
-                                        src="/images/logo.svg"
-                                        width={154}
-                                        height={50}
-                                        priority
-                                    />
+                                    <h1 style={{ fontFamily: "Arima", color: "black" }}>Trance</h1>
                                 </Link>
                             </div>
                         </div>
@@ -88,14 +81,13 @@ const DashboardCandidatesHeader = () => {
                             <ul className="dropdown-menu">
                                 {candidatesMenuData.map((item) => (
                                     <li
-                                        className={`${
-                                            isActiveLink(
-                                                item.routePath,
-                                                router.asPath
-                                            )
-                                                ? "active"
-                                                : ""
-                                        } mb-1`}
+                                        className={`${isActiveLink(
+                                            item.routePath,
+                                            router.asPath
+                                        )
+                                            ? "active"
+                                            : ""
+                                            } mb-1`}
                                         key={item.id}
                                     >
                                         <Link href={item.routePath}>

@@ -20,9 +20,8 @@ const Header = () => {
   return (
     // <!-- Main Header-->
     <header
-      className={`main-header header-style-four  ${
-        navbar ? "fixed-header animated slideInDown" : ""
-      }`}
+      className={`main-header header-style-four  ${navbar ? "fixed-header animated slideInDown" : ""
+        }`}
     >
       <div className="container-fluid">
         {/* <!-- Main box --> */}
@@ -31,9 +30,12 @@ const Header = () => {
           <div className="nav-outer">
             <div className="logo-box">
               <div className="logo">
-                <Link href="/">
-                  <img src="/images/logo-2.svg" alt="brand" />
-                </Link>
+                <div style={{
+                  fontFamily: 'Armio',
+                  color: "white",
+                }}>
+                  <h1>Trance</h1>
+                </div>
               </div>
             </div>
             {/* End .logo-box */}
