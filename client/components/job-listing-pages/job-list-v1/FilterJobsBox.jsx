@@ -32,7 +32,7 @@ const FilterJobsBox = () => {
     // Fetch jobs from backend
     const fetchJobs = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/getAllJobs');
+            const response = await axios.get(`${Config.BACKEND_URL}/getAllJobs`);
             setJobs(response.data); // Assuming response.data is an array of jobs
         } catch (err) {
             setError(err.message || 'Failed to fetch jobs');
@@ -152,7 +152,7 @@ const FilterJobsBox = () => {
                             {/* Date Posted info */}
                             <li>
                                 <span className="icon flaticon-money"></span>{" "}
-                                ${item.offeredSalary}
+                                {item.offeredSalary}
                             </li>
                             {/* Salary info */}
                         </ul>
