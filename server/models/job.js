@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 // Define the schema for User (Candidate or Employer)
 const jobSchema = new mongoose.Schema({
+    jobId: { type: Number, unique: true },
     companyName: {
         type: String,
         required: true,
@@ -16,6 +17,10 @@ const jobSchema = new mongoose.Schema({
         required: true,
     },
     keyRes: {
+        type: String,
+        required: true,
+    },
+    skills: {
         type: String,
         required: true,
     },
@@ -81,6 +86,7 @@ const jobSchema = new mongoose.Schema({
         required: true,
         trim: true,
     },
+    datePosted: { type: Date, default: Date.now } // Add this line for datePosted
 
 });
 

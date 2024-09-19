@@ -1,6 +1,7 @@
 import axios from "axios";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { Config } from "../../../config"
 
 export const authOptions = {
     providers: [
@@ -15,7 +16,7 @@ export const authOptions = {
 
                 try {
                     // Make a POST request to the backend route for credential validation
-                    const response = await axios.post("http://localhost:3000/signIn", {
+                    const response = await axios.post(`${Config.BACKEND_URL}/signIn`, {
                         email,
                         password
                     });

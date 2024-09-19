@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Select from 'react-select';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-
+import { Config } from '../../../../../config';
 
 const PostBoxForm = () => {
   const router = useRouter();
@@ -11,6 +11,7 @@ const PostBoxForm = () => {
     jobTitle: '',
     jobDesc: '',
     keyRes: '',
+    skills: '',
     email: '',
     username: '',
     jobType: '',
@@ -38,7 +39,7 @@ const PostBoxForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/postJob', formData);
+      const response = await axios.post(`${Config.BACKEND_URL}/postJob`, formData);
       if (response.status === 201) {
         console.log('Job posted successfully:', response.data);
         // Redirect to home page
@@ -165,6 +166,16 @@ const PostBoxForm = () => {
             name="keyRes"
             placeholder="Enter key responsibilities..."
             value={formData.keyRes}
+            onChange={handleInputChange}
+          ></textarea>
+        </div>
+
+        <div className="form-group col-lg-12 col-md-12">
+          <label>Skills & Experience</label>
+          <textarea
+            name="skills"
+            placeholder="Enter Skills & Experience..."
+            value={formData.skills}
             onChange={handleInputChange}
           ></textarea>
         </div>

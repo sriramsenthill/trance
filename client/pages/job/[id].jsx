@@ -4,8 +4,9 @@ import LoginPopup from "../../components/common/form/login/LoginPopup";
 import FooterDefault from "../../components/footer/common-footer";
 import DefaulHeader from "../../components/header/DefaulHeader";
 import MobileMenu from "../../components/header/MobileMenu";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useRouter } from 'next/router'; // Assuming you're using Next.js
 import Seo from "../../components/common/Seo";
 import RelatedJobs from "../../components/job-single-pages/related-jobs/RelatedJobs";
 import JobOverView from "../../components/job-single-pages/job-overview/JobOverView";
@@ -15,18 +16,44 @@ import MapJobFinder from "../../components/job-listing-pages/components/MapJobFi
 import SocialTwo from "../../components/job-single-pages/social/SocialTwo";
 import JobDetailsDescriptions from "../../components/job-single-pages/shared-components/JobDetailsDescriptions";
 import ApplyJobModalContent from "../../components/job-single-pages/shared-components/ApplyJobModalContent";
+import { Config } from "../../config";
 
 const JobSingleDynamicV1 = () => {
   const router = useRouter();
-  const [company, setCompany] = useState({});
+  const [company, setCompany] = useState(null); // Initialize company as null
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const id = router.query.id;
 
   useEffect(() => {
-    if (!id) <h1>Loading...</h1>;
-    else setCompany(jobs.find((item) => item.id == id));
+    const fetchJobDetails = async () => {
+      if (!id) return; // If id is not available, do nothing
 
-    return () => { };
+      try {
+        // Extract job ID from URL
+        const pathSegments = window.location.pathname.split('/');
+        const jobId = parseInt(pathSegments[pathSegments.length - 1], 10); // Assuming the ID is the last segment
+
+        if (isNaN(jobId)) {
+          throw new Error('Invalid job ID format');
+        }
+
+        // Fetch job details from the backend
+        const response = await axios.get(`${Config.BACKEND_URL}/jobs/${jobId}`);
+        setCompany(response.data); // Set company data from response
+      } catch (err) {
+        setError(err.message || 'Failed to fetch job details');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchJobDetails();
   }, [id]);
+
+  if (loading) return <h1>Loading...</h1>;
+  if (error) return <h1>{error}</h1>;
+
 
   return (
     <>
@@ -52,40 +79,55 @@ const JobSingleDynamicV1 = () => {
               <div className="inner-box">
                 <div className="content">
                   <span className="company-logo">
-                    <img src={company?.logo} alt="logo" />
+                    <img
+                      src="/images/hexaware.png"
+                      alt="logo"
+                      style={{
+                        width: '100px', // Set width
+                        height: '100px', // Set height equal to width for square
+                        borderRadius: '50%', // Make it circular
+                        objectFit: 'cover' // Ensure the image covers the container without distortion
+                      }}
+                    />
                   </span>
+
                   <h4>{company?.jobTitle}</h4>
 
                   <ul className="job-info">
                     <li>
                       <span className="icon flaticon-briefcase"></span>
-                      {company?.company}
+                      {company?.companyName}
                     </li>
-                    {/* compnay info */}
+                    {/* Company info */}
                     <li>
                       <span className="icon flaticon-map-locator"></span>
-                      {company?.location}
+                      {company?.city}
                     </li>
-                    {/* location info */}
+                    {/* Location info */}
                     <li>
                       <span className="icon flaticon-clock-3"></span>{" "}
-                      {company?.time}
+                      {new Date(company?.datePosted).toLocaleString()}
                     </li>
-                    {/* time info */}
+                    {/* Date Posted info */}
                     <li>
                       <span className="icon flaticon-money"></span>{" "}
-                      {company?.salary}
+                      ${company?.offeredSalary}
                     </li>
                     {/* salary info */}
                   </ul>
                   {/* End .job-info */}
 
+                  {/* Job Type Section */}
                   <ul className="job-other-info">
-                    {company?.jobType?.map((val, i) => (
-                      <li key={i} className={`${val.styleClass}`}>
-                        {val.type}
-                      </li>
-                    ))}
+                    {Array.isArray(company?.jobType) ? (
+                      company.jobType.map((val, i) => (
+                        <div key={i} className={`${val.styleClass}`}>
+                          {val.type}
+                        </div>
+                      ))
+                    ) : (
+                      <li>{company?.jobType || 'No job type listed'}</li> // Handle non-array case
+                    )}
                   </ul>
                   {/* End .job-other-info */}
                 </div>
@@ -192,10 +234,14 @@ const JobSingleDynamicV1 = () => {
                     <div className="widget-content">
                       <div className="company-title">
                         <div className="company-logo">
-                          <img src={company.logo} alt="resource" />
+                          <img src="/images/hexaware.png"
+                            style={{
+                              borderRadius: '50%', // Make it circular
+                            }}
+                            alt="resource" />
                         </div>
                         <h5 className="company-name">{company.company}</h5>
-                        <a href="#" className="profile-link">
+                        <a href="https://www.linkedin.com/company/hexaware-technologies/" className="profile-link">
                           View company profile
                         </a>
                       </div>
