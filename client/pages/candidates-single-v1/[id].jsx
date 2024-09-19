@@ -61,10 +61,6 @@ const CandidateSingleDynamicV1 = () => {
                       {candidate?.location}
                     </li>
                     <li>
-                      <span className="icon flaticon-money"></span> $
-                      {candidate?.hourlyRate} / hour
-                    </li>
-                    <li>
                       <span className="icon flaticon-clock"></span> Member
                       Since,Aug 19, 2020
                     </li>

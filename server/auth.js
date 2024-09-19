@@ -1,6 +1,7 @@
 const User = require("./models/user");
 const bcrypt = require("bcrypt");
 
+
 // Registration Handler
 const registerUser = async (req, res) => {
     try {

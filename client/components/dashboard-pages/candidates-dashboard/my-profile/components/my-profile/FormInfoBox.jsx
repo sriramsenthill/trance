@@ -119,16 +119,12 @@ const FormInfoBox = () => {
           />
         </div>
 
-        {/* <!-- Search Select --> */}
         <div className="form-group col-lg-6 col-md-12">
-          <label>Categories </label>
-          <Select
-            defaultValue={[catOptions[1]]}
-            isMulti
-            name="colors"
-            options={catOptions}
-            className="basic-multi-select"
-            classNamePrefix="select"
+          <label>Skills </label>
+          <input
+            type="text"
+            name="name"
+            placeholder="Application development, Devops, etc"
             required
           />
         </div>

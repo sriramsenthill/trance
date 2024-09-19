@@ -1,27 +1,29 @@
-import Select from "react-select";
+import React, { useState } from 'react';
 
 const SkillsMultiple = () => {
-  const catOptions = [
-    { value: "Banking", label: "Banking" },
-    { value: "Digital & Creative", label: "Digital & Creative" },
-    { value: "Retail", label: "Retail" },
-    { value: "Human Resources", label: "Human Resources" },
-    { value: "Managemnet", label: "Managemnet" },
-    { value: "Accounting & Finance", label: "Accounting & Finance" },
-    { value: "Digital", label: "Digital" },
-    { value: "Creative Art", label: "Creative Art" },
-  ];
+  const [skills, setSkills] = useState(['']);
+
+  const handleSkillsChange = (event) => {
+    const inputSkills = event.target.value.split(',').map(skill => skill.trim());
+    setSkills(inputSkills);
+  };
 
   return (
-    <Select
-      defaultValue={[catOptions[1]]}
-      isMulti
-      name="colors"
-      options={catOptions}
-      className="basic-multi-select"
-      classNamePrefix="select"
-      required
-    />
+    <div className="skills-input-container">
+      <input
+        type="text"
+        value={skills.join(', ')}
+        onChange={handleSkillsChange}
+        placeholder="Enter skills separated by commas"
+        className="skills-input"
+        required
+      />
+      <div className="skills-list">
+        {skills.map((skill, index) => (
+          <span key={index} className="skill-tag">{skill}</span>
+        ))}
+      </div>
+    </div>
   );
 };
 

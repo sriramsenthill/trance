@@ -4,7 +4,7 @@ const Education = () => {
       <div className="upper-title">
         <h4>Education</h4>
         <button className="add-info-btn">
-          <span className="icon flaticon-plus"></span> Add Aducation
+          <span className="icon flaticon-plus"></span> Add Education
         </button>
       </div>
       {/* <!-- Resume BLock --> */}
