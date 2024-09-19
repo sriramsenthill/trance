@@ -91,4 +91,20 @@ const getJobById = async (req, res) => {
   }
 };
 
-module.exports = { postJob, getJobById };
+const getAllJobs = async (req, res) => {
+  try {
+    // Find all jobs
+    const jobs = await JobSchema.find({});
+
+    if (jobs.length === 0) {
+      return res.status(404).json({ error: 'No jobs found' });
+    }
+
+    res.status(200).json(jobs);
+  } catch (error) {
+    console.error("Error in getAllJobs:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = { postJob, getJobById, getAllJobs };

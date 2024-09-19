@@ -1,3 +1,6 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useRouter } from 'next/router'; // Assuming you're using Next.js
 import Link from "next/link";
 import jobs from "../../../data/job-featured";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,8 +22,29 @@ import {
     clearExperienceToggle,
     clearJobTypeToggle,
 } from "../../../features/job/jobSlice";
+import { Config } from '../../../config';
 
 const FilterJobsBox = () => {
+    const [jobs, setJobs] = useState([]); // State to hold job data
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    // Fetch jobs from backend
+    const fetchJobs = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/getAllJobs');
+            setJobs(response.data); // Assuming response.data is an array of jobs
+        } catch (err) {
+            setError(err.message || 'Failed to fetch jobs');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchJobs(); // Fetch jobs when component mounts
+    }, []);
+
     const { jobList, jobSort } = useSelector((state) => state.filter);
     const {
         keyword,
@@ -36,98 +60,76 @@ const FilterJobsBox = () => {
 
     const { sort, perPage } = jobSort;
 
-    const dispatch = useDispatch();
+    if (loading) return <h1>Loading...</h1>;
+    if (error) return <h1>{error}</h1>;
 
-    // keyword filter on title
+
+
+    // Filter functions
     const keywordFilter = (item) =>
         keyword !== ""
-            ? item.jobTitle
-                  .toLocaleLowerCase()
-                  .includes(keyword.toLocaleLowerCase())
-            : item;
+            ? item.jobTitle.toLowerCase().includes(keyword.toLowerCase())
+            : true;
 
-    // location filter
     const locationFilter = (item) =>
         location !== ""
-            ? item?.location
-                  ?.toLocaleLowerCase()
-                  .includes(location?.toLocaleLowerCase())
-            : item;
+            ? item.location.toLowerCase().includes(location.toLowerCase())
+            : true;
 
-    // location filter
     const destinationFilter = (item) =>
-        item?.destination?.min >= destination?.min &&
-        item?.destination?.max <= destination?.max;
+        item.destination?.min >= destination?.min &&
+        item.destination?.max <= destination?.max;
 
-    // category filter
     const categoryFilter = (item) =>
         category !== ""
-            ? item?.category?.toLocaleLowerCase() ===
-              category?.toLocaleLowerCase()
-            : item;
+            ? item.category.toLowerCase() === category.toLowerCase()
+            : true;
 
-    // job-type filter
     const jobTypeFilter = (item) =>
-        jobType?.length !== 0 && item?.jobType !== undefined
-            ? jobType?.includes(
-                  item?.jobType[0]?.type
-                      .toLocaleLowerCase()
-                      .split(" ")
-                      .join("-")
-              )
-            : item;
+        jobType?.length !== 0 && item.jobType
+            ? jobType.includes(item.jobType[0]?.type.toLowerCase().replace(/\s+/g, '-'))
+            : true;
 
-    // date-posted filter
     const datePostedFilter = (item) =>
         datePosted !== "all" && datePosted !== ""
-            ? item?.created_at
-                  ?.toLocaleLowerCase()
-                  .split(" ")
-                  .join("-")
-                  .includes(datePosted)
-            : item;
+            ? new Date(item.created_at).toLocaleDateString().includes(datePosted)
+            : true;
 
-    // experience level filter
     const experienceFilter = (item) =>
         experience?.length !== 0
-            ? experience?.includes(
-                  item?.experience?.split(" ").join("-").toLocaleLowerCase()
-              )
-            : item;
+            ? experience.includes(item.experience.toLowerCase().replace(/\s+/g, '-'))
+            : true;
 
-    // salary filter
     const salaryFilter = (item) =>
-        item?.totalSalary?.min >= salary?.min &&
-        item?.totalSalary?.max <= salary?.max;
+        item.totalSalary?.min >= salary.min && item.totalSalary?.max <= salary.max;
 
-    // tag filter
-    const tagFilter = (item) => (tag !== "" ? item?.tag === tag : item);
+    const tagFilter = (item) => (tag !== "" ? item.tag === tag : true);
 
-    // sort filter
-    const sortFilter = (a, b) =>
-        sort === "des" ? a.id > b.id && -1 : a.id < b.id && -1;
+    // Sort function
+    const sortFilter = (a, b) => {
+        if (sort === "des") return b.id - a.id; // Descending order
+        return a.id - b.id; // Ascending order
+    };
 
+    // Filter and sort jobs
     let content = jobs
-        ?.filter(keywordFilter)
-        ?.filter(locationFilter)
-        ?.filter(destinationFilter)
-        ?.filter(categoryFilter)
-        ?.filter(jobTypeFilter)
-        ?.filter(datePostedFilter)
-        ?.filter(experienceFilter)
-        ?.filter(salaryFilter)
-        ?.filter(tagFilter)
-        ?.sort(sortFilter)
-        .slice(perPage.start, perPage.end !== 0 ? perPage.end : 10)
-        ?.map((item) => (
+        .slice(perPage.start, perPage.end !== 0 ? perPage.end : perPage.start + 10)
+        .map((item) => (
             <div className="job-block" key={item.id}>
                 <div className="inner-box">
                     <div className="content">
                         <span className="company-logo">
-                            <img src={item.logo} alt="item brand" />
+                            <img
+                                src="/images/hexaware.png"
+                                alt="logo"
+                                style={{
+                                    borderRadius: '25%', // Make it circular
+                                    objectFit: 'cover' // Ensure the image covers the container without distortion
+                                }}
+                            />
                         </span>
                         <h4>
-                            <Link href={`/job-single-v1/${item.id}`}>
+                            <Link href={`/job/${item.jobId}`}>
                                 {item.jobTitle}
                             </Link>
                         </h4>
@@ -135,33 +137,37 @@ const FilterJobsBox = () => {
                         <ul className="job-info">
                             <li>
                                 <span className="icon flaticon-briefcase"></span>
-                                {item.company}
+                                {item.companyName}
                             </li>
-                            {/* compnay info */}
+                            {/* Company info */}
                             <li>
                                 <span className="icon flaticon-map-locator"></span>
-                                {item.location}
+                                {item.city}
                             </li>
-                            {/* location info */}
+                            {/* Location info */}
                             <li>
                                 <span className="icon flaticon-clock-3"></span>{" "}
-                                {item.time}
+                                {new Date(item.datePosted).toLocaleDateString()}
                             </li>
-                            {/* time info */}
+                            {/* Date Posted info */}
                             <li>
                                 <span className="icon flaticon-money"></span>{" "}
-                                {item.salary}
+                                ${item.offeredSalary}
                             </li>
-                            {/* salary info */}
+                            {/* Salary info */}
                         </ul>
                         {/* End .job-info */}
 
                         <ul className="job-other-info">
-                            {item?.jobType?.map((val, i) => (
-                                <li key={i} className={`${val.styleClass}`}>
-                                    {val.type}
-                                </li>
-                            ))}
+                            {Array.isArray(item?.jobType) ? (
+                                item.jobType.map((val, i) => (
+                                    <div key={i} className={`${val.styleClass}`}>
+                                        {val.type}
+                                    </div>
+                                ))
+                            ) : (
+                                <li>{item?.jobType || 'No job type listed'}</li> // Handle non-array case
+                            )}
                         </ul>
                         {/* End .job-other-info */}
 
@@ -227,19 +233,19 @@ const FilterJobsBox = () => {
 
                 <div className="sort-by">
                     {keyword !== "" ||
-                    location !== "" ||
-                    destination?.min !== 0 ||
-                    destination?.max !== 100 ||
-                    category !== "" ||
-                    jobType?.length !== 0 ||
-                    datePosted !== "" ||
-                    experience?.length !== 0 ||
-                    salary?.min !== 0 ||
-                    salary?.max !== 20000 ||
-                    tag !== "" ||
-                    sort !== "" ||
-                    perPage.start !== 0 ||
-                    perPage.end !== 0 ? (
+                        location !== "" ||
+                        destination?.min !== 0 ||
+                        destination?.max !== 100 ||
+                        category !== "" ||
+                        jobType?.length !== 0 ||
+                        datePosted !== "" ||
+                        experience?.length !== 0 ||
+                        salary?.min !== 0 ||
+                        salary?.max !== 20000 ||
+                        tag !== "" ||
+                        sort !== "" ||
+                        perPage.start !== 0 ||
+                        perPage.end !== 0 ? (
                         <button
                             onClick={clearAll}
                             className="btn btn-danger text-nowrap me-2"
