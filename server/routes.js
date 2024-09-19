@@ -10,5 +10,9 @@ router.post("/register", registerUser);
 router.post("/signIn", signInUser);
 
 router.post("/postJob", postJob);
+router.get("/jobs/:id", getJobById);
+
+router.post("/createProfile", createProfile);
+router.post("/createResume", createResume);
 
 module.exports = router;
