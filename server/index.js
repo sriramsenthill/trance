@@ -10,6 +10,8 @@ app.use(bodyParser.json({ limit: '50mb' })); // Increase the limit as needed
 
 const port = 3000;
 
+// Middleware for parsing application/json
+app.use(bodyParser.json());
 app.use(express.json());
 
 connectToDatabase();
