@@ -10,51 +10,63 @@ const resumeschema = new mongoose.Schema({
         required: true,
     },
 
-    courseName: {
-        type: [String],
-        required: true,
-    },
-    collegeName:{
-        type:[String],
-        required:true,
-    },
-    educationPeriod: {
-        type: [String],
-        required: true,
-    },
-    educationdesc: {
-        type: [String],
-    },
+    // Education array with five fields
+    education: [{
+        instituteName: {
+            type: String,
+            required: true,
+        },
+        courseName: {
+            type: String,
+            required: true,
+        },
+        educationDesc: {
+            type: String,
+        },
+        instituteStart: {
+            type: String, // Using Date type for better date handling
+            required: true,
+        },
+        instituteEnd: {
+            type: String, // Using Date type for better date handling
+            required: true,
+        },
+    }],
 
-    roleName: {
-        type: [String],
-    },
-    companyName:{
-        type:[String],
-    },
-    yearsofwork: {
-        type: [String],
-        required: true,
-    },
-    experiencedesc: {
-        type: [String],
-    },
+    // Work Experience array with six fields
+    workExperience: [{
+        jobRole: {
+            type: String,
+            required: true,
+        },
+        companyName: {
+            type: String,
+            required: true,
+        },
+        experiencedesc: {
+            type: String,
+        },
+        workStart: {
+            type: String, // Using Date type for better date handling
+            required: true,
+        },
+        workEnd: {
+            type: String, // Using Date type for better date handling
+            required: true,
+        },
+        YOE: { // Years of Experience
+            type: Number, // Assuming this is a numeric value
+            required: true,
+        },
+    }],
 
     portfoliolink: {
         type: String,
-        match: [/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/, 'Please enter a valid URL'],
-    },
-    
-    awardname: {
-        type:  [String],
-    },
-    dateofaward: {
-        type: [String],
-    },
-    skills: {
-        type: String,
     },
 
+    skills: {
+        type: String, // Changed to an array to accommodate multiple skills
+    },
 });
 
 // Create the User model

@@ -5,24 +5,14 @@ const createResume = async (req, res) => {
     const {
       selectcv,
       desc,
-      courseName,
-      collegeName,
-      educationPeriod,
-      educationdesc,
-      roleName,
-      companyName,
-      yearsofwork,
-      experiencedesc,
+      education, // Expecting an array of education objects
+      workExperience, // Expecting an array of work experience objects
       portfoliolink,
-      awardname,
-      dateofaward,
-      skills
+      skills,
     } = req.body;
 
     // Check if all required fields are present
-    const requiredFields = [
-      'desc', 'courseName', 'collegeName', 'educationPeriod', 'yearsofwork'
-    ];
+    const requiredFields = ['desc', 'education', 'workExperience'];
 
     for (const field of requiredFields) {
       if (!req.body[field]) {
@@ -30,8 +20,31 @@ const createResume = async (req, res) => {
       }
     }
 
+    // Validate education entries
+    for (const edu of education) {
+      const { instituteName, courseName, instituteStart, instituteEnd } = edu;
+      if (!instituteName || !courseName || !instituteStart || !instituteEnd) {
+        return res.status(400).json({ error: "All fields in education are required" });
+      }
+    }
+
+    // Validate work experience entries
+    for (const work of workExperience) {
+      const { jobRole, companyName, workStart, workEnd, YOE } = work;
+      if (!jobRole || !companyName || !workStart || !workEnd || YOE === undefined) {
+        return res.status(400).json({ error: "All fields in work experience are required" });
+      }
+    }
+
     // Create a new resume instance
-    const newResume = new Resume(req.body);
+    const newResume = new Resume({
+      selectcv,
+      desc,
+      education,
+      workExperience,
+      portfoliolink,
+      skills,
+    });
 
     // Save the resume to the database
     await newResume.save();
