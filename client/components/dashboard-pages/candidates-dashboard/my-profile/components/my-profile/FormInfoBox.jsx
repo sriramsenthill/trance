@@ -1,151 +1,222 @@
-import Select from "react-select";
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import { Config } from '../../../../../../config';
 
 const FormInfoBox = () => {
-  const catOptions = [
-    { value: "Banking", label: "Banking" },
-    { value: "Digital & Creative", label: "Digital & Creative" },
-    { value: "Retail", label: "Retail" },
-    { value: "Human Resources", label: "Human Resources" },
-    { value: "Managemnet", label: "Managemnet" },
-    { value: "Accounting & Finance", label: "Accounting & Finance" },
-    { value: "Digital", label: "Digital" },
-    { value: "Creative Art", label: "Creative Art" },
-  ];
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    profileLogo: '',
+    fullName: '',
+    jobTitle: '',
+    phone: '',
+    email: '',
+    website: '',
+    currentSalary: '',
+    expectedSalary: '',
+    experience: '',
+    gender: '',
+    age: '',
+    educationLevels: '',
+    languages: '',
+    skills: '',
+    description: '',
+    linkedin: '',
+    country: '',
+    city: '',
+    completeAddress: '',
+  });
+
+  const [errors, setErrors] = useState({});
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+      try {
+        const response = await axios.post("http://localhost:3000/createProfile", formData);
+        if (response.status === 201) {
+          console.log('Profile posted successfully:', response.data);
+          setSuccessMessage('Profile posted successfully!');
+          // Redirect to home page after a short delay
+          setTimeout(() => router.push('/'), 2000);
+        }
+      } catch (error) {
+        console.error('Error posting profile:', error);
+        setSuccessMessage('Error posting profile. Please try again.');
+      }
+    }
+ 
+
 
   return (
-    <form action="#" className="default-form">
+    <form onSubmit={handleSubmit} className="default-form">
       <div className="row">
-        {/* <!-- Input --> */}
+        {/* Profile Logo */}
+        <div className="form-group col-lg-6 col-md-12">
+          <label>Profile Logo</label>
+          <input type="text" name="profileLogo" placeholder="Logo URL" required onChange={handleChange} />
+        </div>
+
+        {/* Full Name */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Full Name</label>
-          <input type="text" name="name" placeholder="Jerome" required />
+          <input type="text" name="fullName" placeholder="Jerome" required onChange={handleChange} />
         </div>
 
-        {/* <!-- Input --> */}
+        {/* Job Title */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Job Title</label>
-          <input type="text" name="name" placeholder="UI Designer" required />
+          <input type="text" name="jobTitle" placeholder="UI Designer" required onChange={handleChange} />
         </div>
 
-        {/* <!-- Input --> */}
+        {/* Phone */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Phone</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="0 123 456 7890"
-            required
-          />
+          <input type="text" name="phone" placeholder="0 123 456 7890" required onChange={handleChange} />
         </div>
 
-        {/* <!-- Input --> */}
+        {/* Email Address */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Email address</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="creativelayers"
-            required
-          />
+          <input type="email" name="email" placeholder="creativelayers@example.com" required onChange={handleChange} />
         </div>
 
-        {/* <!-- Input --> */}
+        {/* Website */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Website</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="www.jerome.com"
-            required
-          />
+          <input type="text" name="website" placeholder="www.jerome.com" required onChange={handleChange} />
         </div>
 
-        {/* <!-- Input --> */}
+        {/* Current Salary */}
         <div className="form-group col-lg-3 col-md-12">
           <label>Current Salary($)</label>
-          <select className="chosen-single form-select" required>
-            <option>40-70 K</option>
-            <option>50-80 K</option>
-            <option>60-90 K</option>
-            <option>70-100 K</option>
-            <option>100-150 K</option>
+          <select name="currentSalary" className="chosen-single form-select" required onChange={handleChange}>
+            <option value="">Select Salary</option>
+            <option value="40-70 K">40-70 K</option>
+            <option value="50-80 K">50-80 K</option>
+            <option value="60-90 K">60-90 K</option>
+            <option value="70-100 K">70-100 K</option>
+            <option value="100-150 K">100-150 K</option>
           </select>
         </div>
 
-        {/* <!-- Input --> */}
+        {/* Expected Salary */}
         <div className="form-group col-lg-3 col-md-12">
           <label>Expected Salary($)</label>
-          <select className="chosen-single form-select" required>
-            <option>120-350 K</option>
-            <option>40-70 K</option>
-            <option>50-80 K</option>
-            <option>60-90 K</option>
-            <option>70-100 K</option>
-            <option>100-150 K</option>
+          <select name="expectedSalary" className="chosen-single form-select" required onChange={handleChange}>
+            <option value="">Select Salary</option>
+            <option value="120-350 K">120-350 K</option>
+            <option value="40-70 K">40-70 K</option>
+            <option value="50-80 K">50-80 K</option>
+            <option value="60-90 K">60-90 K</option>
+            <option value="70-100 K">70-100 K</option>
+            <option value="100-150 K">100-150 K</option>
           </select>
         </div>
 
-        {/* <!-- Input --> */}
+        {/* Experience */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Experience</label>
-          <input type="text" name="name" placeholder="5-10 Years" required />
+          <input type="text" name="experience" placeholder="5-10 Years" required onChange={handleChange} />
+        </div>
+        <div className="form-group col-lg-6 col-md-12">
+          <label>Gender</label>
+          <input type="text" name="gender" placeholder="M-F" required onChange={handleChange} />
         </div>
 
-        {/* <!-- Input --> */}
+        {/* Age */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Age</label>
-          <select className="chosen-single form-select" required>
-            <option>23 - 27 Years</option>
-            <option>24 - 28 Years</option>
-            <option>25 - 29 Years</option>
-            <option>26 - 30 Years</option>
-          </select>
+          <input type="text" name="age" placeholder="your age" required onChange={handleChange} />
+
         </div>
 
-        {/* <!-- Input --> */}
+        {/* Education Levels */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Education Levels</label>
-          <input type="text" name="name" placeholder="Certificate" required />
+          <input type="text" name="educationLevels" placeholder="Certificate" required onChange={handleChange} />
         </div>
 
-        {/* <!-- Input --> */}
+        {/* Languages */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Languages</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="English, Turkish"
-            required
-          />
+          <input type="text" name="languages" placeholder="English, Turkish" required onChange={handleChange} />
         </div>
 
+        {/* Skills */}
         <div className="form-group col-lg-6 col-md-12">
-          <label>Skills </label>
-          <input
-            type="text"
-            name="name"
-            placeholder="Application development, Devops, etc"
-            required
-          />
+          <label>Skills</label>
+          <input type="text" name="skills" placeholder="Application development, DevOps, etc." required onChange={handleChange} />
         </div>
 
-        {/* <!-- Input --> */}
-
-        {/* <!-- About Company --> */}
+        {/* Description */}
         <div className="form-group col-lg-12 col-md-12">
           <label>Description</label>
-          <textarea placeholder="Spent several years working on sheep on Wall Street. Had moderate success investing in Yugo's on Wall Street. Managed a small team buying and selling Pogo sticks for farmers. Spent several years licensing licorice in West Palm Beach, FL. Developed several new methods for working it banjos in the aftermarket. Spent a weekend importing banjos in West Palm Beach, FL.In this position, the Software Engineer collaborates with Evention's Development team to continuously enhance our current software solutions as well as create new solutions to eliminate the back-office operations and management challenges present"></textarea>
+          <textarea name='description' placeholder='Job description...' required onChange={handleChange}></textarea>
         </div>
 
-        {/* <!-- Input --> */}
-        <div className="form-group col-lg-6 col-md-12">
-          <button type="submit" className="theme-btn btn-style-one">
-            Save
-          </button>
-        </div>
-      </div>
-    </form>
-  );
-};
+         {/* LinkedIn */}
+         <div className='form-group col-lg-6 col-md-12'>
+            <label>LinkedIn Profile URL</label>
+            <input
+              type='text'
+              name='linkedin'
+              placeholder='https://linkedin.com/in/yourprofile'
+              required
+              onChange={handleChange}
+            />
+          </div>
+
+         {/* Country */}
+         <div className='form-group col-lg-6 col-md-12'>
+            <label>Country</label>
+            <input
+              type='text'
+              name='country'
+              placeholder='Country'
+              required
+              onChange={handleChange}
+            />
+          </div>
+
+         {/* City */}
+         <div className='form-group col-lg-6 col-md-12'>
+            <label>City</label>
+            <input
+              type='text'
+              name='city'
+              placeholder='City'
+              required
+              onChange={handleChange}
+            />
+          </div>
+
+         {/* Complete Address */}
+              	<div className='form-group col-lg-6 col-md-12'>
+              	<label>Complete Address</label>
+              	<input
+              		type='text'
+              		name='completeAddress'
+              		placeholder='123 Main St, Apt #4B'
+              		required
+              		onChange={handleChange}
+              	/>
+              	</div>
+
+         {/* Submit Button */}
+          	<div className='form-group col-lg-6 col-md-12'>
+              	<button type='submit' className='theme-btn btn-style-one'>Submit</button>
+            </div> 
+       </div> 
+     </form> 
+   ); 
+  };
 
 export default FormInfoBox;

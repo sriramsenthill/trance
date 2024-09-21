@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const myProfileSchema = new mongoose.Schema({
     profileLogo: {
         type: String,
-        required: true,
     },
     fullName: {
         type: String,
@@ -17,14 +16,12 @@ const myProfileSchema = new mongoose.Schema({
     },
     phone: {
         type: String,
-        unique: true,
         required: true,
         match: [/^\+?[1-9]\d{1,14}$/, 'Please enter a valid phone number'],
     },
     email: {
         type: String,
         required: true,
-        unique: true,
         lowercase: true,
         trim: true,
         match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email address'],
@@ -84,7 +81,6 @@ const myProfileSchema = new mongoose.Schema({
     },
     city: {
         type: String,
-        unique: true,
         required: true,
         trim: true,
     },

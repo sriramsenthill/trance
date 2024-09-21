@@ -26,7 +26,7 @@ const createProfile = async (req, res) => {
 
     // Check if all required fields are present
     const requiredFields = [
-      'profileLogo', 'fullName', 'jobTitle', 'phone', 'email', 'experience',
+       'fullName', 'jobTitle', 'phone', 'email', 'experience',
       'gender', 'age', 'educationLevels', 'languages', 'description',
       'linkedin', 'country', 'city', 'completeAddress'
     ];
