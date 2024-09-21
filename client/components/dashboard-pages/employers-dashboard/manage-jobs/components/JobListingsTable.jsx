@@ -1,14 +1,28 @@
+import React, { useState, useEffect } from 'react';
 import Link from "next/link";
-import jobs from "../../../../../data/job-featured.js";
+import axios from 'axios';
 
 const JobListingsTable = () => {
+  const [jobs, setJobs] = useState([]);
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/getAllJobs');
+        setJobs(response.data);
+      } catch (error) {
+        console.error('Error fetching jobs:', error);
+      }
+    };
+
+    fetchJobs();
+  }, []);
+
   return (
     <div className="tabs-box">
       <div className="widget-title">
         <h4>My Job Listings</h4>
-
         <div className="chosen-outer">
-          {/* <!--Tabs Box--> */}
           <select className="chosen-single form-select">
             <option>Last 6 Months</option>
             <option>Last 12 Months</option>
@@ -18,9 +32,7 @@ const JobListingsTable = () => {
           </select>
         </div>
       </div>
-      {/* End filter top bar */}
 
-      {/* Start table widget content */}
       <div className="widget-content">
         <div className="table-outer">
           <table className="default-table manage-job-table">
@@ -35,29 +47,28 @@ const JobListingsTable = () => {
             </thead>
 
             <tbody>
-              {jobs.slice(0, 4).map((item) => (
-                <tr key={item.id}>
+              {jobs.map((job, index) => (
+                <tr key={index}>
                   <td>
-                    {/* <!-- Job Block --> */}
                     <div className="job-block">
                       <div className="inner-box">
                         <div className="content">
                           <span className="company-logo">
-                            <img src={item.logo} alt="logo" />
+                            <img src="/images/hexaware.png" alt="logo" />
                           </span>
                           <h4>
-                            <Link href={`/job-single-v3/${item.id}`}>
-                              {item.jobTitle}
+                            <Link href={`/job/${job.jobId}`}>
+                              {job.jobTitle}
                             </Link>
                           </h4>
                           <ul className="job-info">
                             <li>
                               <span className="icon flaticon-briefcase"></span>
-                              Segment
+                              {job.companyName}
                             </li>
                             <li>
                               <span className="icon flaticon-map-locator"></span>
-                              London, UK
+                              {job.city}
                             </li>
                           </ul>
                         </div>
@@ -76,17 +87,17 @@ const JobListingsTable = () => {
                     <div className="option-box">
                       <ul className="option-list">
                         <li>
-                          <button data-text="View Aplication">
+                          <button data-text="View Application">
                             <span className="la la-eye"></span>
                           </button>
                         </li>
                         <li>
-                          <button data-text="Reject Aplication">
+                          <button data-text="Reject Application">
                             <span className="la la-pencil"></span>
                           </button>
                         </li>
                         <li>
-                          <button data-text="Delete Aplication">
+                          <button data-text="Delete Application">
                             <span className="la la-trash"></span>
                           </button>
                         </li>
@@ -99,7 +110,6 @@ const JobListingsTable = () => {
           </table>
         </div>
       </div>
-      {/* End table widget content */}
     </div>
   );
 };

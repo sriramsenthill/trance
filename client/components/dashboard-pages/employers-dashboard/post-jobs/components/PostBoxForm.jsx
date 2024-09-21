@@ -27,27 +27,49 @@ const PostBoxForm = () => {
     completeAddress: '',
   });
 
+  const [errors, setErrors] = useState({});
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    setErrors({ ...errors, [name]: '' });
   };
 
   const handleSelectChange = (name, selectedOption) => {
-    setFormData({ ...formData, [name]: selectedOption.value });
+    setFormData({ ...formData, [name]: selectedOption ? selectedOption.value : '' });
+    setErrors({ ...errors, [name]: '' });
+  };
+
+  const validateForm = () => {
+    let newErrors = {};
+    let isValid = true;
+
+    Object.keys(formData).forEach(key => {
+      if (!formData[key]) {
+        newErrors[key] = `${key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1').trim()} is required`;
+        isValid = false;
+      }
+    });
+
+    setErrors(newErrors);
+    return isValid;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post(`${Config.BACKEND_URL}/postJob`, formData);
-      if (response.status === 201) {
-        console.log('Job posted successfully:', response.data);
-        // Redirect to home page
-        router.push('/'); // Change this to your desired route
+    
+    if (validateForm()) {
+      try {
+        const response = await axios.post(`${Config.BACKEND_URL}/postJob`, formData);
+        if (response.status === 201) {
+          console.log('Job posted successfully:', response.data);
+          router.push('/');
+        }
+      } catch (error) {
+        console.error('Error posting job:', error);
       }
-    } catch (error) {
-      console.error('Error posting job:', error);
-      // Handle error (e.g., show an error message)
+    } else {
+      console.log('Form validation failed');
     }
   };
 
@@ -60,12 +82,12 @@ const PostBoxForm = () => {
   ];
 
   const salaryOptions = [
-    { value: '$1500', label: '$1500' },
-    { value: '$2000', label: '$2000' },
-    { value: '$2500', label: '$2500' },
-    { value: '$3500', label: '$3500' },
-    { value: '$4500', label: '$4500' },
-    { value: '$5000', label: '$5000' },
+    { value: '4LPA', label: '4LPA' },
+    { value: '6LPA', label: '6LPA' },
+    { value: '8LPA', label: '8LPA' },
+    { value: '10LPA', label: '10LPA' },
+    { value: '15LPA', label: '15LPA' },
+    { value: '20LPA', label: '20LPA' },
   ];
 
   const careerLevelOptions = [
@@ -133,10 +155,11 @@ const PostBoxForm = () => {
           <input
             type="text"
             name="companyName"
-            placeholder="Netflix"
+            placeholder="Enter company name..."
             value={formData.companyName}
             onChange={handleInputChange}
           />
+          {errors.companyName && <p className="error-message" style={{ color: 'red' }}>{errors.companyName}</p>}
         </div>
 
         <div className="form-group col-lg-12 col-md-12">
@@ -144,10 +167,11 @@ const PostBoxForm = () => {
           <input
             type="text"
             name="jobTitle"
-            placeholder="Title"
+            placeholder="Enter title..."
             value={formData.jobTitle}
             onChange={handleInputChange}
           />
+          {errors.jobTitle && <p className="error-message" style={{ color: 'red' }}>{errors.jobTitle}</p>}
         </div>
 
         <div className="form-group col-lg-12 col-md-12">
@@ -158,6 +182,7 @@ const PostBoxForm = () => {
             value={formData.jobDesc}
             onChange={handleInputChange}
           ></textarea>
+          {errors.jobDesc && <p className="error-message" style={{ color: 'red' }}>{errors.jobDesc}</p>}
         </div>
 
         <div className="form-group col-lg-12 col-md-12">
@@ -168,6 +193,7 @@ const PostBoxForm = () => {
             value={formData.keyRes}
             onChange={handleInputChange}
           ></textarea>
+          {errors.keyRes && <p className="error-message" style={{ color: 'red' }}>{errors.keyRes}</p>}
         </div>
 
         <div className="form-group col-lg-12 col-md-12">
@@ -178,6 +204,7 @@ const PostBoxForm = () => {
             value={formData.skills}
             onChange={handleInputChange}
           ></textarea>
+          {errors.skills && <p className="error-message" style={{ color: 'red' }}>{errors.skills}</p>}
         </div>
 
         <div className="form-group col-lg-6 col-md-12">
@@ -188,6 +215,7 @@ const PostBoxForm = () => {
             value={formData.email}
             onChange={handleInputChange}
           />
+          {errors.email && <p className="error-message" style={{ color: 'red' }}>{errors.email}</p>}
         </div>
 
         <div className="form-group col-lg-6 col-md-12">
@@ -198,6 +226,7 @@ const PostBoxForm = () => {
             value={formData.username}
             onChange={handleInputChange}
           />
+          {errors.username && <p className="error-message" style={{ color: 'red' }}>{errors.username}</p>}
         </div>
 
         <div className="form-group col-lg-6 col-md-12">
@@ -205,7 +234,9 @@ const PostBoxForm = () => {
           <Select
             options={jobTypeOptions}
             onChange={(selectedOption) => handleSelectChange('jobType', selectedOption)}
+            value={formData.jobType ? { value: formData.jobType, label: formData.jobType } : null}
           />
+          {errors.jobType && <p className="error-message" style={{ color: 'red' }}>{errors.jobType}</p>}
         </div>
 
         <div className="form-group col-lg-6 col-md-12">
@@ -213,7 +244,9 @@ const PostBoxForm = () => {
           <Select
             options={salaryOptions}
             onChange={(selectedOption) => handleSelectChange('offeredSalary', selectedOption)}
+            value={formData.offeredSalary ? { value: formData.offeredSalary, label: formData.offeredSalary } : null}
           />
+          {errors.offeredSalary && <p className="error-message" style={{ color: 'red' }}>{errors.offeredSalary}</p>}
         </div>
 
         <div className="form-group col-lg-6 col-md-12">
@@ -221,7 +254,9 @@ const PostBoxForm = () => {
           <Select
             options={careerLevelOptions}
             onChange={(selectedOption) => handleSelectChange('careerLevel', selectedOption)}
+            value={formData.careerLevel ? { value: formData.careerLevel, label: formData.careerLevel } : null}
           />
+          {errors.careerLevel && <p className="error-message" style={{ color: 'red' }}>{errors.careerLevel}</p>}
         </div>
 
         <div className="form-group col-lg-6 col-md-12">
@@ -229,7 +264,9 @@ const PostBoxForm = () => {
           <Select
             options={experienceOptions}
             onChange={(selectedOption) => handleSelectChange('experience', selectedOption)}
+            value={formData.experience ? { value: formData.experience, label: formData.experience } : null}
           />
+          {errors.experience && <p className="error-message" style={{ color: 'red' }}>{errors.experience}</p>}
         </div>
 
         <div className="form-group col-lg-6 col-md-12">
@@ -237,7 +274,9 @@ const PostBoxForm = () => {
           <Select
             options={genderOptions}
             onChange={(selectedOption) => handleSelectChange('gender', selectedOption)}
+            value={formData.gender ? { value: formData.gender, label: formData.gender } : null}
           />
+          {errors.gender && <p className="error-message" style={{ color: 'red' }}>{errors.gender}</p>}
         </div>
 
         <div className="form-group col-lg-6 col-md-12">
@@ -245,7 +284,9 @@ const PostBoxForm = () => {
           <Select
             options={industryOptions}
             onChange={(selectedOption) => handleSelectChange('industry', selectedOption)}
+            value={formData.industry ? { value: formData.industry, label: formData.industry } : null}
           />
+          {errors.industry && <p className="error-message" style={{ color: 'red' }}>{errors.industry}</p>}
         </div>
 
         <div className="form-group col-lg-6 col-md-12">
@@ -253,17 +294,21 @@ const PostBoxForm = () => {
           <Select
             options={qualificationOptions}
             onChange={(selectedOption) => handleSelectChange('qualification', selectedOption)}
+            value={formData.qualification ? { value: formData.qualification, label: formData.qualification } : null}
           />
+          {errors.qualification && <p className="error-message" style={{ color: 'red' }}>{errors.qualification}</p>}
         </div>
 
-        <div className="form-group col-lg-12 col-md-12">
+        <div className="form-group col-lg-6 col-md-12">
           <label>Application Deadline Date</label>
           <input
             type="text"
             name="appDeadLine"
+            placeholder='DD/MM/YYYY'
             value={formData.appDeadLine}
             onChange={handleInputChange}
           />
+          {errors.appDeadLine && <p className="error-message" style={{ color: 'red' }}>{errors.appDeadLine}</p>}
         </div>
 
         <div className="form-group col-lg-6 col-md-12">
@@ -271,15 +316,21 @@ const PostBoxForm = () => {
           <Select
             options={countryOptions}
             onChange={(selectedOption) => handleSelectChange('country', selectedOption)}
+            value={formData.country ? { value: formData.country, label: formData.country } : null}
           />
+          {errors.country && <p className="error-message" style={{ color: 'red' }}>{errors.country}</p>}
         </div>
 
         <div className="form-group col-lg-6 col-md-12">
           <label>City</label>
-          <Select
-            options={cityOptions}
-            onChange={(selectedOption) => handleSelectChange('city', selectedOption)}
+         <input
+            type="text"
+            name="city"
+            placeholder='Chennai'
+            value={formData.city}
+            onChange={handleInputChange}
           />
+          {errors.city && <p className="error-message" style={{ color: 'red' }}>{errors.city}</p>}
         </div>
 
         <div className="form-group col-lg-12 col-md-12">
@@ -287,10 +338,11 @@ const PostBoxForm = () => {
           <input
             type="text"
             name="completeAddress"
-            placeholder="329 Queensberry Street, North Melbourne VIC 3051, Australia."
+            placeholder="Enter your address here..."
             value={formData.completeAddress}
             onChange={handleInputChange}
           />
+          {errors.completeAddress && <p className="error-message" style={{ color: 'red' }}>{errors.completeAddress}</p>}
         </div>
 
         <div className="form-group col-lg-12 col-md-12 text-right">
