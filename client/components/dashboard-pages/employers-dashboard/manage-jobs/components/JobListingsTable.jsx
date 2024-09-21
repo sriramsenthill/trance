@@ -32,6 +32,11 @@ const JobListingsTable = () => {
     }
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString(); // Format as MM/DD/YYYY
+  };
+
   return (
     <div className="tabs-box">
       <div className="widget-title">
@@ -54,7 +59,8 @@ const JobListingsTable = () => {
               <tr>
                 <th>Title</th>
                 <th>Applications</th>
-                <th>Created & Expired</th>
+                <th>Created</th>
+                <th>Deadline Date</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
@@ -93,8 +99,12 @@ const JobListingsTable = () => {
                     <a href="#">3+ Applied</a>
                   </td>
                   <td>
-                    October 27, 2017<br />
-                    April 25, 2011
+                    <br />
+                    {formatDate(job.datePosted)} 
+                    </td>
+                  <td>
+                    <br />
+                   {job.appDeadLine}
                   </td>
                   <td className="status">Active</td>
                   <td>
@@ -103,16 +113,13 @@ const JobListingsTable = () => {
                         {/* View Application Button */}
                         <li>
                           <button data-text="View Application">
-                            <span className="la la-eye"></span>
+                          <Link href={`/job/${job.jobId}`}>
+                          <span className="la la-eye"></span>
+                          </Link>
+                       
                           </button>
                         </li>
 
-                        {/* Reject Application Button */}
-                        <li>
-                          <button data-text="Reject Application">
-                            <span className="la la-pencil"></span>
-                          </button>
-                        </li>
 
                         {/* Delete Application Button */}
                         <li>
