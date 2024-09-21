@@ -4,7 +4,6 @@ const myProfileSchema = new mongoose.Schema({
     userID: {
         type: Number,
         unique: true,
-
     },
     profileLogo: {
         type: String,
@@ -22,7 +21,6 @@ const myProfileSchema = new mongoose.Schema({
     phone: {
         type: String,
         required: true,
-        match: [/^\+?[1-9]\d{1,14}$/, 'Please enter a valid phone number'],
     },
     email: {
         type: String,
