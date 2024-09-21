@@ -33,7 +33,11 @@ const JobFeatured7 = () => {
           <div className="inner-box">
             <div className="content">
               <span className="company-logo">
-                <img src="/images/hexaware.png" style={{ scale: "70%", borderRadius: "25%", objectFit: "cover" }} alt="item brand" />
+                <img
+                  src="/images/hexaware.png"
+                  style={{ scale: "70%", borderRadius: "25%", objectFit: "cover" }}
+                  alt="item brand"
+                />
               </span>
               <h4>
                 <Link href={`/job/${item.jobId}`}>{item.jobTitle}</Link>

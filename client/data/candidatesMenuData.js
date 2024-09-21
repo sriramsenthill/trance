@@ -49,20 +49,6 @@ module.exports = [
     active: "",
   },
   {
-    id: 8,
-    name: "Packages",
-    icon: "la-box",
-    routePath: "/candidates-dashboard/packages",
-    active: "",
-  },
-  {
-    id: 9,
-    name: "Messages",
-    icon: "la-comment-o",
-    routePath: "/candidates-dashboard/messages",
-    active: "",
-  },
-  {
     id: 10,
     name: "Change Password",
     icon: "la-lock",

@@ -18,6 +18,11 @@ const userSchema = new mongoose.Schema({
         enum: ['candidate', 'employer'], // Restrict role to either "candidate" or "employer"
         required: true,
     },
+    userID: {
+        type: Number,
+        unique: true,
+
+    },
     createdAt: {
         type: Date,
         default: Date.now,

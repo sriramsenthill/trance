@@ -3,6 +3,7 @@ const MyProfile = require("./models/profile.js");
 const createProfile = async (req, res) => {
   try {
     const {
+      userID,
       profileLogo,
       fullName,
       jobTitle,
