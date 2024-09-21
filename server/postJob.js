@@ -107,4 +107,31 @@ const getAllJobs = async (req, res) => {
   }
 };
 
-module.exports = { postJob, getJobById, getAllJobs };
+const deleteJobs = async (req, res) => {
+  try {
+    // Extract job ID from request parameters
+    const { jobId } = req.params;
+
+    // Validate job ID
+    const numericJobId = Number(jobId);
+    if (isNaN(numericJobId)) {
+      return res.status(400).json({ error: 'Invalid Job ID' });
+    }
+
+    // Find and delete the job by custom jobId field
+    const deletedJob = await JobSchema.findOneAndDelete({ jobId: numericJobId });
+
+    // Check if the job was found and deleted
+    if (!deletedJob) {
+      return res.status(404).json({ error: 'Job not found' });
+    }
+
+    // Respond with a success message
+    res.status(200).json({ message: 'Job deleted successfully', job: deletedJob });
+  } catch (error) {
+    console.error("Error in deleteJobs:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = { postJob, getJobById, getAllJobs, deleteJobs };

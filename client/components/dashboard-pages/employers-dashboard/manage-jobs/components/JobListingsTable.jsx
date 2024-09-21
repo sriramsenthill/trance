@@ -1,22 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import Link from "next/link";
 import axios from 'axios';
+import { Config } from '../../../../../config';
 
 const JobListingsTable = () => {
   const [jobs, setJobs] = useState([]);
 
-  useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/getAllJobs');
-        setJobs(response.data);
-      } catch (error) {
-        console.error('Error fetching jobs:', error);
-      }
-    };
+  // Function to fetch jobs
+  const fetchJobs = async () => {
+    try {
+      const response = await axios.get(`${Config.BACKEND_URL}/getAllJobs`);
+      setJobs(response.data);
+    } catch (error) {
+      console.error('Error fetching jobs:', error);
+    }
+  };
 
+  // Fetch jobs on component mount
+  useEffect(() => {
     fetchJobs();
   }, []);
+
+  // Function to handle job deletion
+  const handleDeleteJob = async (jobId) => {
+    try {
+      await axios.delete(`${Config.BACKEND_URL}/jobs/${jobId}`);
+      // Refresh the job listings after deletion
+      fetchJobs();
+    } catch (error) {
+      console.error('Error deleting job:', error);
+    }
+  };
 
   return (
     <div className="tabs-box">
@@ -28,7 +42,7 @@ const JobListingsTable = () => {
             <option>Last 12 Months</option>
             <option>Last 16 Months</option>
             <option>Last 24 Months</option>
-            <option>Last 5 year</option>
+            <option>Last 5 years</option>
           </select>
         </div>
       </div>
@@ -79,28 +93,37 @@ const JobListingsTable = () => {
                     <a href="#">3+ Applied</a>
                   </td>
                   <td>
-                    October 27, 2017 <br />
+                    October 27, 2017<br />
                     April 25, 2011
                   </td>
                   <td className="status">Active</td>
                   <td>
                     <div className="option-box">
                       <ul className="option-list">
+                        {/* View Application Button */}
                         <li>
                           <button data-text="View Application">
                             <span className="la la-eye"></span>
                           </button>
                         </li>
+
+                        {/* Reject Application Button */}
                         <li>
                           <button data-text="Reject Application">
                             <span className="la la-pencil"></span>
                           </button>
                         </li>
+
+                        {/* Delete Application Button */}
                         <li>
-                          <button data-text="Delete Application">
+                          <button 
+                            data-text="Delete Application" 
+                            onClick={() => handleDeleteJob(job.jobId)} // Call handleDeleteJob with jobId
+                          >
                             <span className="la la-trash"></span>
                           </button>
                         </li>
+
                       </ul>
                     </div>
                   </td>
