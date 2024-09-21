@@ -10,7 +10,11 @@
   },
   "dependencies": {
     "@babel/core": "^7.0.0",
+    "@emotion/cache": "^11.13.1",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@faker-js/faker": "^7.6.0",
+    "@mui/material": "^6.1.1",
     "@popperjs/core": "^2.11.6",
     "@reduxjs/toolkit": "^1.9.1",
     "aos": "^2.3.4",

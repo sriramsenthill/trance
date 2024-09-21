@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const myProfileSchema = new mongoose.Schema({
+    userID: {
+        type: Number,
+        unique: true,
+    },
     profileLogo: {
         type: String,
     },
@@ -17,7 +21,6 @@ const myProfileSchema = new mongoose.Schema({
     phone: {
         type: String,
         required: true,
-        match: [/^\+?[1-9]\d{1,14}$/, 'Please enter a valid phone number'],
     },
     email: {
         type: String,
@@ -44,23 +47,23 @@ const myProfileSchema = new mongoose.Schema({
     gender: {
         type: String,
         required: true,
-    age: {
-        type: Number,
-        required: true,
-        min: 0,
-    },
-    educationLevels: {
-        type: String,
-        required: true,
-    },
-    languages: {
-        type: String,
-        required: true,
-    },
-    skills: {
-        type: String,
-        trim: true,
-    },
+        age: {
+            type: Number,
+            required: true,
+            min: 0,
+        },
+        educationLevels: {
+            type: String,
+            required: true,
+        },
+        languages: {
+            type: String,
+            required: true,
+        },
+        skills: {
+            type: String,
+            trim: true,
+        },
     },
     description: {
         type: String,
@@ -73,7 +76,7 @@ const myProfileSchema = new mongoose.Schema({
         required: true,
         trim: true,
     },
-    
+
     country: {
         type: String,
         required: true,
@@ -89,6 +92,7 @@ const myProfileSchema = new mongoose.Schema({
         required: true,
         trim: true,
     },
+
 });
 
 const MyProfile = mongoose.model("MyProfile", myProfileSchema);
