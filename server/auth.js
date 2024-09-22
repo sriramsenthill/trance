@@ -1,10 +1,6 @@
 const User = require("./models/user");
 const bcrypt = require("bcryptjs");
 
-// Initialize a single counter for user IDs
-let lastUserId = 0;
-
-// Registration Handler
 const registerUser = async (req, res) => {
     try {
         const { email, password, role } = req.body;
@@ -21,14 +17,16 @@ const registerUser = async (req, res) => {
         // Hash the password before saving
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Increment and assign a new userID
-        lastUserId += 1; // Increment the shared user ID counter
+        // Fetch the maximum userID from the database
+        const lastUser = await User.findOne().sort({ userID: -1 }); // Get the last user by sorting userID in descending order
+
+        const newUserId = lastUser ? lastUser.userID + 1 : 1; // Increment or start from 1 if no users exist
 
         const user = new User({
             email,
             password: hashedPassword,
             role,
-            userID: lastUserId // Assign the new userID
+            userID: newUserId // Assign the new userID
         });
 
         // Save the user in the database

@@ -47,23 +47,23 @@ const myProfileSchema = new mongoose.Schema({
     gender: {
         type: String,
         required: true,
-        age: {
-            type: Number,
-            required: true,
-            min: 0,
-        },
-        educationLevels: {
-            type: String,
-            required: true,
-        },
-        languages: {
-            type: String,
-            required: true,
-        },
-        skills: {
-            type: String,
-            trim: true,
-        },
+    },
+    age: {
+        type: Number,
+        required: true,
+        min: 0,
+    },
+    educationLevels: {
+        type: String,
+        required: true,
+    },
+    languages: {
+        type: String,
+        required: true,
+    },
+    skills: {
+        type: String,
+        trim: true,
     },
     description: {
         type: String,

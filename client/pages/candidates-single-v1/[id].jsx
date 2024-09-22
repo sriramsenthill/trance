@@ -7,24 +7,52 @@ import DefaulHeader from "../../components/header/DefaulHeader";
 import MobileMenu from "../../components/header/MobileMenu";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import axios from "axios";
 import Seo from "../../components/common/Seo";
 import Contact from "../../components/candidates-single-pages/shared-components/Contact";
 import GalleryBox from "../../components/candidates-single-pages/shared-components/GalleryBox";
 import Social from "../../components/candidates-single-pages/social/Social";
 import JobSkills from "../../components/candidates-single-pages/shared-components/JobSkills";
 import AboutVideo from "../../components/candidates-single-pages/shared-components/AboutVideo";
+import { Config } from "../../config";
 
 const CandidateSingleDynamicV1 = () => {
   const router = useRouter();
   const [candidate, setCandidates] = useState({});
   const id = router.query.id;
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
 
   useEffect(() => {
-    if (!id) <h1>Loading...</h1>;
-    else setCandidates(candidates.find((item) => item.id == id));
+    const fetchProfileDetails = async () => {
+      if (!id) return; // If id is not available, do nothing
 
-    return () => {};
+      try {
+        // Extract job ID from URL
+        const pathSegments = window.location.pathname.split('/');
+        const userID = parseInt(pathSegments[pathSegments.length - 1], 10); // Assuming the ID is the last segment
+
+        if (isNaN(userID)) {
+          throw new Error('Invalid user ID format');
+        }
+
+        // Fetch job details from the backend
+        const response = await axios.get(`${Config.BACKEND_URL}/profiles/${userID}`);
+        setCandidates(response.data); // Set company data from response
+      } catch (err) {
+        setError(err.message || 'Failed to fetch profile details');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfileDetails();
   }, [id]);
+
+  if (loading) return <h1>Loading...</h1>;
+  if (error) return <h1>{error}</h1>;
+
 
   return (
     <>
@@ -50,15 +78,15 @@ const CandidateSingleDynamicV1 = () => {
               <div className="inner-box">
                 <div className="content">
                   <figure className="image">
-                    <img src={candidate?.avatar} alt="avatar" />
+                    <img style={{ scale: "102%" }} src="/images/profileLogo.png" alt="avatar" />
                   </figure>
-                  <h4 className="name">{candidate?.name}</h4>
+                  <h4 className="name">{candidate?.fullName}</h4>
 
                   <ul className="candidate-info">
-                    <li className="designation">{candidate?.designation}</li>
+                    <li className="designation">{candidate?.jobTitle}</li>
                     <li>
                       <span className="icon flaticon-map-locator"></span>
-                      {candidate?.location}
+                      {candidate?.city}
                     </li>
                     <li>
                       <span className="icon flaticon-clock"></span> Member
@@ -97,29 +125,11 @@ const CandidateSingleDynamicV1 = () => {
             <div className="row">
               <div className="content-column col-lg-8 col-md-12 col-sm-12">
                 <div className="job-detail">
-                  <div className="video-outer">
-                    <h4>Candidates About</h4>
-                    <AboutVideo />
-                  </div>
                   {/* <!-- About Video Box --> */}
                   <p>
-                    Hello my name is Nicole Wells and web developer from
-                    Portland. In pharetra orci dignissim, blandit mi semper,
-                    ultricies diam. Suspendisse malesuada suscipit nunc non
-                    volutpat. Sed porta nulla id orci laoreet tempor non
-                    consequat enim. Sed vitae aliquam velit. Aliquam ante erat,
-                    blandit at pretium et, accumsan ac est. Integer vehicula
-                    rhoncus molestie. Morbi ornare ipsum sed sem condimentum, et
-                    pulvinar tortor luctus. Suspendisse condimentum lorem ut
-                    elementum aliquam.
+                    {candidate.description}
                   </p>
 
-                  {/* <!-- Portfolio --> */}
-                  <div className="portfolio-outer">
-                    <div className="row">
-                      <GalleryBox />
-                    </div>
-                  </div>
 
                   {/* <!-- Candidate Resume Start --> */}
                   {candidateResume.map((resume) => (
@@ -163,52 +173,47 @@ const CandidateSingleDynamicV1 = () => {
                   <div className="sidebar-widget">
                     <div className="widget-content">
                       <ul className="job-overview">
-                      <li>
-                          <i className="icon icon-calendar"></i>
-                          <h5>Applied on:</h5>
-                          <span>08-08-2023</span>
-                        </li>
 
                         <li>
                           <i className="icon icon-calendar"></i>
                           <h5>Experience:</h5>
-                          <span>0-2 Years</span>
+                          <span>{candidate.experience}</span>
                         </li>
 
                         <li>
                           <i className="icon icon-expiry"></i>
                           <h5>Age:</h5>
-                          <span>28-33 Years</span>
+                          <span>{candidate.age}</span>
                         </li>
 
                         <li>
                           <i className="icon icon-rate"></i>
                           <h5>Current Salary:</h5>
-                          <span>11K - 15K</span>
+                          <span>{candidate.currentSalary}</span>
                         </li>
 
                         <li>
                           <i className="icon icon-salary"></i>
                           <h5>Expected Salary:</h5>
-                          <span>26K - 30K</span>
+                          <span>{candidate.expectedSalary}</span>
                         </li>
 
                         <li>
                           <i className="icon icon-user-2"></i>
                           <h5>Gender:</h5>
-                          <span>Female</span>
+                          <span>{candidate.gender}</span>
                         </li>
 
                         <li>
                           <i className="icon icon-language"></i>
                           <h5>Language:</h5>
-                          <span>English, German, Spanish</span>
+                          <span>{candidate.languages}</span>
                         </li>
 
                         <li>
                           <i className="icon icon-degree"></i>
                           <h5>Education Level:</h5>
-                          <span>Master Degree</span>
+                          <span>{candidate.educationLevels}</span>
                         </li>
                       </ul>
                     </div>

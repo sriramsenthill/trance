@@ -137,9 +137,9 @@ const index = () => {
       <section className="candidates-section alternate">
         <div className="auto-container">
           <div className="sec-title">
-            <h2>Featured Candidates</h2>
+            <h2>Candidates on Our Platform</h2>
             <div className="text">
-              Lorem ipsum dolor sit amet elit, sed do eiusmod tempor
+              Discover a diverse pool of talented candidates ready to contribute to your team's success. Our platform connects you with skilled professionals across various industries, each bringing unique experiences and expertise.
             </div>
           </div>
           {/* End .sec-title */}
