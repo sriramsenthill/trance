@@ -3,7 +3,7 @@ const { signInUser, registerUser, changePassword } = require("./auth");
 const { postJob, getJobById, getAllJobs, deleteJobs } = require("./postJob");
 const { createProfile, getAllProfiles, getProfileByID } = require("./profile");
 const { createResume, getResumeDetails } = require('./resume');
-const { jobapply, applyJob } = require('./applyjob'); 
+const { applyJob } = require('./applyjob'); 
 
 const router = express.Router();
 

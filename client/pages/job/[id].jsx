@@ -137,8 +137,6 @@ const JobSingleDynamicV1 = () => {
                   <a
                     href="#"
                     className="theme-btn btn-style-one"
-                    data-bs-toggle="modal"
-                    data-bs-target="#applyJobModal"
                   >
                     Apply For Job
                   </a>

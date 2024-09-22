@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // Define the schema for User (Candidate or Employer)
-const applyJob = new mongoose.Schema({
+const apply = new mongoose.Schema({
     userID: {
         type: Number,
     },
@@ -12,6 +12,6 @@ const applyJob = new mongoose.Schema({
 });
 
 // Create the User model
-const jobApply = mongoose.model("jobapply", applyJob);
+const jobApply = mongoose.model("jobapply", apply);
 
 module.exports = jobApply;
