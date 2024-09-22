@@ -3,7 +3,7 @@ const { signInUser, registerUser, changePassword } = require("./auth");
 const { postJob, getJobById, getAllJobs, deleteJobs } = require("./postJob");
 const { createProfile, getAllProfiles, getProfileByID } = require("./profile");
 const { createResume, getResumeDetails } = require('./resume');
-const { applyJob } = require('./applyjob'); 
+const { applyJob, checkApplied } = require('./applyjob');
 
 const router = express.Router();
 
@@ -17,14 +17,16 @@ router.post("/postJob", postJob);
 router.get("/jobs/:id", getJobById);
 router.get("/getAllJobs", getAllJobs);
 router.delete('/jobs/:jobId', deleteJobs);
+router.post("/applyjob", applyJob);
+router.post("/checkApplied", checkApplied);
 
 //profile-candidate
 router.post("/createProfile", createProfile);
 router.post("/createResume", createResume);
-router.post("/applyjob", applyJob);
 router.get('/profiles', getAllProfiles);
 router.get('/profiles/:userID', getProfileByID);
 router.get('/resumes/:userID', getResumeDetails);
+
 
 
 module.exports = router;

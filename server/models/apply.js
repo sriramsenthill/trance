@@ -7,8 +7,10 @@ const apply = new mongoose.Schema({
     },
     jobID: {
         type: Number,
-
     },
+    isApplied: {
+        type: Boolean,
+    }
 });
 
 // Create the User model

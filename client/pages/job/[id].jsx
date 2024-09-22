@@ -17,6 +17,13 @@ import SocialTwo from "../../components/job-single-pages/social/SocialTwo";
 import JobDetailsDescriptions from "../../components/job-single-pages/shared-components/JobDetailsDescriptions";
 import ApplyJobModalContent from "../../components/job-single-pages/shared-components/ApplyJobModalContent";
 import { Config } from "../../config";
+import { useSession } from 'next-auth/react';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const JobSingleDynamicV1 = () => {
   const router = useRouter();
@@ -24,35 +31,67 @@ const JobSingleDynamicV1 = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const id = router.query.id;
+  const { data: session } = useSession(); // Get user session
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [candidate, setCandidates] = useState({});
+  const [isApplied, setIsApplied] = useState(false);
+
+  const fetchJobDetailsAndCheckStatus = async () => {
+    if (!id) return; // If id is not available, do nothing
+
+    try {
+      // Fetch job details from the backend
+      const jobResponse = await axios.get(`${Config.BACKEND_URL}/jobs/${id}`);
+      setCandidates(jobResponse.data); // Set company data from response
+
+      // Check application status
+      if (session && session.user && session.user.userID) {
+        const checkResponse = await axios.post(`${Config.BACKEND_URL}/checkApplied`, {
+          userID: session.user.userID,
+          jobID: parseInt(id, 10),
+        });
+        setIsApplied(checkResponse.data.isApplied);
+      }
+    } catch (err) {
+      setError(err.message || 'Failed to fetch job details or application status');
+
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchJobDetails = async () => {
-      if (!id) return; // If id is not available, do nothing
-
-      try {
-        // Extract job ID from URL
-        const pathSegments = window.location.pathname.split('/');
-        const jobId = parseInt(pathSegments[pathSegments.length - 1], 10); // Assuming the ID is the last segment
-
-        if (isNaN(jobId)) {
-          throw new Error('Invalid job ID format');
-        }
-
-        // Fetch job details from the backend
-        const response = await axios.get(`${Config.BACKEND_URL}/jobs/${jobId}`);
-        setCompany(response.data); // Set company data from response
-      } catch (err) {
-        setError(err.message || 'Failed to fetch job details');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchJobDetails();
-  }, [id]);
+    fetchJobDetailsAndCheckStatus(); // Call this function when component mounts
+  }, [id]); // Dependencies for useEffect
 
   if (loading) return <h1>Loading...</h1>;
   if (error) return <h1>{error}</h1>;
+
+  const handleApplyForJob = async () => {
+    if (!session || !session.user || !session.user.userID) {
+      alert("You must be logged in to apply for a job.");
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${Config.BACKEND_URL}/applyjob`, {
+        userID: session.user.userID,
+        jobID: parseInt(id, 10),
+      });
+
+      if (response.status === 201) {
+        setSnackbarMessage("Job Applied Successfully.");
+        setSnackbarOpen(true);
+        setTimeout(() => router.push('/'), 2000);
+      }
+    } catch (error) {
+      console.error("Error applying for job:", error);
+      setSnackbarMessage("Failed to apply. You might have already applied.");
+      setSnackbarOpen(true);
+    }
+  };
+
 
 
   return (
@@ -91,27 +130,27 @@ const JobSingleDynamicV1 = () => {
                     />
                   </span>
 
-                  <h4>{company?.jobTitle}</h4>
+                  <h4>{candidate?.jobTitle}</h4>
 
                   <ul className="job-info">
                     <li>
                       <span className="icon flaticon-briefcase"></span>
-                      {company?.companyName}
+                      {candidate?.companyName}
                     </li>
                     {/* Company info */}
                     <li>
                       <span className="icon flaticon-map-locator"></span>
-                      {company?.city}
+                      {candidate?.city}
                     </li>
                     {/* Location info */}
                     <li>
                       <span className="icon flaticon-clock-3"></span>{" "}
-                      {new Date(company?.datePosted).toLocaleString()}
+                      {new Date(candidate?.datePosted).toLocaleString()}
                     </li>
                     {/* Date Posted info */}
                     <li>
                       <span className="icon flaticon-money"></span>{" "}
-                      ${company?.offeredSalary}
+                      ${candidate?.offeredSalary}
                     </li>
                     {/* salary info */}
                   </ul>
@@ -120,13 +159,13 @@ const JobSingleDynamicV1 = () => {
                   {/* Job Type Section */}
                   <ul className="job-other-info">
                     {Array.isArray(company?.jobType) ? (
-                      company.jobType.map((val, i) => (
+                      candidate.jobType.map((val, i) => (
                         <div key={i} className={`${val.styleClass}`}>
                           {val.type}
                         </div>
                       ))
                     ) : (
-                      <li>{company?.jobType || 'No job type listed'}</li> // Handle non-array case
+                      <li>{candidate?.jobType || 'No job type listed'}</li> // Handle non-array case
                     )}
                   </ul>
                   {/* End .job-other-info */}
@@ -137,8 +176,9 @@ const JobSingleDynamicV1 = () => {
                   <a
                     href="#"
                     className="theme-btn btn-style-one"
+                    onClick={handleApplyForJob}
                   >
-                    Apply For Job
+                    {isApplied ? 'Applied' : 'Apply For Job'}
                   </a>
                   <button className="bookmark-btn">
                     <i className="flaticon-bookmark"></i>
@@ -147,31 +187,7 @@ const JobSingleDynamicV1 = () => {
                 {/* End apply for job btn */}
 
                 {/* <!-- Modal --> */}
-                <div
-                  className="modal fade"
-                  id="applyJobModal"
-                  tabIndex="-1"
-                  aria-hidden="true"
-                >
-                  <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <div className="apply-modal-content modal-content">
-                      <div className="text-center">
-                        <h3 className="title">Apply for this job</h3>
-                        <button
-                          type="button"
-                          className="closed-modal"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                        ></button>
-                      </div>
-                      {/* End modal-header */}
 
-                      <ApplyJobModalContent />
-                      {/* End PrivateMessageBox */}
-                    </div>
-                    {/* End .send-private-message-wrapper */}
-                  </div>
-                </div>
                 {/* End .modal */}
               </div>
             </div>
@@ -238,7 +254,7 @@ const JobSingleDynamicV1 = () => {
                             }}
                             alt="resource" />
                         </div>
-                        <h5 className="company-name">{company.company}</h5>
+                        <h5 className="company-name">{candidate.company}</h5>
                         <a href="https://www.linkedin.com/company/hexaware-technologies/" className="profile-link">
                           View company profile
                         </a>
@@ -254,7 +270,7 @@ const JobSingleDynamicV1 = () => {
                           rel="noopener noreferrer"
                           className="theme-btn btn-style-three"
                         >
-                          {company?.link}
+                          {candidate?.link}
                         </a>
                       </div>
                       {/* End btn-box */}
@@ -268,6 +284,12 @@ const JobSingleDynamicV1 = () => {
             </div>
           </div>
         </div>
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={6000}
+          onClose={() => setSnackbarOpen(false)}
+          message={snackbarMessage}
+        />
         {/* <!-- job-detail-outer--> */}
       </section>
       {/* <!-- End Job Detail Section --> */}
