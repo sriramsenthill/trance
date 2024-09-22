@@ -1,5 +1,5 @@
 import React from 'react';
-import Experiences from "./Experiences";
+import ResumeForm from "./ResumeForm";
 
 const Index = () => {
   const handleSubmit = (event) => {
@@ -8,22 +8,16 @@ const Index = () => {
   };
 
   return (
-    <form className="default-form" onSubmit={handleSubmit}>
       <div className="row">
         {/* Experience Section */}
         <div className="form-group col-lg-12 col-md-12">
-          <Experiences />
+          <ResumeForm />
         </div>
 
-        {/* Save Button */}
-        <div className="form-group col-lg-12 col-md-12">
-          <button type="submit" className="theme-btn btn-style-one">
-            Save
-          </button>
-        </div>
+   
       </div>
-      {/* End .row */}
-    </form>
+  
+
   );
 };
 
