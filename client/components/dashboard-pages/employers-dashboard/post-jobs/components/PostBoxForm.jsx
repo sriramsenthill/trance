@@ -182,8 +182,8 @@ const PostBoxForm = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/postJob",
-        formData
+        `${Config.BACKEND_URL}/postJob`,
+        formData,
       );
       if (response.status === 201) {
         console.log("Job posted successfully:", response.data);
@@ -211,8 +211,8 @@ const PostBoxForm = () => {
             <div key={field} className="form-group col-lg-12 col-md-12">
               <label>{fieldDisplayNames[field]}</label>
               {field === "jobDesc" ||
-              field === "keyRes" ||
-              field === "skills" ? (
+                field === "keyRes" ||
+                field === "skills" ? (
                 <textarea
                   name={field}
                   placeholder={`Enter ${fieldDisplayNames[field]}...`}

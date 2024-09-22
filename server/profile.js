@@ -38,6 +38,12 @@ const createProfile = async (req, res) => {
       }
     }
 
+    // Check if the userID already exists
+    const existingProfile = await MyProfile.findOne({ userID });
+    if (existingProfile) {
+      return res.status(400).json({ error: "Profile already exists for this userID" });
+    }
+
     // Create a new profile instance
     const newProfile = new MyProfile(req.body);
 
@@ -67,6 +73,7 @@ const createProfile = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 
 const getAllProfiles = async (req, res) => {
   try {

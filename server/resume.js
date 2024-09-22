@@ -37,6 +37,12 @@ const createResume = async (req, res) => {
       }
     }
 
+    // Check if a resume already exists for this userID
+    const existingResume = await Resume.findOne({ userID });
+    if (existingResume) {
+      return res.status(400).json({ error: "A resume has already been created for this userID" });
+    }
+
     // Create a new resume instance
     const newResume = new Resume({
       userID,
@@ -68,6 +74,7 @@ const createResume = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 
 // Function to get work experience and education from the resume
 const getResumeDetails = async (req, res) => {

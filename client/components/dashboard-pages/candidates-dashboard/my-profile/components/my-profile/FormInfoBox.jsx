@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { Config } from '../../../../../../config';
@@ -14,7 +14,7 @@ const FormInfoBox = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [formData, setFormData] = useState({
-    userID: session.user.userID,
+    userID: '', // Initialize as empty
     profileLogo: '',
     fullName: '',
     jobTitle: '',
@@ -41,15 +41,27 @@ const FormInfoBox = () => {
   const [errors, setErrors] = useState({});
 
 
+
+
+
+  // Update formData when session is available
+  useEffect(() => {
+    if (status === "authenticated") {
+      setFormData((prevData) => ({
+        ...prevData,
+        userID: session.user.userID, // Set userID once session is authenticated
+      }));
+    }
+  }, [session, status]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const response = await axios.post(`${Config.BACKEND_URL}/createProfile`, formData);
       if (response.status === 201) {
@@ -63,7 +75,8 @@ const FormInfoBox = () => {
       setSnackbarMessage('Error posting profile. Please try again.');
       setSnackbarOpen(true);
     }
-  }
+  };
+
 
 
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
-
+import { Config } from '../../../config';
 const RelatedJobs = () => {
   const [jobs, setJobs] = useState([]); // State to hold job data
   const [loading, setLoading] = useState(true);
@@ -10,7 +10,7 @@ const RelatedJobs = () => {
   // Function to fetch jobs from backend
   const fetchJobs = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/getAllJobs');
+      const response = await axios.get(`${Config.BACKEND_URL}/getAllJobs`);
       setJobs(response.data.slice(0, 4)); // Assuming response.data is an array of jobs
     } catch (err) {
       setError(err.message || 'Failed to fetch jobs');
