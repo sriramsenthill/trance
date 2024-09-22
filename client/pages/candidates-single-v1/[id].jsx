@@ -18,41 +18,40 @@ import { Config } from "../../config";
 
 const CandidateSingleDynamicV1 = () => {
   const router = useRouter();
-  const [candidate, setCandidates] = useState({});
-  const id = router.query.id;
+  const [candidate, setCandidate] = useState({});
+  const [resume, setResume] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  
+  const id = router.query.id;
 
   useEffect(() => {
-    const fetchProfileDetails = async () => {
-      if (!id) return; // If id is not available, do nothing
+      const fetchProfileDetails = async () => {
+          if (!id) return;
+          try {
+              const response = await axios.get(`${Config.BACKEND_URL}/profiles/${id}`);
+              setCandidate(response.data);
+          } catch (err) {
+              setError(err.message || 'Failed to fetch profile details');
+          }
+      };
 
-      try {
-        // Extract job ID from URL
-        const pathSegments = window.location.pathname.split('/');
-        const userID = parseInt(pathSegments[pathSegments.length - 1], 10); // Assuming the ID is the last segment
+      const fetchResumeDetails = async () => {
+          if (!id) return;
+          try {
+              const response = await axios.get(`${Config.BACKEND_URL}/resumes/${id}`);
+              setResume(response.data);
+          } catch (err) {
+              setError(err.message || 'Failed to fetch resume details');
+          }
+      };
 
-        if (isNaN(userID)) {
-          throw new Error('Invalid user ID format');
-        }
-
-        // Fetch job details from the backend
-        const response = await axios.get(`${Config.BACKEND_URL}/profiles/${userID}`);
-        setCandidates(response.data); // Set company data from response
-      } catch (err) {
-        setError(err.message || 'Failed to fetch profile details');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProfileDetails();
+      fetchProfileDetails();
+      fetchResumeDetails();
+      
   }, [id]);
 
-  if (loading) return <h1>Loading...</h1>;
-  if (error) return <h1>{error}</h1>;
-
+ 
 
   return (
     <>
@@ -118,6 +117,7 @@ const CandidateSingleDynamicV1 = () => {
             {/*  <!-- Candidate block Five --> */}
           </div>
         </div>
+
         {/* <!-- Upper Box --> */}
 
         <div className="candidate-detail-outer">
@@ -130,39 +130,60 @@ const CandidateSingleDynamicV1 = () => {
                     {candidate.description}
                   </p>
 
-
                   {/* <!-- Candidate Resume Start --> */}
-                  {candidateResume.map((resume) => (
-                    <div
-                      className={`resume-outer ${resume.themeColor}`}
-                      key={resume.id}
-                    >
-                      <div className="upper-title">
-                        <h4>{resume?.title}</h4>
-                      </div>
-
-                      {/* <!-- Start Resume BLock --> */}
-                      {resume?.blockList?.map((item) => (
-                        <div className="resume-block" key={item.id}>
-                          <div className="inner">
-                            <span className="name">{item.meta}</span>
-                            <div className="title-box">
-                              <div className="info-box">
-                                <h3>{item.name}</h3>
-                                <span>{item.industry}</span>
-                              </div>
-                              <div className="edit-box">
-                                <span className="year">{item.year}</span>
-                              </div>
-                            </div>
-                            <div className="text">{item.text}</div>
-                          </div>
+                  <div className="resume-outer">
+                
+                    {/* Education */}
+                    <div className="resume-block">
+                      <div className="inner">
+                        <div className="title-box">
+                          <h3>Education</h3>
                         </div>
-                      ))}
-
-                      {/* <!-- End Resume BLock --> */}
+                        <div style={{paddingLeft: "30px", paddingTop: "15px"}}>
+                          {resume.education && resume.education.map((edu, index) => (
+                            <div key={index} className="text">
+                              <div className="title-box">
+                                <div className="info-box">
+                                  <h3>{edu.courseName}</h3>
+                                </div>
+                                <div className="edit-box">
+                                  <span className="year">
+                                    {new Date(edu.instituteStart).getFullYear()} - {new Date(edu.instituteEnd).getFullYear()}
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="text">{edu.educationDesc}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     </div>
-                  ))}
+                    {/* Work Experience */}
+                    <div className="resume-block">
+                      <div className="inner">
+                        <div className="title-box">
+                          <h3>Work Experience</h3>
+                        </div>
+                        <div style={{paddingLeft: "30px", paddingTop: "15px"}}>
+                          {resume.workExperience && resume.workExperience.map((work, index) => (
+                            <div key={index} className="text">
+                              <div className="title-box">
+                                <div className="info-box">
+                                  <h3>{work.jobRole}</h3>
+                                </div>
+                                <div className="edit-box">
+                                  <span className="year">
+                                    {new Date(work.workStart).getFullYear()} - {new Date(work.workEnd).getFullYear()}
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="text">{work.experiencedesc}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   {/* <!-- Candidate Resume End --> */}
                 </div>
               </div>

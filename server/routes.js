@@ -2,7 +2,8 @@ const express = require("express");
 const { signInUser, registerUser, changePassword } = require("./auth");
 const { postJob, getJobById, getAllJobs, deleteJobs } = require("./postJob");
 const { createProfile, getAllProfiles, getProfileByID } = require("./profile");
-const { createResume } = require('./resume');
+const { createResume, getResumeDetails } = require('./resume');
+
 const router = express.Router();
 
 //auth
@@ -21,5 +22,7 @@ router.post("/createProfile", createProfile);
 router.post("/createResume", createResume);
 router.get('/profiles', getAllProfiles);
 router.get('/profiles/:userID', getProfileByID);
+router.get('/resumes/:userID', getResumeDetails);
+
 
 module.exports = router;

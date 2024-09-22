@@ -67,4 +67,32 @@ const createResume = async (req, res) => {
   }
 };
 
-module.exports = { createResume };
+// Function to get work experience and education from the resume
+const getResumeDetails = async (req, res) => {
+  try {
+    const userID = parseInt(req.params.userID, 10); // Convert jobId to an integer
+    console.log(userID);
+    // Find the resume by ID
+    const resume = await Resume.findOne({userID: userID});
+
+    if (!resume) {
+      return res.status(404).json({ error: "Resume not found" });
+    }
+
+    // Extract relevant details
+    const { education, workExperience } = resume;
+
+    res.status(201).json({
+      message: "Resume details retrieved successfully",
+      education,
+      workExperience,
+    });
+  } catch (error) {
+    console.error("Error in getResumeDetails:", error);
+
+    // Generic error handler
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = { createResume, getResumeDetails };
