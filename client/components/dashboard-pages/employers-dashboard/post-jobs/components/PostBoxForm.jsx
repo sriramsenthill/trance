@@ -36,7 +36,7 @@ const PostBoxForm = () => {
     companyName: "Company Name",
     jobTitle: "Job Title",
     jobDesc: "Job Description",
-    keyRes: "Key Responsibility",
+    keyRes: "Key Responsibilities",
     skills: "Skills",
     email: "Email",
     username: "Username",
@@ -85,7 +85,7 @@ const PostBoxForm = () => {
           messages: [
             {
               role: "user",
-              content: `Generate job details in JSON format with the following fields:
+              content: `Generate job details in JSON format with the following fields,elaborate keyres,jobdesc,skills in bullet points with line break ('\n'):
                 {
                   "companyName": "",
                   "jobTitle": "",
@@ -109,23 +109,51 @@ const PostBoxForm = () => {
                 Based on: ${userPromptData}`,
             },
           ],
-          model: "mixtral-8x7b-32768",
+          model: "llama3-groq-70b-8192-tool-use-preview",
         });
-
+  
         const generatedContent = completion.choices[0]?.message?.content || "";
         console.log("Generated Content:", generatedContent);
-
+  
         const jsonContent = extractJSONFromText(generatedContent);
         console.log("Extracted JSON:", jsonContent);
-
+  
         if (jsonContent) {
           try {
             const parsedData = JSON.parse(jsonContent);
             console.log("Parsed Data:", parsedData);
-
+  
             // Update form data with generated content
             setFormData((prevData) => {
               const updatedData = { ...prevData };
+  
+              // Check if keyRes is an array or a string
+              if (parsedData.keyRes) {
+                if (Array.isArray(parsedData.keyRes)) {
+                  updatedData.keyRes = parsedData.keyRes.join('\n');
+                } else if (typeof parsedData.keyRes === 'string') {
+                  updatedData.keyRes = parsedData.keyRes.split(',').join('\n');
+                }
+              }
+  
+              // Check if jobDesc is an array or a string
+              if (parsedData.jobDesc) {
+                if (Array.isArray(parsedData.jobDesc)) {
+                  updatedData.jobDesc = parsedData.jobDesc.join('\n');
+                } else if (typeof parsedData.jobDesc === 'string') {
+                  updatedData.jobDesc = parsedData.jobDesc.split(',').join('\n');
+                }
+              }
+  
+              // Check if skills is an array or a string
+              if (parsedData.skills) {
+                if (Array.isArray(parsedData.skills)) {
+                  updatedData.skills = parsedData.skills.join('\n');
+                } else if (typeof parsedData.skills === 'string') {
+                  updatedData.skills = parsedData.skills.split(',').join('\n');
+                }
+              }
+  
               for (const [key, value] of Object.entries(parsedData)) {
                 if (value !== "") {
                   updatedData[key] = value;
@@ -139,7 +167,7 @@ const PostBoxForm = () => {
         } else {
           console.error("No valid JSON found in the generated content");
         }
-
+  
         setIsGenerating(false);
       } catch (error) {
         console.error("Error generating job details:", error);
@@ -155,7 +183,7 @@ const PostBoxForm = () => {
     try {
       const response = await axios.post(
         "http://localhost:3000/postJob",
-        formData,
+        formData
       );
       if (response.status === 201) {
         console.log("Job posted successfully:", response.data);
@@ -190,6 +218,7 @@ const PostBoxForm = () => {
                   placeholder={`Enter ${fieldDisplayNames[field]}...`}
                   value={formData[field]}
                   onChange={handleInputChange}
+                  rows={5} // Adjust the rows attribute for better readability
                 ></textarea>
               ) : (
                 <input
@@ -197,8 +226,8 @@ const PostBoxForm = () => {
                     field === "email"
                       ? "email"
                       : field === "appDeadLine"
-                        ? "date"
-                        : "text"
+                      ? "date"
+                      : "text"
                   }
                   name={field}
                   style={{ width: "100%" }}
@@ -215,14 +244,11 @@ const PostBoxForm = () => {
             </div>
           ))}
 
-          <div className="form-group col-lg-12 col-md-12 text-right">
-            <button
-              type="submit"
-              className="theme-btn btn-style-one bordered-btn"
-            >
+<div className="form-group col-lg-12 col-md-12 text-right">
+            <button onClick={handleModalSubmit} className="theme-btn btn-style-one">
               Submit
             </button>
-          </div>
+        </div>
         </div>
       </form>
 
@@ -239,17 +265,19 @@ const PostBoxForm = () => {
             {/* Smaller font size for title */}
             <textarea
               className="input-box"
-              placeholder="Please provide the job requirements, basic details, and salary info."
+              placeholder="Please provide the job requirements, basic details, constants and salary info."
               value={userPromptData}
               onChange={(e) => setUserPromptData(e.target.value)}
             />
-            <button onClick={handleModalSubmit} className="bordered-btn">
+            <div className="form-group col-lg-12 col-md-12 text-right">
+            <button onClick={handleModalSubmit} className="theme-btn btn-style-one">
               Submit
             </button>
+        </div>
           </div>
         </div>
       )}
-
+      
       {/* Styles for modal */}
       <style jsx>{`
         .modal {
@@ -282,23 +310,27 @@ const PostBoxForm = () => {
 
         .close:hover,
         .close:focus {
-          color: red;
-          float: left;
+          color: black;
           text-decoration: none;
           cursor: pointer;
         }
 
-        .bordered-btn {
-          border-radius: 4px;
-          border-width: 1px;
-          border-color: #007bff;
-          border-style: solid;
-          background-color: #007bff;
-          color: white;
+        .input-box {
+          width: 100%;
+          height: 150px;
+          padding: 10px;
+          margin-bottom: 20px;
+          border-radius: 8px;
+          font-size: 14px;
+          border: 1px solid #ccc;
         }
 
-        .bordered-btn:hover {
-          background-color: #0056b3;
+        .bordered-btn {
+          padding: 10px 20px;
+          font-size: 16px;
+          border: 1px solid #000;
+          border-radius: 4px;
+          background-color: transparent;
           cursor: pointer;
         }
       `}</style>
