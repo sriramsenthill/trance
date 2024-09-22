@@ -2,10 +2,19 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { Config } from '../../../../../../config';
+import { useSession } from "next-auth/react";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const FormInfoBox = () => {
   const router = useRouter();
+  const { data: session, status } = useSession();
   const [formData, setFormData] = useState({
+    userID: session.user.userID,
     profileLogo: '',
     fullName: '',
     jobTitle: '',
@@ -27,8 +36,10 @@ const FormInfoBox = () => {
     completeAddress: '',
   });
 
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
   const [errors, setErrors] = useState({});
-  const [successMessage, setSuccessMessage] = useState('');
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,23 +47,24 @@ const FormInfoBox = () => {
   };
 
 
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-      try {
-        const response = await axios.post("http://localhost:3000/createProfile", formData);
-        if (response.status === 201) {
-          console.log('Profile posted successfully:', response.data);
-          setSuccessMessage('Profile posted successfully!');
-          // Redirect to home page after a short delay
-          setTimeout(() => router.push('/'), 2000);
-        }
-      } catch (error) {
-        console.error('Error posting profile:', error);
-        setSuccessMessage('Error posting profile. Please try again.');
+    try {
+      const response = await axios.post(`${Config.BACKEND_URL}/createProfile`, formData);
+      if (response.status === 201) {
+        console.log('Profile posted successfully:', response.data);
+        setSnackbarMessage("User Profile Created Successfully.");
+        setSnackbarOpen(true);
+        setTimeout(() => router.push('/'), 2000);
       }
+    } catch (error) {
+      console.error('Error posting profile:', error);
+      setSnackbarMessage('Error posting profile. Please try again.');
+      setSnackbarOpen(true);
     }
- 
+  }
+
 
 
   return (
@@ -162,61 +174,69 @@ const FormInfoBox = () => {
           <textarea name='description' placeholder='Job description...' required onChange={handleChange}></textarea>
         </div>
 
-         {/* LinkedIn */}
-         <div className='form-group col-lg-6 col-md-12'>
-            <label>LinkedIn Profile URL</label>
-            <input
-              type='text'
-              name='linkedin'
-              placeholder='https://linkedin.com/in/yourprofile'
-              required
-              onChange={handleChange}
-            />
-          </div>
+        {/* LinkedIn */}
+        <div className='form-group col-lg-6 col-md-12'>
+          <label>LinkedIn Profile URL</label>
+          <input
+            type='text'
+            name='linkedin'
+            placeholder='https://linkedin.com/in/yourprofile'
+            required
+            onChange={handleChange}
+          />
+        </div>
 
-         {/* Country */}
-         <div className='form-group col-lg-6 col-md-12'>
-            <label>Country</label>
-            <input
-              type='text'
-              name='country'
-              placeholder='Country'
-              required
-              onChange={handleChange}
-            />
-          </div>
+        {/* Country */}
+        <div className='form-group col-lg-6 col-md-12'>
+          <label>Country</label>
+          <input
+            type='text'
+            name='country'
+            placeholder='Country'
+            required
+            onChange={handleChange}
+          />
+        </div>
 
-         {/* City */}
-         <div className='form-group col-lg-6 col-md-12'>
-            <label>City</label>
-            <input
-              type='text'
-              name='city'
-              placeholder='City'
-              required
-              onChange={handleChange}
-            />
-          </div>
+        {/* City */}
+        <div className='form-group col-lg-6 col-md-12'>
+          <label>City</label>
+          <input
+            type='text'
+            name='city'
+            placeholder='City'
+            required
+            onChange={handleChange}
+          />
+        </div>
 
-         {/* Complete Address */}
-              	<div className='form-group col-lg-6 col-md-12'>
-              	<label>Complete Address</label>
-              	<input
-              		type='text'
-              		name='completeAddress'
-              		placeholder='123 Main St, Apt #4B'
-              		required
-              		onChange={handleChange}
-              	/>
-              	</div>
+        {/* Complete Address */}
+        <div className='form-group col-lg-6 col-md-12'>
+          <label>Complete Address</label>
+          <input
+            type='text'
+            name='completeAddress'
+            placeholder='123 Main St, Apt #4B'
+            required
+            onChange={handleChange}
+          />
+        </div>
 
-         {/* Submit Button */}
-          	<div className='form-group col-lg-6 col-md-12'>
-              	<button type='submit' className='theme-btn btn-style-one'>Submit</button>
-            </div> 
-       </div> 
-     </form> 
-   ); 
-  };
+        {/* Submit Button */}
+        <div className='form-group col-lg-6 col-md-12'>
+          <button type='submit' className='theme-btn btn-style-one'>Submit</button>
+        </div>
+
+        {/* Snackbar for notifications */}
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={6000}
+          onClose={() => setSnackbarOpen(false)}
+          message={snackbarMessage}
+        />
+      </div>
+    </form>
+  );
+};
 
 export default FormInfoBox;

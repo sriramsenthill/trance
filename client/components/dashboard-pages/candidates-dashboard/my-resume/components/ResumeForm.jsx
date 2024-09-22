@@ -2,10 +2,22 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { FaPlus, FaTrash } from 'react-icons/fa';
+import { Config } from '../../../../../config';
+import { useSession } from "next-auth/react";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const ResumeForm = () => {
   const router = useRouter();
+  const { data: session, status } = useSession();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
   const [formData, setFormData] = useState({
+    userID: session.user.userID,
     selectcv: '',
     desc: '',
     workExperience: [{ companyName: '', jobRole: '', experiencedesc: '', workStart: '', workEnd: '', YOE: '' }],
@@ -15,7 +27,6 @@ const ResumeForm = () => {
   });
 
   const [errors, setErrors] = useState({});
-  const [successMessage, setSuccessMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -66,13 +77,14 @@ const ResumeForm = () => {
       const response = await axios.post("http://localhost:3000/createResume", formData);
       if (response.status === 201) {
         console.log('Resume created successfully:', response.data);
-        setSuccessMessage('Resume created successfully!');
-        // Redirect to home page after a short delay
+        setSnackbarMessage("resume created successfully.");
+        setSnackbarOpen(true);
         setTimeout(() => router.push('/'), 2000);
       }
     } catch (error) {
       console.error('Error creating resume:', error);
-      setSuccessMessage('Error creating resume. Please try again.');
+      setSnackbarMessage("Failed to create resume. Please try again.");
+      setSnackbarOpen(true);
     }
   };
 
@@ -256,7 +268,12 @@ const ResumeForm = () => {
         </div>
 
         {/* Success Message */}
-        {successMessage && <div className="success-message">{successMessage}</div>}
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={6000}
+          onClose={() => setSnackbarOpen(false)}
+          message={snackbarMessage}
+        />
       </div>
     </form>
   );

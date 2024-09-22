@@ -3,6 +3,7 @@ const Resume = require("./models/resume.js");
 const createResume = async (req, res) => {
   try {
     const {
+      userID,
       selectcv,
       desc,
       education, // Expecting an array of education objects
@@ -38,6 +39,7 @@ const createResume = async (req, res) => {
 
     // Create a new resume instance
     const newResume = new Resume({
+      userID,
       selectcv,
       desc,
       education,
@@ -73,7 +75,7 @@ const getResumeDetails = async (req, res) => {
     const userID = parseInt(req.params.userID, 10); // Convert jobId to an integer
     console.log(userID);
     // Find the resume by ID
-    const resume = await Resume.findOne({userID: userID});
+    const resume = await Resume.findOne({ userID: userID });
 
     if (!resume) {
       return res.status(404).json({ error: "Resume not found" });

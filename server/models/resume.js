@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 // Define the schema for User (Candidate or Employer)
 const resumeschema = new mongoose.Schema({
+    userID: {
+        type: Number,
+        unique: true,
+    },
     selectcv: {
         type: String,
     },
