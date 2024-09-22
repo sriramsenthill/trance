@@ -74,7 +74,7 @@ const ResumeForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3000/createResume", formData);
+      const response = await axios.post(`${Config.BACKEND_URL}/createResume`, formData);
       if (response.status === 201) {
         console.log('Resume created successfully:', response.data);
         setSnackbarMessage("resume created successfully.");

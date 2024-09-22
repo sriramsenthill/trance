@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useRouter } from 'next/router'; // Import useRouter from next/router
+import { Config } from "../../../../config";
 
 const FormContent2 = () => {
   const [email, setEmail] = useState("");
@@ -13,7 +14,7 @@ const FormContent2 = () => {
     e.preventDefault(); // Prevent default form submission
 
     try {
-      const response = await axios.post("http://localhost:3000/register", {
+      const response = await axios.post(`${Config.BACKEND_URL}/register`, {
         email,
         password,
         role,
