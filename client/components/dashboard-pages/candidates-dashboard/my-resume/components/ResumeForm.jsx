@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
+import React from 'react';
 import { useRouter } from 'next/router';
-import { FaPlus, FaTrash } from 'react-icons/fa';
 import { Config } from '../../../../../config';
 import { useSession } from "next-auth/react";
 import Snackbar from '@mui/material/Snackbar';
@@ -17,7 +17,7 @@ const ResumeForm = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [formData, setFormData] = useState({
-    userID: session.user.userID,
+    userID: '',
     selectcv: '',
     desc: '',
     workExperience: [{ companyName: '', jobRole: '', experiencedesc: '', workStart: '', workEnd: '', YOE: '' }],
@@ -27,6 +27,16 @@ const ResumeForm = () => {
   });
 
   const [errors, setErrors] = useState({});
+
+  // Update formData when session is available
+  useEffect(() => {
+    if (status === "authenticated") {
+      setFormData((prevData) => ({
+        ...prevData,
+        userID: session.user.userID, // Set userID once session is authenticated
+      }));
+    }
+  }, [session, status]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -87,6 +97,7 @@ const ResumeForm = () => {
       setSnackbarOpen(true);
     }
   };
+
 
   return (
     <form onSubmit={handleSubmit} className="default-form">
@@ -168,13 +179,13 @@ const ResumeForm = () => {
               />
               {formData.workExperience.length > 1 && (
                 <button style={{ marginBottom: "10px", float: 'right', cursor: 'pointer' }} type="button" onClick={() => removeWorkExperience(index)} className="remove-btn">
-                  <FaTrash /> Remove
+                  Remove
                 </button>
               )}
             </div>
           ))}
           <button style={{ float: 'right', paddingRight: "10px", cursor: 'pointer' }} type="button" onClick={addWorkExperience} className="add-btn">
-            <FaPlus /> Add Work Experience
+            Add Work Experience
           </button>
         </div>
 
@@ -230,13 +241,13 @@ const ResumeForm = () => {
               />
               {formData.education.length > 1 && (
                 <button style={{ marginBottom: "10px", float: 'right', cursor: 'pointer' }} type="button" onClick={() => removeEducation(index)} className="remove-btn">
-                  <FaTrash /> Remove
+                  Remove
                 </button>
               )}
             </div>
           ))}
           <button style={{ marginBottom: "10px", float: 'right', cursor: 'pointer' }} type="button" onClick={addEducation} className="add-btn">
-            <FaPlus /> Add Education
+            Add Education
           </button>
         </div>
 

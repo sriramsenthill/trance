@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
-
+import { Config } from '../../../config';
 const RelatedJobs = () => {
   const [jobs, setJobs] = useState([]); // State to hold job data
   const [loading, setLoading] = useState(true);
