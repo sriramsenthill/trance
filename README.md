@@ -5,29 +5,25 @@ Trance is an innovative recruiting platform designed to streamline the hiring pr
 
 ## Key Features
 
-- **Intelligent Candidate Matching**: Our AI algorithms analyze candidate profiles and job descriptions to identify the best matches based on skills, experience, and cultural fit.
+- **Intuitive and User-Friendly**: Enjoy a sleek, easy-to-navigate interface that simplifies the recruitment process for both candidates and recruiters. With a clean design and straightforward functionality, finding the right candidates or applying for jobs has never been easier.
   
-  ![Intelligent Candidate Matching](trance/images/1.png) <!-- Replace with actual path to image -->
+  ![Intuitive and User-Friendly](images/6.png)
 
 - **Automated Applicant Tracking**: Streamline the application process with automated tracking and filtering, saving you time and effort.
   
-  ![Automated Applicant Tracking](screenshots/automated_tracking.png) <!-- Replace with actual path to image -->
+  ![Automated Applicant Tracking](images/2.png)
 
 - **Engaging Candidate Experience**: Provide a seamless and positive candidate experience with personalized communication and easy-to-use tools.
   
-  ![Engaging Candidate Experience](screenshots/candidate_experience.png) <!-- Replace with actual path to image -->
+  ![Engaging Candidate Experience](images/3.png)
 
 - **Data-Driven Insights**: Gain valuable insights into your hiring process with detailed analytics and reporting, helping you make informed decisions.
   
-  ![Data-Driven Insights](screenshots/data_insights.png) <!-- Replace with actual path to image -->
-
-- **Integration with Existing Systems**: Easily integrate Trance with your HR systems and tools for a streamlined workflow.
-  
-  ![Integration with Existing Systems](screenshots/integration_systems.png) <!-- Replace with actual path to image -->
+  ![Data-Driven Insights](images/5.png)
 
 - **AI-Assisted Form Filling**: Our intelligent AI assistant helps recruiters fill forms automatically with prompts based on different job roles, reducing manual data entry and ensuring accuracy.
   
-  ![AI-Assisted Form Filling](screenshots/ai_form_filling.png) <!-- Replace with actual path to image -->
+  ![AI-Assisted Form Filling](images/1.png)
 
 ## Installation
 
@@ -35,16 +31,21 @@ To install the project, clone the repository:
 
 ```bash
 git clone https://github.com/sriramsenthill/trance.git
-
+```
 ## Setting Up Your MERN Stack Project: Trance
 
 ### Prerequisites
 Before we begin, ensure you have the following installed:
-- **Node.js and npm**: Download and install the latest version from [nodejs.org](https://nodejs.org/en).
-- **Git**: Download and install Git from [git-scm.com](https://git-scm.com/downloads).
-- **A code editor**: We recommend Visual Studio Code, but you can use any editor of your choice.
-- **A terminal or command prompt**: This is where you'll execute most of the commands.
-```
+
+- **Node.js and npm**: Download and install the latest version from [nodejs.org](https://nodejs.org/en). Note that npm (Node Package Manager) is included with Node.js installation and is essential for managing project dependencies.
+  
+- **Git**: Download and install Git from [git-scm.com](https://git-scm.com/downloads). Git is necessary for version control and cloning the project repository.
+
+- **MongoDB**: Ensure you have MongoDB installed locally or set up an account with a cloud provider like MongoDB Atlas. This database is crucial for storing application data.
+
+- **A Code Editor**: We recommend Visual Studio Code, but you can use any editor of your choice that supports JavaScript development.
+
+- **A Terminal or Command Prompt**: This is where you'll execute most of the commands during setup and development.
 
 ### 1. Create a New Project Directory
 Open your terminal and navigate to the desired location for your project:
