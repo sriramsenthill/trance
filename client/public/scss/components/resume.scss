@@ -328,9 +328,9 @@
 
 .resume-block .inner {
   position: relative;
-  padding-left: 60px;
+  padding-left: 30px;
   z-index: 1;
-  padding-bottom: 60px;
+  padding-bottom: 30px;
 }
 
 .resume-block .inner:before {
@@ -375,7 +375,7 @@
   -webkit-box-align: start;
   -ms-flex-align: start;
   align-items: flex-start;
-  margin-bottom: 30px;
+  top: 3px;
 }
 
 .resume-block .info-box {

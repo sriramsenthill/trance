@@ -1,6 +1,7 @@
-import axios from "axios";
-import NextAuth from "next-auth/next";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import axios from "axios";
+import { Config } from "../../../config";
 
 export const authOptions = {
     providers: [
@@ -14,8 +15,7 @@ export const authOptions = {
                 const { email, password } = credentials;
 
                 try {
-                    // Make a POST request to the backend route for credential validation
-                    const response = await axios.post("http://localhost:3000/signIn", {
+                    const response = await axios.post(`${Config.BACKEND_URL}/signIn`, {
                         email,
                         password
                     });
@@ -23,12 +23,11 @@ export const authOptions = {
                     const user = response.data;
 
                     // Check if user data is valid
-                    if (!user) {
+                    if (!user || !user.userID) {
                         throw new Error("Invalid credentials");
                     }
 
-                    // Return the user data
-                    return user;
+                    return user; // Ensure this includes userID in the returned object
                 } catch (error) {
                     console.error("Error during authorization:", error);
                     throw new Error("Authorization failed");
@@ -39,12 +38,12 @@ export const authOptions = {
     callbacks: {
         async jwt({ token, user }) {
             if (user) {
-                token.user = user; // Attach user info to token
+                token.userID = user.userID; // Attach userID to token
             }
             return token;
         },
         async session({ session, token }) {
-            session.user = token.user; // Attach user info to session
+            session.user.userID = token.userID; // Attach userID to session
             return session;
         },
     },

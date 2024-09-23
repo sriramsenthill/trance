@@ -7,24 +7,51 @@ import DefaulHeader from "../../components/header/DefaulHeader";
 import MobileMenu from "../../components/header/MobileMenu";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import axios from "axios";
 import Seo from "../../components/common/Seo";
 import Contact from "../../components/candidates-single-pages/shared-components/Contact";
 import GalleryBox from "../../components/candidates-single-pages/shared-components/GalleryBox";
 import Social from "../../components/candidates-single-pages/social/Social";
 import JobSkills from "../../components/candidates-single-pages/shared-components/JobSkills";
 import AboutVideo from "../../components/candidates-single-pages/shared-components/AboutVideo";
+import { Config } from "../../config";
 
 const CandidateSingleDynamicV1 = () => {
   const router = useRouter();
-  const [candidate, setCandidates] = useState({});
+  const [candidate, setCandidate] = useState({});
+  const [resume, setResume] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
   const id = router.query.id;
 
   useEffect(() => {
-    if (!id) <h1>Loading...</h1>;
-    else setCandidates(candidates.find((item) => item.id == id));
+      const fetchProfileDetails = async () => {
+          if (!id) return;
+          try {
+              const response = await axios.get(`${Config.BACKEND_URL}/profiles/${id}`);
+              setCandidate(response.data);
+          } catch (err) {
+              setError(err.message || 'Failed to fetch profile details');
+          }
+      };
 
-    return () => {};
+      const fetchResumeDetails = async () => {
+          if (!id) return;
+          try {
+              const response = await axios.get(`${Config.BACKEND_URL}/resumes/${id}`);
+              setResume(response.data);
+          } catch (err) {
+              setError(err.message || 'Failed to fetch resume details');
+          }
+      };
+
+      fetchProfileDetails();
+      fetchResumeDetails();
+      
   }, [id]);
+
+ 
 
   return (
     <>
@@ -50,19 +77,15 @@ const CandidateSingleDynamicV1 = () => {
               <div className="inner-box">
                 <div className="content">
                   <figure className="image">
-                    <img src={candidate?.avatar} alt="avatar" />
+                    <img style={{ scale: "102%" }} src="/images/profileLogo.png" alt="avatar" />
                   </figure>
-                  <h4 className="name">{candidate?.name}</h4>
+                  <h4 className="name">{candidate?.fullName}</h4>
 
                   <ul className="candidate-info">
-                    <li className="designation">{candidate?.designation}</li>
+                    <li className="designation">{candidate?.jobTitle}</li>
                     <li>
                       <span className="icon flaticon-map-locator"></span>
-                      {candidate?.location}
-                    </li>
-                    <li>
-                      <span className="icon flaticon-money"></span> $
-                      {candidate?.hourlyRate} / hour
+                      {candidate?.city}
                     </li>
                     <li>
                       <span className="icon flaticon-clock"></span> Member
@@ -94,6 +117,7 @@ const CandidateSingleDynamicV1 = () => {
             {/*  <!-- Candidate block Five --> */}
           </div>
         </div>
+
         {/* <!-- Upper Box --> */}
 
         <div className="candidate-detail-outer">
@@ -101,62 +125,65 @@ const CandidateSingleDynamicV1 = () => {
             <div className="row">
               <div className="content-column col-lg-8 col-md-12 col-sm-12">
                 <div className="job-detail">
-                  <div className="video-outer">
-                    <h4>Candidates About</h4>
-                    <AboutVideo />
-                  </div>
                   {/* <!-- About Video Box --> */}
                   <p>
-                    Hello my name is Nicole Wells and web developer from
-                    Portland. In pharetra orci dignissim, blandit mi semper,
-                    ultricies diam. Suspendisse malesuada suscipit nunc non
-                    volutpat. Sed porta nulla id orci laoreet tempor non
-                    consequat enim. Sed vitae aliquam velit. Aliquam ante erat,
-                    blandit at pretium et, accumsan ac est. Integer vehicula
-                    rhoncus molestie. Morbi ornare ipsum sed sem condimentum, et
-                    pulvinar tortor luctus. Suspendisse condimentum lorem ut
-                    elementum aliquam.
+                    {candidate.description}
                   </p>
 
-                  {/* <!-- Portfolio --> */}
-                  <div className="portfolio-outer">
-                    <div className="row">
-                      <GalleryBox />
+                  {/* <!-- Candidate Resume Start --> */}
+                  <div className="resume-outer">
+                
+                    {/* Education */}
+                    <div className="resume-block">
+                      <div className="inner">
+                        <div className="title-box">
+                          <h3>Education</h3>
+                        </div>
+                        <div style={{paddingLeft: "30px", paddingTop: "15px"}}>
+                          {resume.education && resume.education.map((edu, index) => (
+                            <div key={index} className="text">
+                              <div className="title-box">
+                                <div className="info-box">
+                                  <h3>{edu.courseName}</h3>
+                                </div>
+                                <div className="edit-box">
+                                  <span className="year">
+                                    {new Date(edu.instituteStart).getFullYear()} - {new Date(edu.instituteEnd).getFullYear()}
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="text">{edu.educationDesc}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    {/* Work Experience */}
+                    <div className="resume-block">
+                      <div className="inner">
+                        <div className="title-box">
+                          <h3>Work Experience</h3>
+                        </div>
+                        <div style={{paddingLeft: "30px", paddingTop: "15px"}}>
+                          {resume.workExperience && resume.workExperience.map((work, index) => (
+                            <div key={index} className="text">
+                              <div className="title-box">
+                                <div className="info-box">
+                                  <h3>{work.jobRole}</h3>
+                                </div>
+                                <div className="edit-box">
+                                  <span className="year">
+                                    {new Date(work.workStart).getFullYear()} - {new Date(work.workEnd).getFullYear()}
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="text">{work.experiencedesc}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
-
-                  {/* <!-- Candidate Resume Start --> */}
-                  {candidateResume.map((resume) => (
-                    <div
-                      className={`resume-outer ${resume.themeColor}`}
-                      key={resume.id}
-                    >
-                      <div className="upper-title">
-                        <h4>{resume?.title}</h4>
-                      </div>
-
-                      {/* <!-- Start Resume BLock --> */}
-                      {resume?.blockList?.map((item) => (
-                        <div className="resume-block" key={item.id}>
-                          <div className="inner">
-                            <span className="name">{item.meta}</span>
-                            <div className="title-box">
-                              <div className="info-box">
-                                <h3>{item.name}</h3>
-                                <span>{item.industry}</span>
-                              </div>
-                              <div className="edit-box">
-                                <span className="year">{item.year}</span>
-                              </div>
-                            </div>
-                            <div className="text">{item.text}</div>
-                          </div>
-                        </div>
-                      ))}
-
-                      {/* <!-- End Resume BLock --> */}
-                    </div>
-                  ))}
                   {/* <!-- Candidate Resume End --> */}
                 </div>
               </div>
@@ -167,52 +194,47 @@ const CandidateSingleDynamicV1 = () => {
                   <div className="sidebar-widget">
                     <div className="widget-content">
                       <ul className="job-overview">
-                      <li>
-                          <i className="icon icon-calendar"></i>
-                          <h5>Applied on:</h5>
-                          <span>08-08-2023</span>
-                        </li>
 
                         <li>
                           <i className="icon icon-calendar"></i>
                           <h5>Experience:</h5>
-                          <span>0-2 Years</span>
+                          <span>{candidate.experience}</span>
                         </li>
 
                         <li>
                           <i className="icon icon-expiry"></i>
                           <h5>Age:</h5>
-                          <span>28-33 Years</span>
+                          <span>{candidate.age}</span>
                         </li>
 
                         <li>
                           <i className="icon icon-rate"></i>
                           <h5>Current Salary:</h5>
-                          <span>11K - 15K</span>
+                          <span>{candidate.currentSalary}</span>
                         </li>
 
                         <li>
                           <i className="icon icon-salary"></i>
                           <h5>Expected Salary:</h5>
-                          <span>26K - 30K</span>
+                          <span>{candidate.expectedSalary}</span>
                         </li>
 
                         <li>
                           <i className="icon icon-user-2"></i>
                           <h5>Gender:</h5>
-                          <span>Female</span>
+                          <span>{candidate.gender}</span>
                         </li>
 
                         <li>
                           <i className="icon icon-language"></i>
                           <h5>Language:</h5>
-                          <span>English, German, Spanish</span>
+                          <span>{candidate.languages}</span>
                         </li>
 
                         <li>
                           <i className="icon icon-degree"></i>
                           <h5>Education Level:</h5>
-                          <span>Master Degree</span>
+                          <span>{candidate.educationLevels}</span>
                         </li>
                       </ul>
                     </div>

@@ -1,26 +1,57 @@
+import React, { useState, useEffect } from 'react';
 import Link from "next/link";
-import jobs from "../../../../../data/job-featured.js";
+import axios from 'axios';
+import { Config } from '../../../../../config';
 
 const JobListingsTable = () => {
+  const [jobs, setJobs] = useState([]);
+
+  // Function to fetch jobs
+  const fetchJobs = async () => {
+    try {
+      const response = await axios.get(`${Config.BACKEND_URL}/getAllJobs`);
+      setJobs(response.data);
+    } catch (error) {
+      console.error('Error fetching jobs:', error);
+    }
+  };
+
+  // Fetch jobs on component mount
+  useEffect(() => {
+    fetchJobs();
+  }, []);
+
+  // Function to handle job deletion
+  const handleDeleteJob = async (jobId) => {
+    try {
+      await axios.delete(`${Config.BACKEND_URL}/jobs/${jobId}`);
+      // Refresh the job listings after deletion
+      fetchJobs();
+    } catch (error) {
+      console.error('Error deleting job:', error);
+    }
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString(); // Format as MM/DD/YYYY
+  };
+
   return (
     <div className="tabs-box">
       <div className="widget-title">
         <h4>My Job Listings</h4>
-
         <div className="chosen-outer">
-          {/* <!--Tabs Box--> */}
           <select className="chosen-single form-select">
             <option>Last 6 Months</option>
             <option>Last 12 Months</option>
             <option>Last 16 Months</option>
             <option>Last 24 Months</option>
-            <option>Last 5 year</option>
+            <option>Last 5 years</option>
           </select>
         </div>
       </div>
-      {/* End filter top bar */}
 
-      {/* Start table widget content */}
       <div className="widget-content">
         <div className="table-outer">
           <table className="default-table manage-job-table">
@@ -28,36 +59,36 @@ const JobListingsTable = () => {
               <tr>
                 <th>Title</th>
                 <th>Applications</th>
-                <th>Created & Expired</th>
+                <th>Created</th>
+                <th>Deadline Date</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
 
             <tbody>
-              {jobs.slice(0, 4).map((item) => (
-                <tr key={item.id}>
+              {jobs.map((job, index) => (
+                <tr key={index}>
                   <td>
-                    {/* <!-- Job Block --> */}
                     <div className="job-block">
                       <div className="inner-box">
                         <div className="content">
                           <span className="company-logo">
-                            <img src={item.logo} alt="logo" />
+                            <img src="/images/hexaware.png" alt="logo" />
                           </span>
                           <h4>
-                            <Link href={`/job-single-v3/${item.id}`}>
-                              {item.jobTitle}
+                            <Link href={`/job/${job.jobId}`}>
+                              {job.jobTitle}
                             </Link>
                           </h4>
                           <ul className="job-info">
                             <li>
                               <span className="icon flaticon-briefcase"></span>
-                              Segment
+                              {job.companyName}
                             </li>
                             <li>
                               <span className="icon flaticon-map-locator"></span>
-                              London, UK
+                              {job.city}
                             </li>
                           </ul>
                         </div>
@@ -68,28 +99,38 @@ const JobListingsTable = () => {
                     <a href="#">3+ Applied</a>
                   </td>
                   <td>
-                    October 27, 2017 <br />
-                    April 25, 2011
+                    <br />
+                    {formatDate(job.datePosted)} 
+                    </td>
+                  <td>
+                    <br />
+                   {job.appDeadLine}
                   </td>
                   <td className="status">Active</td>
                   <td>
                     <div className="option-box">
                       <ul className="option-list">
+                        {/* View Application Button */}
                         <li>
-                          <button data-text="View Aplication">
-                            <span className="la la-eye"></span>
+                          <button data-text="View Application">
+                          <Link href={`/job/${job.jobId}`}>
+                          <span className="la la-eye"></span>
+                          </Link>
+                       
                           </button>
                         </li>
+
+
+                        {/* Delete Application Button */}
                         <li>
-                          <button data-text="Reject Aplication">
-                            <span className="la la-pencil"></span>
-                          </button>
-                        </li>
-                        <li>
-                          <button data-text="Delete Aplication">
+                          <button 
+                            data-text="Delete Application" 
+                            onClick={() => handleDeleteJob(job.jobId)} // Call handleDeleteJob with jobId
+                          >
                             <span className="la la-trash"></span>
                           </button>
                         </li>
+
                       </ul>
                     </div>
                   </td>
@@ -99,7 +140,6 @@ const JobListingsTable = () => {
           </table>
         </div>
       </div>
-      {/* End table widget content */}
     </div>
   );
 };

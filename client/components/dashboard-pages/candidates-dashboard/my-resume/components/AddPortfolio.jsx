@@ -1,20 +1,8 @@
 const AddPortfolio = () => {
   return (
-    <div className="uploading-outer">
-      <div className="uploadButton">
-        <input
-          className="uploadButton-input"
-          type="file"
-          name="attachments[]"
-          accept="image/*, application/pdf"
-          id="upload"
-          multiple
-        />
-        <label className="uploadButton-button ripple-effect" htmlFor="upload">
-          Add Portfolio
-        </label>
-        <span className="uploadButton-file-name"></span>
-      </div>
+    <div className="form-group col-lg-6 col-md-12">
+      <label>Portfolio</label>
+      <input type="text" name="name" placeholder="Add Portfolio Link" required />
     </div>
   );
 };

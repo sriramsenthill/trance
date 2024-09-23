@@ -110,7 +110,7 @@ const index = () => {
             {/* <!-- Image Column --> */}
             <div className="image-column col-lg-6 col-md-12 col-sm-12">
               <figure className="image">
-                <img src="/images/resource/image-5.png" alt="resource" />
+                <img src="/images/resource/topJob.jpg" style={{ borderRadius: "5%" }} alt="resource" />
               </figure>
             </div>
 
@@ -120,8 +120,8 @@ const index = () => {
                 <div className="sec-title">
                   <h2>Top Jobs For You</h2>
                   <div className="text">
-                  Discover exciting career opportunities tailored to your skills and interests.
-                   Our curated list of top jobs spans various industries and experience levels.
+                    Discover exciting career opportunities tailored to your skills and interests.
+                    Our curated list of top jobs spans various industries and experience levels.
                   </div>
                 </div>
                 {/* End .sec-title */}
@@ -137,9 +137,9 @@ const index = () => {
       <section className="candidates-section alternate">
         <div className="auto-container">
           <div className="sec-title">
-            <h2>Featured Candidates</h2>
+            <h2>Candidates on Our Platform</h2>
             <div className="text">
-              Lorem ipsum dolor sit amet elit, sed do eiusmod tempor
+              Discover a diverse pool of talented candidates ready to contribute to your team's success. Our platform connects you with skilled professionals across various industries, each bringing unique experiences and expertise.
             </div>
           </div>
           {/* End .sec-title */}
@@ -159,7 +159,7 @@ const index = () => {
         <div className="auto-container">
           <div className="sec-title text-center">
             <h2>Browse Jobs</h2>
-            
+
           </div>
           {/* End sec-title */}
 

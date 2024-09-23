@@ -7,13 +7,6 @@ module.exports = [
     active: "active",
   },
   {
-    id: 2,
-    name: "Company Profile",
-    icon: "la-user-tie",
-    routePath: "/employers-dashboard/company-profile",
-    active: "",
-  },
-  {
     id: 3,
     name: "Post a New Job",
     icon: "la-paper-plane",
@@ -39,27 +32,6 @@ module.exports = [
     name: "Shortlisted Resumes",
     icon: "la-bookmark-o",
     routePath: "/employers-dashboard/shortlisted-resumes",
-    active: "",
-  },
-  {
-    id: 7,
-    name: "Packages",
-    icon: "la-box",
-    routePath: "/employers-dashboard/packages",
-    active: "",
-  },
-  {
-    id: 8,
-    name: "Messages",
-    icon: "la-comment-o",
-    routePath: "/employers-dashboard/messages",
-    active: "",
-  },
-  {
-    id: 9,
-    name: "Resume Alerts",
-    icon: "la-bell",
-    routePath: "/employers-dashboard/resume-alerts",
     active: "",
   },
   {

@@ -19,7 +19,7 @@ export default function Document() {
         />
         <meta
           name="description"
-          content="Superio - Job Borad React NextJS Template"
+          content="Trance - Smart Recruiting Platform"
         />
         <meta name="ibthemes" content="ATFN" />
 

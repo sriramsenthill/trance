@@ -16,7 +16,7 @@ const CompanyInfo = () => {
         Phone: <span>123 456 7890</span>
       </li>
       <li>
-        Email: <span>info@joio.com</span>
+        Email: <span>info@hexaware.com</span>
       </li>
       <li>
         Location: <span>London, UK</span>
