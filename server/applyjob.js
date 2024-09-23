@@ -2,7 +2,7 @@ const JobApply = require("./models/apply");
 const Job = require("./models/job"); // Import Job model
 
 const applyJob = async (req, res) => {
-  let newJobApplication; // Declare the variable outside of the blocks
+  let newJobApplication;
 
   try {
     const { userID, jobID } = req.body;
@@ -35,11 +35,25 @@ const applyJob = async (req, res) => {
       // Create a new job application instance with an array of jobIDs
       newJobApplication = new JobApply({
         userID,
-        jobIDs: [{ jobId: jobID, isApplied: true }], // Initialize with the first job ID
+        jobIDs: [{ jobId: jobID, isApplied: true }],
       });
 
       // Save the new job application to the database
       await newJobApplication.save();
+    }
+
+    // Find the job in the job database
+    const job = await Job.findOne({ jobId: jobID });
+
+    if (!job) {
+      return res.status(404).json({ error: "Job not found" });
+    }
+
+    // Check if the userID already exists in the userIDs array
+    if (!job.userIDs.includes(userID)) {
+      // Append the userID to the userIDs array
+      job.userIDs.push(userID);
+      await job.save();
     }
 
     res.status(201).json({

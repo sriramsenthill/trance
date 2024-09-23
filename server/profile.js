@@ -74,7 +74,6 @@ const createProfile = async (req, res) => {
   }
 };
 
-
 const getAllProfiles = async (req, res) => {
   try {
     // Retrieve all profiles from the database

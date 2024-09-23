@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 // Define the schema for User (Candidate or Employer)
 const jobSchema = new mongoose.Schema({
+    userIDs: {
+        type: [Number], // or type: [String] if userIDs are stored as strings
+        default: [],    // Initialize with an empty array
+    },
     jobId: { type: Number, unique: true },
     companyName: {
         type: String,
