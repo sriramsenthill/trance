@@ -1,3 +1,3 @@
 export const Config = {
-    BACKEND_URL: 'http://localhost:3000', // Default fallback
+    BACKEND_URL: 'https://trancebackend.zapto.org', // Default fallback
 };
