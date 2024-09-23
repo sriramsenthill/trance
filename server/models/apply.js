@@ -1,19 +1,24 @@
 const mongoose = require("mongoose");
 
-// Define the schema for User (Candidate or Employer)
-const apply = new mongoose.Schema({
+// Define the schema for Job Applications
+const jobApplicationSchema = new mongoose.Schema({
     userID: {
         type: Number,
+        required: [true, "User ID is required"], // Make userID required
     },
-    jobID: {
-        type: Number,
-    },
-    isApplied: {
-        type: Boolean,
-    }
-});
+    jobIDs: [{
+        jobId: {
+            type: Number,
+            required: [true, "Job ID is required"], // Make jobId required
+        },
+        isApplied: {
+            type: Boolean,
+            default: true, // Default to true when a job is applied for
+        }
+    }],
+}, { timestamps: true }); // Enable createdAt and updatedAt timestamps
 
-// Create the User model
-const jobApply = mongoose.model("jobapply", apply);
+// Create the Job Application model
+const jobApply = mongoose.model("jobapply", jobApplicationSchema);
 
 module.exports = jobApply;

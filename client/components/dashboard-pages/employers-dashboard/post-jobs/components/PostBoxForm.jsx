@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { Groq } from "groq-sdk";
-
+import { Config } from "../../../../../config";
 const groq = new Groq({
   apiKey: "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",
   dangerouslyAllowBrowser: true,
@@ -111,22 +111,22 @@ const PostBoxForm = () => {
           ],
           model: "llama3-groq-70b-8192-tool-use-preview",
         });
-  
+
         const generatedContent = completion.choices[0]?.message?.content || "";
         console.log("Generated Content:", generatedContent);
-  
+
         const jsonContent = extractJSONFromText(generatedContent);
         console.log("Extracted JSON:", jsonContent);
-  
+
         if (jsonContent) {
           try {
             const parsedData = JSON.parse(jsonContent);
             console.log("Parsed Data:", parsedData);
-  
+
             // Update form data with generated content
             setFormData((prevData) => {
               const updatedData = { ...prevData };
-  
+
               // Check if keyRes is an array or a string
               if (parsedData.keyRes) {
                 if (Array.isArray(parsedData.keyRes)) {
@@ -135,7 +135,7 @@ const PostBoxForm = () => {
                   updatedData.keyRes = parsedData.keyRes.split(',').join('\n');
                 }
               }
-  
+
               // Check if jobDesc is an array or a string
               if (parsedData.jobDesc) {
                 if (Array.isArray(parsedData.jobDesc)) {
@@ -144,7 +144,7 @@ const PostBoxForm = () => {
                   updatedData.jobDesc = parsedData.jobDesc.split(',').join('\n');
                 }
               }
-  
+
               // Check if skills is an array or a string
               if (parsedData.skills) {
                 if (Array.isArray(parsedData.skills)) {
@@ -153,7 +153,7 @@ const PostBoxForm = () => {
                   updatedData.skills = parsedData.skills.split(',').join('\n');
                 }
               }
-  
+
               for (const [key, value] of Object.entries(parsedData)) {
                 if (value !== "") {
                   updatedData[key] = value;
@@ -167,7 +167,7 @@ const PostBoxForm = () => {
         } else {
           console.error("No valid JSON found in the generated content");
         }
-  
+
         setIsGenerating(false);
       } catch (error) {
         console.error("Error generating job details:", error);
@@ -226,8 +226,8 @@ const PostBoxForm = () => {
                     field === "email"
                       ? "email"
                       : field === "appDeadLine"
-                      ? "date"
-                      : "text"
+                        ? "date"
+                        : "text"
                   }
                   name={field}
                   style={{ width: "100%" }}
@@ -244,11 +244,11 @@ const PostBoxForm = () => {
             </div>
           ))}
 
-<div className="form-group col-lg-12 col-md-12 text-right">
+          <div className="form-group col-lg-12 col-md-12 text-right">
             <button onClick={handleModalSubmit} className="theme-btn btn-style-one">
               Submit
             </button>
-        </div>
+          </div>
         </div>
       </form>
 
@@ -270,14 +270,14 @@ const PostBoxForm = () => {
               onChange={(e) => setUserPromptData(e.target.value)}
             />
             <div className="form-group col-lg-12 col-md-12 text-right">
-            <button onClick={handleModalSubmit} className="theme-btn btn-style-one">
-              Submit
-            </button>
-        </div>
+              <button onClick={handleModalSubmit} className="theme-btn btn-style-one">
+                Submit
+              </button>
+            </div>
           </div>
         </div>
       )}
-      
+
       {/* Styles for modal */}
       <style jsx>{`
         .modal {
