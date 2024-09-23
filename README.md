@@ -1,19 +1,40 @@
-## Trance: Your AI-Powered Hiring Solution
+# Trance - Smart Recruiting Platform
 
-Are you tired of the time-consuming and often frustrating process of recruiting top talent? **Trance** is here to revolutionize your hiring experience.
+## Description
+Trance is an innovative recruiting platform designed to streamline the hiring process using advanced AI algorithms. Our platform enhances the recruitment experience for both recruiters and candidates, ensuring efficient and effective hiring.
 
-As a cutting-edge AI-powered recruiting platform, Trance is designed to streamline your hiring process and help you find the perfect candidates for your team. Our intuitive platform leverages advanced technology to automate tasks, enhance candidate engagement, and provide valuable insights.
+## Key Features
 
-### Key Features of Trance
 - **Intelligent Candidate Matching**: Our AI algorithms analyze candidate profiles and job descriptions to identify the best matches based on skills, experience, and cultural fit.
+  
+  ![Intelligent Candidate Matching](screenshots/.png) <!-- Replace with actual path to image -->
+
 - **Automated Applicant Tracking**: Streamline the application process with automated tracking and filtering, saving you time and effort.
+  
+  ![Automated Applicant Tracking](screenshots/automated_tracking.png) <!-- Replace with actual path to image -->
+
 - **Engaging Candidate Experience**: Provide a seamless and positive candidate experience with personalized communication and easy-to-use tools.
+  
+  ![Engaging Candidate Experience](screenshots/candidate_experience.png) <!-- Replace with actual path to image -->
+
 - **Data-Driven Insights**: Gain valuable insights into your hiring process with detailed analytics and reporting, helping you make informed decisions.
+  
+  ![Data-Driven Insights](screenshots/data_insights.png) <!-- Replace with actual path to image -->
+
 - **Integration with Existing Systems**: Easily integrate Trance with your HR systems and tools for a streamlined workflow.
+  
+  ![Integration with Existing Systems](screenshots/integration_systems.png) <!-- Replace with actual path to image -->
 
-Ready to experience the future of recruiting? Start your Trance journey today and discover how our AI-powered platform can transform your hiring process.
+- **AI-Assisted Form Filling**: Our intelligent AI assistant helps recruiters fill forms automatically with prompts based on different job roles, reducing manual data entry and ensuring accuracy.
+  
+  ![AI-Assisted Form Filling](screenshots/ai_form_filling.png) <!-- Replace with actual path to image -->
 
----
+## Installation
+
+To install the project, clone the repository:
+
+```bash
+git clone https://github.com/{username}/{repository}.git
 
 ## Setting Up Your MERN Stack Project: Trance
 
@@ -39,17 +60,17 @@ git clone https://github.com/sriramsenthill/trance.git
 
 ### 3. Install Dependencies
 Install the necessary dependencies for your MERN stack project:
-1. Open the `Server` directory:
+1. Open the `client` directory:
    ```bash
-   cd trance-project/trance/server
+   cd trance-project/trance/client
    ```
 3. Run this command to install dependencies:
    ```bash
    npm i --legacy-peer-deps
    ```
-4. Once the installation is complete, go to the `client` directory:
+4. Once the installation is complete, go to the `server` directory:
    ```bash
-   cd trance-project/trance/client
+   cd trance-project/trance/server
    ```
 5. Run the command to install client dependencies:
    ```bash
@@ -75,3 +96,4 @@ This should start both the client and server on your local host at ports 3000 (s
 ---
 
 With these steps, you're set up to utilize Trance effectively in your development environment! Enjoy building your AI-powered hiring solution!
+
