@@ -12,24 +12,25 @@ const DestinationRangeSlider = () => {
 
     const dispatch = useDispatch();
 
-    // destination handler
+    // Handle changes to the slider
     const handleOnChange = (value) => {
-        dispatch(addDestination(value));
+        setDestination(value); // Update local state
+        dispatch(addDestination(value)); // Dispatch to Redux
     };
 
-    // destination dispatch
+    // Update local state when destination from Redux changes
     useEffect(() => {
-        setDestination(destination);
-    });
+        setDestination(destination); // Sync local state with Redux state
+    }, [destination]); // Add destination as a dependency
 
     return (
         <div className="range-slider-one">
             <InputRange
-                formatLabel={(value) => ``}
+                formatLabel={() => ``} // Custom label formatting
                 minValue={0}
                 maxValue={100}
-                value={getDestination}
-                onChange={(value) => handleOnChange(value)}
+                value={getDestination} // Controlled input
+                onChange={handleOnChange} // Handle changes
             />
             <div className="input-outer">
                 <div className="amount-outer">

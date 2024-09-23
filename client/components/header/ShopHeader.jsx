@@ -22,11 +22,6 @@ const ShopHeader = () => {
     window.addEventListener("scroll", changeBackground);
   }, []);
 
-  // re-load cart
-  useEffect(() => {
-    dispatch(reloadCart());
-  }, [dispatch, reloadCart]);
-
   return (
     // <!-- Main Header-->
     <header

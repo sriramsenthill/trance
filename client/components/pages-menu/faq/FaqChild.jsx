@@ -59,7 +59,7 @@ const FaqChild = () => {
 
                 Log into your account,
                 Go to your profile or dashboard,
-                Click on the "Edit Resume" or "Update CV" button,
+                Click on the Edit Resume or Update CV button,
                 Upload a new file or make changes directly in the online editor,
                 Save your changes.
                 </p>
@@ -122,10 +122,10 @@ const FaqChild = () => {
                 <p>
                 You can check the status of your application in your dashboard. Look for:
 
-                "Viewed" - The employer has opened your application
-                "Under review" - Your application is being considered
-                "Interviewed" - You've been or will be interviewed
-                We'll also send you email notifications for significant status changes
+                Viewed - The employer has opened your application
+                Under review - Your application is being considered
+                Interviewed - You have been or will be interviewed
+                We will also send you email notifications for significant status changes
                 </p>
                 
               </div>

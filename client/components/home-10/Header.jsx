@@ -30,14 +30,14 @@ const Header = () => {
           <div className="nav-outer">
             <div className="logo-box">
               <div className="logo">
-                <a href="#">
+                <Link href="#">
                   <div style={{
                     fontFamily: 'Armio',
                     color: "white",
                   }}>
                     <h1>Trance</h1>
                   </div>
-                </a>
+                </Link>
 
               </div>
             </div>
@@ -50,12 +50,12 @@ const Header = () => {
 
           <div className="outer-box">
             <div className="btn-box">
-              <a
+              <Link
                 href="/login"
                 className="theme-btn btn-style-six call-modal"
               >
                 Login / Register
-              </a>
+              </Link>
               <Link
                 href="/employers-dashboard/post-jobs"
                 className="theme-btn btn-style-five"

@@ -16,7 +16,7 @@ const SearchBox = () => {
     // keyword dispatch
     useEffect(() => {
         dispatch(addKeyword(getKeyword));
-    }, [dispatch, addKeyword, getKeyword]);
+    }, [dispatch, getKeyword]);
 
     return (
         <>
@@ -25,7 +25,7 @@ const SearchBox = () => {
                 name="listing-search"
                 placeholder="Job title, keywords, or company"
                 onChange={keywordHandler}
-                value={keyword}
+                value={getKeyword} // Changed to getKeyword to ensure controlled input
             />
             <span className="icon flaticon-search-3"></span>
         </>

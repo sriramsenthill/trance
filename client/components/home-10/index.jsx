@@ -139,7 +139,7 @@ const index = () => {
           <div className="sec-title">
             <h2>Candidates on Our Platform</h2>
             <div className="text">
-              Discover a diverse pool of talented candidates ready to contribute to your team's success. Our platform connects you with skilled professionals across various industries, each bringing unique experiences and expertise.
+              Discover a diverse pool of talented candidates ready to contribute to your team success. Our platform connects you with skilled professionals across various industries, each bringing unique experiences and expertise.
             </div>
           </div>
           {/* End .sec-title */}

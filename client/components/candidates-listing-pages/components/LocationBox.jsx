@@ -5,17 +5,17 @@ import { addLocation } from "../../../features/filter/candidateFilterSlice";
 const LocationBox = () => {
     const { location } = useSelector((state) => state.candidateFilter) || {};
     const [getLocation, setLocation] = useState(location);
-    const dispath = useDispatch();
+    const dispatch = useDispatch(); // Fixed typo from 'dispath' to 'dispatch'
 
-    // location handler
+    // Location handler
     const locationHandler = (e) => {
         setLocation(e.target.value);
     };
 
-    // location dispatch
+    // Location dispatch
     useEffect(() => {
-        dispath(addLocation(getLocation));
-    }, [dispath, addLocation, getLocation]);
+        dispatch(addLocation(getLocation)); // Update Redux state
+    }, [dispatch, getLocation]); // Removed 'addLocation' from dependencies
 
     return (
         <>
@@ -23,8 +23,8 @@ const LocationBox = () => {
                 type="text"
                 name="listing-search"
                 placeholder="City or postcode"
-                value={location}
-                onChange={locationHandler}
+                value={getLocation} // Bind to local state
+                onChange={locationHandler} // Handle input change
             />
             <span className="icon flaticon-map-locator"></span>
         </>

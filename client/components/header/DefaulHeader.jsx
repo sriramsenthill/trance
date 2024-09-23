@@ -29,14 +29,14 @@ const DefaulHeader = () => {
         <div className="nav-outer">
           <div className="logo-box">
             <div className="logo">
-              <a href="/">
+              <Link href="/">
                 <div style={{
                   fontFamily: 'Armio',
                   color: "black",
                 }}>
                   <h1>Trance</h1>
                 </div>
-              </a>
+              </Link>
             </div>
           </div>
           {/* End .logo-box */}
@@ -49,12 +49,12 @@ const DefaulHeader = () => {
         <div className="outer-box">
           {/* <!-- Login/Register --> */}
           <div className="btn-box">
-            <a
+            <Link
               href="/login"
               className="theme-btn btn-style-three call-modal"
             >
               Login / Register
-            </a>
+            </Link>
             <Link
               href="/employers-dashboard/post-jobs"
               className="theme-btn btn-style-one"

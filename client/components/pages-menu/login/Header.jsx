@@ -27,14 +27,14 @@ const Header = () => {
           <div className="nav-outer">
             <div className="logo-box">
               <div className="logo">
-                <a href="/">
+                <Link href="/">
                   <div style={{
                     fontFamily: 'Armio',
                     color: "white",
                   }}>
                     <h1>Trance</h1>
                   </div>
-                </a>
+                </Link>
               </div>
             </div>
           </div>

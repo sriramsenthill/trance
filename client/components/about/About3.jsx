@@ -1,5 +1,6 @@
 import Link from "next/link";
 import ApplicantsList from "./ApplicantsList";
+import Image from 'next/image';
 
 const About3 = () => {
   return (
@@ -36,7 +37,7 @@ const About3 = () => {
       {/* <!-- Image Column --> */}
       <div className="image-column col-lg-6 col-md-12 col-sm-12">
         <figure className="image-box" data-aos="fade-right">
-          <img src="/images/resource/image-4.png" alt="resource" />
+          <Image src="/images/resource/image-4.png" alt="resource" />
         </figure>
 
         {/* <!-- Count Employers --> */}

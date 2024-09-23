@@ -4,7 +4,7 @@ import LoginPopup from "../../components/common/form/login/LoginPopup";
 import FooterDefault from "../../components/footer/common-footer";
 import DefaulHeader from "../../components/header/DefaulHeader";
 import MobileMenu from "../../components/header/MobileMenu";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router'; // Assuming you're using Next.js
 import Seo from "../../components/common/Seo";
@@ -37,15 +37,13 @@ const JobSingleDynamicV1 = () => {
   const [candidate, setCandidates] = useState({});
   const [isApplied, setIsApplied] = useState(false);
 
-  const fetchJobDetailsAndCheckStatus = async () => {
-    if (!id) return; // If id is not available, do nothing
+  const fetchJobDetailsAndCheckStatus = useCallback(async () => {
+    if (!id) return;
 
     try {
-      // Fetch job details from the backend
       const jobResponse = await axios.get(`${Config.BACKEND_URL}/jobs/${id}`);
-      setCandidates(jobResponse.data); // Set company data from response
+      setCandidates(jobResponse.data);
 
-      // Check application status
       if (session && session.user && session.user.userID) {
         const checkResponse = await axios.post(`${Config.BACKEND_URL}/checkApplied`, {
           userID: session.user.userID,
@@ -55,15 +53,14 @@ const JobSingleDynamicV1 = () => {
       }
     } catch (err) {
       setError(err.message || 'Failed to fetch job details or application status');
-
     } finally {
       setLoading(false);
     }
-  };
+  }, [id, session]); // Make sure id and session are included as dependencies
 
   useEffect(() => {
-    fetchJobDetailsAndCheckStatus(); // Call this function when component mounts
-  }, [id]); // Dependencies for useEffect
+    fetchJobDetailsAndCheckStatus();
+  }, [fetchJobDetailsAndCheckStatus]);
 
   if (loading) return <h1>Loading...</h1>;
   if (error) return <h1>{error}</h1>;
