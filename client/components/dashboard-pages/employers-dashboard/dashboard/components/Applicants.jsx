@@ -12,7 +12,7 @@ const Applicants = () => {
           <div className="inner-box">
             <div className="content">
               <figure className="image">
-                <img src={candidate.avatar} alt="candidates" />
+                <img src="\images\profileLogo.png" alt="candidates" />
               </figure>
               <h4 className="name">
                 <Link href={`/candidates-single-v1/${candidate.id}`}>
@@ -25,10 +25,6 @@ const Applicants = () => {
                 <li>
                   <span className="icon flaticon-map-locator"></span>{" "}
                   {candidate.location}
-                </li>
-                <li>
-                  <span className="icon flaticon-money"></span> $
-                  {candidate.hourlyRate} / hour
                 </li>
               </ul>
               {/* End candidate-info */}
