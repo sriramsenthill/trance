@@ -3,7 +3,7 @@ const { signInUser, registerUser, changePassword } = require("./auth");
 const { postJob, getJobById, getAllJobs, deleteJobs } = require("./postJob");
 const { createProfile, getAllProfiles, getProfileByID } = require("./profile");
 const { createResume, getResumeDetails } = require('./resume');
-const { applyJob, checkApplied, appliedJobs } = require('./applyjob');
+const { applyJob, checkApplied, appliedJobs, getAppliedJobs } = require('./applyjob');
 
 const router = express.Router();
 
@@ -20,6 +20,7 @@ router.delete('/jobs/:jobId', deleteJobs);
 router.post("/applyjob", applyJob);
 router.post("/checkApplied", checkApplied);
 router.get("/applied-jobs", appliedJobs);
+router.get("/getAppliedJobs", getAppliedJobs);
 
 //profile-candidate
 router.post("/createProfile", createProfile);

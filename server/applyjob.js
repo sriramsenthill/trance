@@ -147,6 +147,24 @@ const appliedJobs = async (req, res) => {
   }
 };
 
+const getAppliedJobs = async (req, res) => {
+  try {
 
 
-module.exports = { applyJob, checkApplied, appliedJobs };
+    // Find the job applications for the user
+    const applications = await JobApply.find({});
+
+    if (!applications) {
+      return res.status(404).json({ error: 'No job found' });
+    }
+
+    // Return all the data as JSON
+    res.status(200).json(applications);
+
+  } catch (error) {
+    console.error("Error in getAppliedJobs:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = { applyJob, checkApplied, appliedJobs, getAppliedJobs };
