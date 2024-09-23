@@ -14,7 +14,7 @@ const FormInfoBox = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [formData, setFormData] = useState({
-    userID: '', // Initialize as empty
+    userID: '',
     profileLogo: '',
     fullName: '',
     jobTitle: '',
@@ -39,20 +39,39 @@ const FormInfoBox = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
 
+    // Update formData when session is available
+    useEffect(() => {
+      if (status === "authenticated") {
+        fetchUserProfile(session.user.userID);
+        setFormData((prevData) => ({
+          ...prevData,
+          userID: session.user.userID, // Set userID once session is authenticated
+        }));
+      }
+    }, [session, status]);
 
-
-
-  // Update formData when session is available
-  useEffect(() => {
-    if (status === "authenticated") {
-      setFormData((prevData) => ({
-        ...prevData,
-        userID: session.user.userID, // Set userID once session is authenticated
-      }));
+  const fetchUserProfile = async (userID) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(`${Config.BACKEND_URL}/profiles/${userID}`);
+      if (response.status === 200 && response.data) {
+        setFormData(prevData => ({
+          ...prevData,
+          ...response.data,
+          userID: userID
+        }));
+      }
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+      setSnackbarMessage('Profile not found. Please fill in your details.');
+      setSnackbarOpen(true);
+    } finally {
+      setIsLoading(false);
     }
-  }, [session, status]);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,9 +80,10 @@ const FormInfoBox = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await axios.post(`${Config.BACKEND_URL}/createProfile`, formData);
+      const response = await axios.post(`${Config.BACKEND_URL}/createProfile`, 
+        formData
+      );
       if (response.status === 201) {
         console.log('Profile posted successfully:', response.data);
         setSnackbarMessage("User Profile Created Successfully.");
@@ -77,8 +97,9 @@ const FormInfoBox = () => {
     }
   };
 
-
-
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <form onSubmit={handleSubmit} className="default-form">
@@ -86,43 +107,57 @@ const FormInfoBox = () => {
         {/* Profile Logo */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Profile Logo</label>
-          <input type="text" name="profileLogo" placeholder="Logo URL" required onChange={handleChange} />
+          <input 
+            type="text" 
+            name="profileLogo" 
+            placeholder="Logo URL" 
+            required 
+            onChange={handleChange}
+            value={formData.profileLogo}
+          />
         </div>
 
         {/* Full Name */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Full Name</label>
-          <input type="text" name="fullName" placeholder="Jerome" required onChange={handleChange} />
+          <input 
+            type="text" 
+            name="fullName" 
+            placeholder="Jerome" 
+            required 
+            onChange={handleChange}
+            value={formData.fullName}
+          />
         </div>
 
         {/* Job Title */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Job Title</label>
-          <input type="text" name="jobTitle" placeholder="UI Designer" required onChange={handleChange} />
+          <input type="text" name="jobTitle" placeholder="UI Designer" required onChange={handleChange} value={formData.jobTitle} />
         </div>
 
         {/* Phone */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Phone</label>
-          <input type="text" name="phone" placeholder="0 123 456 7890" required onChange={handleChange} />
+          <input type="text" name="phone" placeholder="0 123 456 7890" required onChange={handleChange} value={formData.phone} />
         </div>
 
         {/* Email Address */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Email address</label>
-          <input type="email" name="email" placeholder="creativelayers@example.com" required onChange={handleChange} />
+          <input type="email" name="email" placeholder="creativelayers@example.com" required onChange={handleChange} value={formData.email} />
         </div>
 
         {/* Website */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Website</label>
-          <input type="text" name="website" placeholder="www.jerome.com" required onChange={handleChange} />
+          <input type="text" name="website" placeholder="www.jerome.com" required onChange={handleChange} value={formData.website}/>
         </div>
 
         {/* Current Salary */}
         <div className="form-group col-lg-3 col-md-12">
           <label>Current Salary($)</label>
-          <select name="currentSalary" className="chosen-single form-select" required onChange={handleChange}>
+          <select name="currentSalary" className="chosen-single form-select" required onChange={handleChange} value={formData.currentSalary}>
             <option value="">Select Salary</option>
             <option value="40-70 K">40-70 K</option>
             <option value="50-80 K">50-80 K</option>
@@ -135,56 +170,56 @@ const FormInfoBox = () => {
         {/* Expected Salary */}
         <div className="form-group col-lg-3 col-md-12">
           <label>Expected Salary($)</label>
-          <select name="expectedSalary" className="chosen-single form-select" required onChange={handleChange}>
+          <select name="expectedSalary" className="chosen-single form-select" required onChange={handleChange} value={formData.expectedSalary}>
             <option value="">Select Salary</option>
-            <option value="120-350 K">120-350 K</option>
             <option value="40-70 K">40-70 K</option>
             <option value="50-80 K">50-80 K</option>
             <option value="60-90 K">60-90 K</option>
             <option value="70-100 K">70-100 K</option>
             <option value="100-150 K">100-150 K</option>
+            <option value="120-350 K">120-350 K</option>
           </select>
         </div>
 
         {/* Experience */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Experience</label>
-          <input type="text" name="experience" placeholder="5-10 Years" required onChange={handleChange} />
+          <input type="text" name="experience" placeholder="5-10 Years" required onChange={handleChange} value={formData.experience}/>
         </div>
         <div className="form-group col-lg-6 col-md-12">
           <label>Gender</label>
-          <input type="text" name="gender" placeholder="M-F" required onChange={handleChange} />
+          <input type="text" name="gender" placeholder="M-F" required onChange={handleChange} value={formData.gender}/>
         </div>
 
         {/* Age */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Age</label>
-          <input type="text" name="age" placeholder="your age" required onChange={handleChange} />
+          <input type="text" name="age" placeholder="your age" required onChange={handleChange} value={formData.age}/>
 
         </div>
 
         {/* Education Levels */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Education Levels</label>
-          <input type="text" name="educationLevels" placeholder="Certificate" required onChange={handleChange} />
+          <input type="text" name="educationLevels" placeholder="Certificate" required onChange={handleChange} value={formData.educationLevels}/>
         </div>
 
         {/* Languages */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Languages</label>
-          <input type="text" name="languages" placeholder="English, Turkish" required onChange={handleChange} />
+          <input type="text" name="languages" placeholder="English, Turkish" required onChange={handleChange} value={formData.languages}/>
         </div>
 
         {/* Skills */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Skills</label>
-          <input type="text" name="skills" placeholder="Application development, DevOps, etc." required onChange={handleChange} />
+          <input type="text" name="skills" placeholder="Application development, DevOps, etc." required onChange={handleChange} value={formData.skills}/>
         </div>
 
         {/* Description */}
         <div className="form-group col-lg-12 col-md-12">
           <label>Description</label>
-          <textarea name='description' placeholder='Job description...' required onChange={handleChange}></textarea>
+          <textarea name='description' placeholder='Job description...' required onChange={handleChange} value={formData.description}></textarea>
         </div>
 
         {/* LinkedIn */}
@@ -196,6 +231,7 @@ const FormInfoBox = () => {
             placeholder='https://linkedin.com/in/yourprofile'
             required
             onChange={handleChange}
+            value={formData.linkedin}
           />
         </div>
 
@@ -208,6 +244,7 @@ const FormInfoBox = () => {
             placeholder='Country'
             required
             onChange={handleChange}
+            value={formData.country}
           />
         </div>
 
@@ -220,6 +257,7 @@ const FormInfoBox = () => {
             placeholder='City'
             required
             onChange={handleChange}
+            value={formData.city}
           />
         </div>
 
@@ -232,12 +270,15 @@ const FormInfoBox = () => {
             placeholder='123 Main St, Apt #4B'
             required
             onChange={handleChange}
+            value={formData.completeAddress}
           />
         </div>
 
         {/* Submit Button */}
         <div className='form-group col-lg-6 col-md-12'>
-          <button type='submit' className='theme-btn btn-style-one'>Submit</button>
+          <button type='submit' className='theme-btn btn-style-one'>
+            {formData.userID ? 'Update Profile' : 'Submit'}
+          </button>
         </div>
 
         {/* Snackbar for notifications */}
