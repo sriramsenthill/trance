@@ -7,7 +7,7 @@ Trance is an innovative recruiting platform designed to streamline the hiring pr
 
 - **Intelligent Candidate Matching**: Our AI algorithms analyze candidate profiles and job descriptions to identify the best matches based on skills, experience, and cultural fit.
   
-  ![Intelligent Candidate Matching](screenshots/.png) <!-- Replace with actual path to image -->
+  ![Intelligent Candidate Matching](trance/images/1.png) <!-- Replace with actual path to image -->
 
 - **Automated Applicant Tracking**: Streamline the application process with automated tracking and filtering, saving you time and effort.
   
@@ -34,7 +34,7 @@ Trance is an innovative recruiting platform designed to streamline the hiring pr
 To install the project, clone the repository:
 
 ```bash
-git clone https://github.com/{username}/{repository}.git
+git clone https://github.com/sriramsenthill/trance.git
 
 ## Setting Up Your MERN Stack Project: Trance
 
@@ -44,6 +44,7 @@ Before we begin, ensure you have the following installed:
 - **Git**: Download and install Git from [git-scm.com](https://git-scm.com/downloads).
 - **A code editor**: We recommend Visual Studio Code, but you can use any editor of your choice.
 - **A terminal or command prompt**: This is where you'll execute most of the commands.
+```
 
 ### 1. Create a New Project Directory
 Open your terminal and navigate to the desired location for your project:
