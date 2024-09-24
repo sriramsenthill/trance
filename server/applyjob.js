@@ -1,5 +1,6 @@
 const JobApply = require("./models/apply");
-const Job = require("./models/job"); // Import Job model
+const Job = require("./models/job"); 
+const JobScore = require("./models/apply");
 
 const applyJob = async (req, res) => {
   let newJobApplication;
@@ -181,4 +182,64 @@ const getAppliedJobs = async (req, res) => {
   }
 };
 
-module.exports = { applyJob, checkApplied, appliedJobs, getAppliedJobs };
+const postJobScore = async (req, res) => {
+  try {
+    const { userID, jobIDs } = req.body;
+
+    // Check if userID is present and jobIDs array is not empty
+    if (!userID || !Array.isArray(jobIDs) || jobIDs.length === 0) {
+      return res.status(400).json({ error: "userID and non-empty jobIDs array are required" });
+    }
+
+    // Validate each job application
+    for (const job of jobIDs) {
+      if (typeof job.jobId !== 'number' || typeof job.JobMatchingScore !== 'number') {
+        return res.status(400).json({ error: "Each job must have a numeric jobId and JobMatchingScore" });
+      }
+    }
+
+    // Check if an application for this user already exists
+    let application = await JobScore.findOne({ userID });
+
+    if (application) {
+      // If application exists, update it
+      application.jobIDs = application.jobIDs.concat(
+        jobIDs.map(job => ({
+          jobId: job.jobId,
+          jobMatchingScore: job.JobMatchingScore
+        }))
+      );
+    } else {
+      // If application doesn't exist, create a new one
+      application = new JobApplicationSchema({
+        userID,
+        jobIDs: jobIDs.map(job => ({
+          jobId: job.jobId,
+          jobMatchingScore: job.JobMatchingScore,
+          isApplied: true
+        }))
+      });
+    }
+
+    // Save the application to the database
+    await application.save();
+
+    res.status(201).json({
+      message: "Job applications submitted successfully",
+      application: application
+    });
+  } catch (error) {
+    console.error("Error in postJobApplications:", error);
+
+    if (error.name === 'ValidationError') {
+      // Mongoose validation error
+      const errors = Object.values(error.errors).map(err => err.message);
+      return res.status(400).json({ error: errors });
+    }
+
+    // Generic error handler
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = { applyJob, checkApplied, appliedJobs, getAppliedJobs, postJobScore };

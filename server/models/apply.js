@@ -14,6 +14,9 @@ const jobApplicationSchema = new mongoose.Schema({
         isApplied: {
             type: Boolean,
             default: true, // Default to true when a job is applied for
+        },
+        jobMatchingScore: {
+            type: Number,
         }
     }],
 }, { timestamps: true }); // Enable createdAt and updatedAt timestamps
