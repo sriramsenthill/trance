@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const shortlisted = require("./shortlisted");
 
 // Define the schema for User (Candidate or Employer)
 const jobSchema = new mongoose.Schema({
@@ -90,7 +91,16 @@ const jobSchema = new mongoose.Schema({
         required: true,
         trim: true,
     },
-    datePosted: { type: Date, default: Date.now } // Add this line for datePosted
+    
+    datePosted: { type: Date, default: Date.now }, // Add this line for datePosted
+    shortlisted: [{
+        userID: {
+            type: Number
+        },
+        isShortlisted: {
+            type: Boolean
+        }
+    }],
 
 });
 

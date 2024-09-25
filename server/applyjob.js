@@ -1,6 +1,5 @@
 const JobApply = require("./models/apply");
 const Job = require("./models/job"); 
-const JobScore = require("./models/apply");
 
 const applyJob = async (req, res) => {
   let newJobApplication;
@@ -199,7 +198,7 @@ const postJobScore = async (req, res) => {
     }
 
     // Check if an application for this user already exists
-    let application = await JobScore.findOne({ userID });
+    let application = await JobApply.findOne({ userID });
 
     if (application) {
       // If application exists, update it

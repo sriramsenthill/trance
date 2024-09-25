@@ -48,6 +48,22 @@ const WidgetContentBox = () => {
   console.log('Selected Job ID:', selectedJobId, typeof selectedJobId);
   console.log('Jobs Data:', jobsData.map(job => ({ id: job.jobId, type: typeof job.jobId })));
 
+
+  const handleApprove = async (userId) => {
+    try {
+      const response = await axios.post(`${Config.BACKEND_URL}/postShortlisted`, {
+        userID: userId,
+        jobId: selectedJobId
+      });
+      
+
+      console.log('Application approved:', response.data);
+      // You may want to update the UI or refetch data after successful approval
+    } catch (error) {
+      console.error('Error approving application:', error);
+    }
+  };
+
   return (
     <>
       <div className="chosen-outer">
@@ -116,7 +132,10 @@ const WidgetContentBox = () => {
                               </Link>
                             </li>
                             <li>
-                              <button data-text="Approve Application">
+                              <button 
+                                data-text="Approve Application"
+                                onClick={() => handleApprove(candidate.userID)}
+                              >
                                 <span className="la la-check"></span>
                               </button>
                             </li>
