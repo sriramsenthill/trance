@@ -28,15 +28,29 @@ const ResumeForm = () => {
 
   const [errors, setErrors] = useState({});
 
-  // Update formData when session is available
   useEffect(() => {
     if (status === "authenticated") {
       setFormData((prevData) => ({
         ...prevData,
-        userID: session.user.userID, // Set userID once session is authenticated
+        userID: session.user.userID,
       }));
+      fetchResumeData(session.user.userID);
     }
   }, [session, status]);
+
+  const fetchResumeData = async (userID) => {
+    try {
+      const response = await axios.get(`${Config.BACKEND_URL}/resumes/${userID}`);
+      if (response.status === 201 && response.data) {
+        setFormData(response.data);
+      }
+      console.log(response.data)
+    } catch (error) {
+      console.error('Error fetching resume data:', error);
+      setSnackbarMessage("Failed to fetch resume data. Using empty form.");
+      setSnackbarOpen(true);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -87,7 +101,7 @@ const ResumeForm = () => {
       const response = await axios.post(`${Config.BACKEND_URL}/createResume`, formData);
       if (response.status === 201) {
         console.log('Resume created successfully:', response.data);
-        setSnackbarMessage("resume created successfully.");
+        setSnackbarMessage("Resume created successfully.");
         setSnackbarOpen(true);
         setTimeout(() => router.push('/'), 2000);
       }
@@ -98,14 +112,13 @@ const ResumeForm = () => {
     }
   };
 
-
   return (
     <form onSubmit={handleSubmit} className="default-form">
       <div className="row">
         {/* Select Your CV */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Select Your CV</label>
-          <select name="selectcv" className="chosen-single form-select" onChange={handleChange}>
+          <select name="selectcv" className="chosen-single form-select" value={formData.selectcv} onChange={handleChange}>
             <option value="">Select CV</option>
             <option value="cv1">CV 1</option>
             <option value="cv2">CV 2</option>
@@ -115,7 +128,7 @@ const ResumeForm = () => {
         {/* Description */}
         <div className="form-group col-lg-12 col-md-12">
           <label>Description</label>
-          <textarea name="desc" placeholder="Enter your description here..." onChange={handleChange}></textarea>
+          <textarea name="desc" placeholder="Enter your description here..." value={formData.desc} onChange={handleChange}></textarea>
         </div>
 
         {/* Work Experience Section */}
@@ -258,6 +271,7 @@ const ResumeForm = () => {
             type="text"
             name="portfoliolink"
             placeholder="Add Portfolio Link"
+            value={formData.portfoliolink}
             onChange={handleChange}
           />
         </div>
@@ -269,6 +283,7 @@ const ResumeForm = () => {
             type="text"
             name="skills"
             placeholder="Enter skills separated by commas"
+            value={formData.skills}
             onChange={handleChange}
           />
         </div>
