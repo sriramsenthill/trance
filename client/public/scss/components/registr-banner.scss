@@ -53,10 +53,7 @@ Registration Banners
 }
 
 .banner-style-one .image {
-  position: absolute;
-  right: 30px;
-  bottom: 0;
-  margin-bottom: 0;
+  display: none;
 }
 
 /* Banner Style Two */
@@ -104,8 +101,5 @@ Registration Banners
 }
 
 .banner-style-two .image {
-  position: absolute;
-  right: 30px;
-  bottom: 0;
-  margin-bottom: 0;
+display: none;
 }
