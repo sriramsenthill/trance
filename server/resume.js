@@ -89,12 +89,16 @@ const getResumeDetails = async (req, res) => {
     }
 
     // Extract relevant details
-    const { education, workExperience } = resume;
+    const { selectcv, desc, portfoliolink, skills, education, workExperience } = resume;
 
     res.status(201).json({
       message: "Resume details retrieved successfully",
       education,
       workExperience,
+      selectcv,
+      desc,
+      portfoliolink,
+      skills
     });
   } catch (error) {
     console.error("Error in getResumeDetails:", error);
