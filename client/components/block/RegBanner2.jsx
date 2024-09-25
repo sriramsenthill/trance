@@ -5,15 +5,15 @@ const RegBanner2 = () => {
     {
       id: 1,
       name: "Employer",
-      text: "Efficiently manage your job postings and review qualified candidates. Streamline your recruitment process, communicate with applicants, and find the perfect fit for your team.",
-      avatar: "/images/resource/employ.png",
+      text: "Efficiently manage your job postings and review qualified candidates. Streamline your recruitment process with help of ai integrated AI",
+      
       bannerClass: "banner-style-one",
     },
     {
       id: 2,
       name: "Candidate",
       text: "Explore thousands of job opportunities that match your skills and preferences.Create a profile, apply for jobs, and start your career journey with ease.",
-      avatar: "/images/resource/candidate.png",
+      
       bannerClass: "banner-style-two",
     },
   ];
