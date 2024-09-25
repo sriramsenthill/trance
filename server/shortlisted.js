@@ -1,4 +1,5 @@
 const shortlistedSchema = require("./models/shortlisted");
+const Job = require("./models/job"); // Import the Job model
 
 const postShortlisted = async (req, res) => {
   try {
@@ -22,7 +23,22 @@ const postShortlisted = async (req, res) => {
 
     // Save the shortlisted entry to the database
     await newShortlisted.save();
-    // allapplic
+
+    // Find the job by jobId and update its shortlisted array
+    const job = await Job.findOne({ jobId: jobId });
+
+    if (!job) {
+      return res.status(404).json({ error: "Job not found" });
+    }
+
+    // Append userID to the shortlisted array and set isShortlisted to true
+    job.shortlisted.push({
+      userID,
+      isShortlisted: true
+    });
+
+    // Save the updated job document
+    await job.save();
 
     res.status(201).json({
       message: "Job shortlisted successfully",
@@ -43,3 +59,5 @@ const postShortlisted = async (req, res) => {
 };
 
 module.exports = { postShortlisted };
+
+

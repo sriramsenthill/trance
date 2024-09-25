@@ -40,10 +40,9 @@ const index = () => {
               <div className="applicants-widget ls-widget">
                 <div className="widget-title">
                   <h4>Shorlist Resumes</h4>
-                  <WidgetToFilterBox />
+                  <WidgetContentBox />
                 </div>
                 {/* End widget top filter box */}
-                <WidgetContentBox />
               </div>
               {/* <!-- applicants Widget --> */}
             </div>

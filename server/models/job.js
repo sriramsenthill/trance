@@ -91,13 +91,21 @@ const jobSchema = new mongoose.Schema({
         required: true,
         trim: true,
     },
-    
+
     datePosted: { type: Date, default: Date.now }, // Add this line for datePosted
     shortlisted: [{
         userID: {
             type: Number
         },
         isShortlisted: {
+            type: Boolean
+        },
+    }],
+    rejected: [{
+        userID: {
+            type: Number
+        },
+        isRejected: {
             type: Boolean
         }
     }],

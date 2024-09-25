@@ -26,8 +26,15 @@ const getUserProfilesByJobId = async (req, res) => {
             return res.status(200).json({ users: [] });
         }
 
-        // Fetch user profiles based on userIDs
-        const profiles = await MyProfile.find({ userID: { $in: userIDs } });
+        // Filter out userIDs that are already in the shortlisted or rejected arrays
+        const remainingUserIDs = userIDs.filter(userId => {
+            const isShortlisted = job.shortlisted.some(shortlisted => shortlisted.userID === userId);
+            const isRejected = job.rejected.some(rejected => rejected.userID === userId);
+            return !isShortlisted && !isRejected;
+        });
+
+        // Fetch user profiles based on the remaining userIDs
+        const profiles = await MyProfile.find({ userID: { $in: remainingUserIDs } });
 
         // Return the profiles as JSON
         res.status(200).json({
@@ -42,4 +49,50 @@ const getUserProfilesByJobId = async (req, res) => {
     }
 };
 
-module.exports = { getUserProfilesByJobId };
+
+const getShortlistedUserProfilesByJobId = async (req, res) => {
+    try {
+        const { jobId } = req.query;
+
+        // Validate that jobId is provided
+        if (!jobId) {
+            return res.status(400).json({ error: "jobId is required" });
+        }
+
+        // Search for the job by jobId
+        const job = await Job.findOne({ jobId });
+
+        // Check if the job exists
+        if (!job) {
+            return res.status(404).json({ error: "Job not found" });
+        }
+
+        // Extract shortlisted userIDs from the job document
+        const shortlistedUsers = job.shortlisted;
+
+        // If there are no shortlisted users, return an empty array
+        if (shortlistedUsers.length === 0) {
+            return res.status(200).json({ users: [] });
+        }
+
+        // Extract userIDs from the shortlisted array
+        const shortlistedUserIDs = shortlistedUsers.map(shortlisted => shortlisted.userID);
+
+        // Fetch user profiles based on the shortlisted userIDs
+        const profiles = await MyProfile.find({ userID: { $in: shortlistedUserIDs } });
+
+        // Return the profiles as JSON
+        res.status(200).json({
+            message: "Shortlisted user profiles retrieved successfully",
+            users: profiles,
+        });
+    } catch (error) {
+        console.error("Error in getShortlistedUserProfilesByJobId:", error);
+
+        // Handle generic errors
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+
+module.exports = { getUserProfilesByJobId, getShortlistedUserProfilesByJobId };

@@ -3,8 +3,10 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import Link from "next/link";
 import axios from 'axios';
 import { Config } from '../../../../../config';
+import { useRouter } from 'next/router';
 
 const WidgetContentBox = () => {
+  const router = useRouter();
   const [candidatesData, setCandidatesData] = useState([]);
   const [jobsData, setJobsData] = useState([]); // State for jobs
   const [selectedJobId, setSelectedJobId] = useState(null); // State for selected job ID
@@ -14,6 +16,7 @@ const WidgetContentBox = () => {
     try {
       const response = await axios.get(`${Config.BACKEND_URL}/getAllJobs`);
       setJobsData(response.data); // Assuming response contains an array of jobs
+
     } catch (error) {
       console.error('Error fetching jobs:', error);
     }
@@ -55,10 +58,31 @@ const WidgetContentBox = () => {
         userID: userId,
         jobId: selectedJobId
       });
-      
+
 
       console.log('Application approved:', response.data);
       // You may want to update the UI or refetch data after successful approval
+
+      router.push("/employers-dashboard/shortlisted-resumes")
+
+    } catch (error) {
+      console.error('Error approving application:', error);
+    }
+  };
+
+  const handleReject = async (userId) => {
+    try {
+      const response = await axios.post(`${Config.BACKEND_URL}/postRejected`, {
+        userID: userId,
+        jobId: selectedJobId
+      });
+
+
+      console.log('Application rejected:', response.data);
+      // You may want to update the UI or refetch data after successful approval
+
+      router.push("/employers-dashboard/dashboard")
+
     } catch (error) {
       console.error('Error approving application:', error);
     }
@@ -110,10 +134,17 @@ const WidgetContentBox = () => {
                               {candidate.fullName}
                             </Link>
                           </h4>
-
                           <ul className="candidate-info">
                             <li className="designation">
+                              Job Similarity Score:
+                              {candidate.resumeScore}
+                            </li>
+                          </ul>
+                          <ul className="candidate-info">
+
+                            <li className="designation">
                               {candidate.jobTitle}
+
                             </li>
                             <li>
                               <span className="icon flaticon-map-locator"></span>{" "}
@@ -132,7 +163,7 @@ const WidgetContentBox = () => {
                               </Link>
                             </li>
                             <li>
-                              <button 
+                              <button
                                 data-text="Approve Application"
                                 onClick={() => handleApprove(candidate.userID)}
                               >
@@ -140,7 +171,8 @@ const WidgetContentBox = () => {
                               </button>
                             </li>
                             <li>
-                              <button data-text="Reject Application">
+                              <button data-text="Reject Application"
+                                onClick={() => handleReject(candidate.userID)}>
                                 <span className="la la-times-circle"></span>
                               </button>
                             </li>
