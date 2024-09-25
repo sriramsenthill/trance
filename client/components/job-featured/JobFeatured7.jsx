@@ -60,7 +60,7 @@ const JobFeatured7 = () => {
                 {/* Date Posted info */}
                 <li>
                   <span className="icon flaticon-money"></span>{" "}
-                  ${item.offeredSalary}
+                  {item.offeredSalary}
                 </li>
                 {/* Salary info */}
               </ul>
