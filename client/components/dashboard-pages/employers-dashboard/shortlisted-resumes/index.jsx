@@ -28,8 +28,11 @@ const index = () => {
 
       {/* <!-- Dashboard --> */}
       <section className="user-dashboard">
-        <div className="dashboard-outer">
-          <BreadCrumb title="Shortlisted Resumes!" />
+        <div className="dashboard-outer">  
+          <div className="upper-title-box">
+            <h3>Shortlisted applicants</h3>
+          <div className="text">Send auto generated email to candidates to schedule an interview</div>
+        </div>
           {/* breadCrumb */}
 
           <MenuToggler />
@@ -37,11 +40,9 @@ const index = () => {
 
           <div className="row">
             <div className="col-lg-12">
-              <div className="applicants-widget ls-widget">
-                <div className="widget-title">
-                  <h4>Shorlist Resumes</h4>
+              <div className="applicants-widget ls-widget">                 
                   <WidgetContentBox />
-                </div>
+              
                 {/* End widget top filter box */}
               </div>
               {/* <!-- applicants Widget --> */}

@@ -90,14 +90,27 @@ const WidgetContentBox = () => {
 
   return (
     <>
-      <div className="chosen-outer">
-        <select className="chosen-single form-select chosen-container" onChange={handleJobSelect}>
+      <div className="chosen-outer" style={{ display: 'flex', justifyContent: 'flex-end', padding: '10px 0', marginRight: '20px' }}>
+        <select 
+          className="chosen-single form-select chosen-container" 
+          onChange={handleJobSelect} 
+          style={{ 
+            width: 'auto', 
+            maxWidth: '200px', 
+            overflow: 'hidden', 
+            whiteSpace: 'nowrap', 
+            padding: '8px',backgroundColor:'#F0F5F7' /* Padding inside the dropdown */
+          }}
+        >
           <option value="">Select Jobs</option>
           {jobsData.map((job) => (
-            <option key={job.jobId} value={job.jobId}>{job.jobTitle}</option> // Assuming each job has an id and title
+            <option key={job.jobId} value={job.jobId}>{job.jobTitle}</option>
           ))}
         </select>
       </div>
+
+
+
 
       <div className="widget-content">
         <div className="tabs-box">

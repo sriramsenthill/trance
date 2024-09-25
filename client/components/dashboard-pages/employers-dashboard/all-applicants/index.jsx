@@ -28,27 +28,20 @@ const index = () => {
 
       {/* <!-- Dashboard --> */}
       <section className="user-dashboard">
-        <div className="dashboard-outer">
-          <BreadCrumb title="All Applicants!" />
-          {/* breadCrumb */}
-
+        <div className="dashboard-outer">  
+          <div className="upper-title-box">
+            <h3>All applicants !</h3>
+          <div className="text">Use AI to get the profile matching score</div>
+        </div>
           <MenuToggler />
           {/* Collapsible sidebar button */}
 
           <div className="row">
             <div className="col-lg-12">
               {/* <!-- Ls widget --> */}
-              <div className="ls-widget">
-                <div className="tabs-box">
-                  <div className="widget-title">
-                    <h4>Applicant</h4>
+              <div className="applicants-widget ls-widget">                    
+                <WidgetContentBox />
 
-                    <WidgetContentBox />
-                  </div>
-                  {/* End top widget filter bar */}
-
-                  {/* End widget-content */}
-                </div>
               </div>
             </div>
           </div>

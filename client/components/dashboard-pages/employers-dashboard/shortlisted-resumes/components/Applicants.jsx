@@ -6,7 +6,6 @@ import { Config } from '../../../../../config';
 import { useRouter } from 'next/router';
 
 const Applicants = () => {
-
   const router = useRouter();
   const [candidatesData, setCandidatesData] = useState([]);
   const [jobsData, setJobsData] = useState([]); // State for jobs
@@ -41,7 +40,6 @@ const Applicants = () => {
     fetchJobs();
   }, []);
 
-
   // Handle job selection change
   const handleJobSelect = (event) => {
     const jobId = event.target.value; // Get the selected job ID (as a string)
@@ -49,20 +47,27 @@ const Applicants = () => {
     fetchProfiles(jobId); // Fetch profiles for the selected job ID
   };
 
-  console.log('Selected Job ID:', selectedJobId, typeof selectedJobId);
-  console.log('Jobs Data:', jobsData.map(job => ({ id: job.jobId, type: typeof job.jobId })));
-
   return (
     <>
-      <div className="chosen-outer">
-        <select className="chosen-single form-select chosen-container" onChange={handleJobSelect}>
-          <option value="">Select Jobs</option>
-          {jobsData.map((job) => (
-            <option key={job.jobId} value={job.jobId}>{job.jobTitle}</option> // Assuming each job has an id and title
-          ))}
-        </select>
+      <div className="chosen-outer" style={{ display: 'flex', justifyContent: 'flex-end', padding: '10px 0', marginRight: '20px' }}>
+              <select 
+                className="chosen-single form-select chosen-container" 
+                onChange={handleJobSelect} 
+                style={{ 
+                  width: 'auto', 
+                  maxWidth: '200px', 
+                  overflow: 'hidden', 
+                  whiteSpace: 'nowrap', 
+                  padding: '8px',backgroundColor:'#F0F5F7' /* Padding inside the dropdown */
+                }}
+              >
+                <option value="">Select Jobs</option>
+                {jobsData.map((job) => (
+                  <option key={job.jobId} value={job.jobId}>{job.jobTitle}</option>
+                ))}
+              </select>
       </div>
-      {/* End searchBox one */}
+
 
       <div className="aplicants-upper-bar">
         <h6>
@@ -99,25 +104,19 @@ const Applicants = () => {
                   {candidate.city}
                 </li>
               </ul>
-              {/* End candidate-info */}
-
-
             </div>
-            {/* End content */}
 
             <div className="option-box">
               <ul className="option-list">
                 <li>
                   <Link href={`/candidates-single-v1/${candidate.userID}`}>
-                    <button data-text="View Aplication">
+                    <button data-text="View Application">
                       <span className="la la-eye"></span>
                     </button>
                   </Link>
-
                 </li>
               </ul>
             </div>
-            {/* End admin options box */}
           </div>
         </div>
       ))}
