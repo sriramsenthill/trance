@@ -34,7 +34,8 @@ const registerUser = async (req, res) => {
 
         return res.status(201).json({
             message: `${role.charAt(0).toUpperCase() + role.slice(1)} registered successfully.`,
-            userID: user.userID
+            userID: user.userID,
+            role: user.role,
         });
 
     } catch (error) {
@@ -57,7 +58,7 @@ const signInUser = async (req, res) => {
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (isPasswordValid) {
-            return res.json({ message: "Login successful", userID: user.userID }); // Send back the userID
+            return res.json({ message: "Login successful", userID: user.userID, role: user.role }); // Send back the userID
         } else {
             return res.status(401).json({ message: "Invalid password" });
         }
