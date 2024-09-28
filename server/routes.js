@@ -1,12 +1,12 @@
 const express = require("express");
 const { signInUser, registerUser, changePassword } = require("./auth");
-const { postJob, getJobById, getAllJobs, deleteJobs } = require("./postJob");
+const { postJob, getJobById, getAllJobs, deleteJobs, fetchJobStatistics } = require("./postJob");
 const { createProfile, getAllProfiles, getProfileByID } = require("./profile");
 const { createResume, getResumeDetails } = require('./resume');
-const { applyJob, checkApplied, appliedJobs, getAppliedJobs, postJobScore } = require('./applyjob');
+const { applyJob, checkApplied, appliedJobs, getAppliedJobs, postJobScore, fetchJobApplicationStatistics } = require('./applyjob');
 const { getUserProfilesByJobId, getShortlistedUserProfilesByJobId, getAllUserProfiles } = require('./allApplicants');
 const { postShortlisted } = require('./shortlisted');
-const { postRejected } = require('./rejected');
+const { postRejected, fetchTotalRejectedJobs } = require('./rejected');
 
 const router = express.Router();
 
@@ -28,6 +28,9 @@ router.post("/postJobScore", postJobScore);
 router.post("/postShortlisted", postShortlisted);
 router.post("/postRejected", postRejected);
 router.get("/shortlistedProfile", getShortlistedUserProfilesByJobId);
+router.get("/fetchTotalRejectedJobs", fetchTotalRejectedJobs);
+router.get("/fetchJobStatistics", fetchJobStatistics);
+router.get("/fetchJobApplicationStatistics", fetchJobApplicationStatistics);
 
 //profile-candidate
 router.post("/createProfile", createProfile);

@@ -59,4 +59,27 @@ const postRejected = async (req, res) => {
     }
 };
 
-module.exports = { postRejected };  
+const fetchTotalRejectedJobs = async (req, res) => {
+    try {
+        // Count the total number of rejected jobs
+        const totalRejectedJobs = await Rejected.countDocuments();
+
+        // Count the number of unique job IDs
+        const uniqueRejectedJobs = await Rejected.distinct('jobId').countDocuments();
+
+        // Count the number of unique users who have rejected jobs
+        const uniqueUsers = await Rejected.distinct('userID').countDocuments();
+
+        res.status(200).json({
+            message: "Total rejected jobs fetched successfully",
+            totalRejections: totalRejectedJobs,
+            uniqueRejectedJobs: uniqueRejectedJobs,
+            uniqueUsers: uniqueUsers
+        });
+    } catch (error) {
+        console.error("Error in fetchTotalRejectedJobs:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+module.exports = { postRejected, fetchTotalRejectedJobs };  

@@ -56,21 +56,6 @@ const Applicants = () => {
                     </button>
                   </Link>
                 </li>
-                <li>
-                  <button data-text="Approve Application">
-                    <span className="la la-check"></span>
-                  </button>
-                </li>
-                 <li>
-                  <button data-text="Reject Application">
-                    <span className="la la-times-circle"></span>
-                  </button>
-                </li>
-                <li>
-                  <button data-text="Delete Application">
-                    <span className="la la-trash"></span>
-                  </button>
-                </li>
               </ul>
             </div>
           </div>

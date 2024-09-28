@@ -241,4 +241,44 @@ const postJobScore = async (req, res) => {
   }
 };
 
-module.exports = { applyJob, checkApplied, appliedJobs, getAppliedJobs, postJobScore };
+const fetchJobApplicationStatistics = async (req, res) => {
+    try {
+        // Count total number of job application documents
+        const totalApplicationDocuments = await JobApply.countDocuments();
+
+        // Count total number of unique users who have applied for jobs
+        const uniqueApplicants = await JobApply.distinct('userID').countDocuments();
+
+        // Count total number of job applications (sum of all jobIDs arrays)
+        const totalJobApplications = await JobApply.aggregate([
+            { $unwind: "$jobIDs" },
+            { $group: { _id: null, count: { $sum: 1 } } }
+        ]);
+
+        // Count applications in the last 30 days
+        const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+        const recentApplications = await JobApply.countDocuments({ 
+            createdAt: { $gte: thirtyDaysAgo } 
+        });
+
+        // Get average job matching score
+        const averageMatchingScore = await JobApply.aggregate([
+            { $unwind: "$jobIDs" },
+            { $group: { _id: null, avgScore: { $avg: "$jobIDs.jobMatchingScore" } } }
+        ]);
+
+        res.status(200).json({
+            message: "Job application statistics fetched successfully",
+            totalApplicationDocuments,
+            uniqueApplicants,
+            totalJobApplications: totalJobApplications[0]?.count || 0,
+            recentApplications,
+            averageMatchingScore: averageMatchingScore[0]?.avgScore || 0
+        });
+    } catch (error) {
+        console.error("Error in fetchJobApplicationStatistics:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+module.exports = { applyJob, checkApplied, appliedJobs, getAppliedJobs, postJobScore, fetchJobApplicationStatistics };

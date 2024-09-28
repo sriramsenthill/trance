@@ -134,4 +134,54 @@ const deleteJobs = async (req, res) => {
   }
 };
 
-module.exports = { postJob, getJobById, getAllJobs, deleteJobs };
+const fetchJobStatistics = async (req, res) => {
+    try {
+        // Count total number of jobs
+        const totalJobs = await JobSchema.countDocuments();
+
+        // Count jobs by job type
+        const jobTypeCount = await JobSchema.aggregate([
+            { $group: { _id: "$jobType", count: { $sum: 1 } } }
+        ]);
+
+        // Count jobs by industry
+        const industryCount = await JobSchema.aggregate([
+            { $group: { _id: "$industry", count: { $sum: 1 } } }
+        ]);
+
+        // Count jobs by career level
+        const careerLevelCount = await JobSchema.aggregate([
+            { $group: { _id: "$careerLevel", count: { $sum: 1 } } }
+        ]);
+
+        // Count jobs posted in the last 30 days
+        const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+        const recentJobsCount = await JobSchema.countDocuments({ datePosted: { $gte: thirtyDaysAgo } });
+
+        // Count jobs with at least one shortlisted candidate
+        const jobsWithShortlistedCount = await JobSchema.countDocuments({ 
+            "shortlisted.isShortlisted": true 
+        });
+
+        // Count jobs with at least one rejected candidate
+        const jobsWithRejectedCount = await JobSchema.countDocuments({ 
+            "rejected.isRejected": true 
+        });
+
+        res.status(200).json({
+            message: "Job statistics fetched successfully",
+            totalJobs,
+            recentJobsCount,
+            jobsWithShortlistedCount,
+            jobsWithRejectedCount,
+            jobTypeDistribution: jobTypeCount,
+            industryDistribution: industryCount,
+            careerLevelDistribution: careerLevelCount
+        });
+    } catch (error) {
+        console.error("Error in fetchJobStatistics:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+module.exports = { postJob, getJobById, getAllJobs, deleteJobs, fetchJobStatistics };
