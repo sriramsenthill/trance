@@ -19,7 +19,7 @@ const Form = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
-
+  console.log("Session data:", session);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const userID = window.localStorage.getItem('userID');

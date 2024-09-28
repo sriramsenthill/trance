@@ -27,7 +27,7 @@ export const authOptions = {
                         throw new Error("Invalid credentials");
                     }
 
-                    return user; // Ensure this includes userID in the returned object
+                    return user; // Ensure this includes userID and role
                 } catch (error) {
                     console.error("Error during authorization:", error);
                     throw new Error("Authorization failed");
@@ -39,11 +39,13 @@ export const authOptions = {
         async jwt({ token, user }) {
             if (user) {
                 token.userID = user.userID; // Attach userID to token
+                token.role = user.role; // Attach role to token
             }
             return token;
         },
         async session({ session, token }) {
             session.user.userID = token.userID; // Attach userID to session
+            session.user.role = token.role; // Attach role to session
             return session;
         },
     },

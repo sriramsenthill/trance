@@ -49,16 +49,7 @@ const DashboardCandidatesHeader = () => {
                     {/* End .nav-outer */}
 
                     <div className="outer-box">
-                        <button className="menu-btn">
-                            <span className="count">1</span>
-                            <span className="icon la la-heart-o"></span>
-                        </button>
-                        {/* wishlisted menu */}
 
-                        <button className="menu-btn">
-                            <span className="icon la la-bell"></span>
-                        </button>
-                        {/* End notification-icon */}
 
                         {/* <!-- Dashboard Option --> */}
                         <div className="dropdown dashboard-option">
@@ -71,7 +62,7 @@ const DashboardCandidatesHeader = () => {
                                 <Image
                                     alt="avatar"
                                     className="thumb"
-                                    src="/images/resource/candidate-1.png"
+                                    src="/images/profileLogo.png"
                                     width={50}
                                     height={50}
                                 />
