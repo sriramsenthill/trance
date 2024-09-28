@@ -4,7 +4,7 @@ const { postJob, getJobById, getAllJobs, deleteJobs } = require("./postJob");
 const { createProfile, getAllProfiles, getProfileByID } = require("./profile");
 const { createResume, getResumeDetails } = require('./resume');
 const { applyJob, checkApplied, appliedJobs, getAppliedJobs, postJobScore } = require('./applyjob');
-const { getUserProfilesByJobId, getShortlistedUserProfilesByJobId } = require('./allApplicants');
+const { getUserProfilesByJobId, getShortlistedUserProfilesByJobId, getAllUserProfiles } = require('./allApplicants');
 const { postShortlisted } = require('./shortlisted');
 const { postRejected } = require('./rejected');
 
@@ -36,6 +36,7 @@ router.get('/profiles', getAllProfiles);
 router.get('/profiles/:userID', getProfileByID);
 router.get('/resumes/:userID', getResumeDetails);
 router.get("/allApplicants", getUserProfilesByJobId);
+router.get("/getAllUserProfiles", getAllUserProfiles);
 
 
 module.exports = router;

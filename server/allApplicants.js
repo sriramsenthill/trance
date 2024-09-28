@@ -94,5 +94,26 @@ const getShortlistedUserProfilesByJobId = async (req, res) => {
     }
 };
 
+const getAllUserProfiles = async (req,res) => {
+    try {
+        // Fetch all userIDs from the Job collection
+        const allJobs = await Job.find({}, 'userIDs');
+        const allUserIDs = [...new Set(allJobs.flatMap(job => job.userIDs))];
 
-module.exports = { getUserProfilesByJobId, getShortlistedUserProfilesByJobId };
+        // Fetch profiles for all userIDs
+        const profiles = await MyProfile.find({ userID: { $in: allUserIDs } });
+        
+              // Return the profiles as JSON
+              res.status(201).json({
+                message: "Shortlisted user profiles retrieved successfully",
+                users: profiles,
+            });
+
+    } catch (error) {
+        console.error("Error in getAllUserProfiles:", error);
+        throw error;
+    }
+};
+
+
+module.exports = { getUserProfilesByJobId, getShortlistedUserProfilesByJobId, getAllUserProfiles };
