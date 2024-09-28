@@ -58,6 +58,22 @@ const postShortlisted = async (req, res) => {
   }
 };
 
-module.exports = { postShortlisted };
+const getTotalShortlistedApplicants = async (req, res) => {
+  try {
+    // Count the total shortlisted applicants
+    const totalShortlisted = await shortlistedSchema.countDocuments();
+
+    res.status(200).json({
+      totalShortlisted
+    });
+  } catch (error) {
+    console.error("Error in getTotalShortlistedApplicants:", error);
+    
+    // Generic error handler
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = { postShortlisted, getTotalShortlistedApplicants };
 
 
