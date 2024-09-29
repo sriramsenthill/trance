@@ -24,7 +24,10 @@ Trance is an innovative recruiting platform designed to streamline the hiring pr
 - **AI-Assisted Form Filling**: Our intelligent AI assistant helps recruiters fill forms automatically with prompts based on different job roles, reducing manual data entry and ensuring accuracy.
   
   ![AI-Assisted Form Filling](images/1.png)
+  
+- **AI-Assisted Chat Support**: AI assisted chat support helps in resolving job related queries and help to solve any issues in the hiring process and also provides any details about the recruitment process or the company.
 
+   [AI-Assisted Chat Support](images/7.png)
 ## Installation
 
 To install the project, clone the repository:
