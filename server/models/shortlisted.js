@@ -6,6 +6,9 @@ const shortlist = new mongoose.Schema({
     },
     jobId: {
         type: Number,
+    },
+    dateShortlisted: {
+        type: Date,
     }
     
 });

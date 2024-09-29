@@ -74,6 +74,47 @@ const getTotalShortlistedApplicants = async (req, res) => {
   }
 };
 
-module.exports = { postShortlisted, getTotalShortlistedApplicants };
+const getJobsForUser = async (req, res) => {
+  try {
+    const { userID } = req.query;
+
+    // Validate userID
+    if (!userID) {
+      return res.status(400).json({ error: "User ID is required" });
+    }
+
+    // Fetch all job IDs for the given userID
+    const shortlistedJobs = await shortlistedSchema.find({ userID }).lean();
+    
+    // Check if there are any shortlisted jobs
+    if (!shortlistedJobs.length) {
+      return res.status(404).json({ message: "No shortlisted jobs found for this user" });
+    }
+
+    // Extract job IDs
+    const jobIds = shortlistedJobs.map(job => job.jobId);
+    
+    // Fetch job details for the extracted job IDs
+    const jobsDetails = await Job.find({ jobId: { $in: jobIds } }).lean();
+
+    // Check if any job details were found
+    if (!jobsDetails.length) {
+      return res.status(404).json({ message: "No jobs found for this user" });
+    }
+
+    // Return the job details
+    res.status(200).json({
+      userID,
+      jobs: jobsDetails
+    });
+  } catch (error) {
+    console.error("Error in getJobsForUser:", error);
+    
+    // Generic error handler
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = { postShortlisted, getTotalShortlistedApplicants, getJobsForUser };
 
 
