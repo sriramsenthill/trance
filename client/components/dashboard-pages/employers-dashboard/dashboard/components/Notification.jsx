@@ -1,49 +1,62 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
 const Notification = () => {
+  const [appliedJobs, setAppliedJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch applied jobs data
+  useEffect(() => {
+    const fetchAppliedJobs = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/getAppliedJobs');
+        const jobs = response.data;
+
+        // Fetch user and job details in parallel
+        const notifications = await Promise.all(jobs.map(async (job) => {
+          const userResponse = await axios.get(`http://localhost:3000/profiles/${job.userID}`);
+          const user = userResponse.data;
+
+          // Map job IDs to fetch job details
+          const jobDetails = await Promise.all(job.jobIDs.map(async (jobID) => {
+            const jobResponse = await axios.get(`http://localhost:3000/jobs/${jobID.jobId}`);
+            return {
+              jobTitle: jobResponse.data.jobTitle,
+              isApplied: jobID.isApplied,
+            };
+          }));
+
+          return {
+            userName: user.fullName, // Assuming the response has a 'fullName' field
+            jobs: jobDetails,
+          };
+        }));
+
+        setAppliedJobs(notifications);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching applied jobs:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchAppliedJobs();
+  }, []);
+
+  if (loading) {
+    return <p>Loading notifications...</p>;
+  }
+
   return (
     <ul className="notification-list">
-      <li>
-        <span className="icon flaticon-briefcase"></span>
-        <strong>Henry Wilson</strong> applied for a job
-        <span className="colored"> Product Designer</span>
-      </li>
-      {/* End li */}
-
-      <li className="success">
-        <span className="icon flaticon-briefcase"></span>
-        <strong>Raul Costa</strong> applied for a job
-        <span className="colored"> Product Manager, Risk</span>
-      </li>
-      {/* End li */}
-
-      <li>
-        <span className="icon flaticon-briefcase"></span>
-        <strong>Jack Milk</strong> applied for a job
-        <span className="colored"> Technical Architect</span>
-      </li>
-      {/* End li */}
-
-      <li className="success">
-        <span className="icon flaticon-briefcase"></span>
-        <strong>Michel Arian</strong>
-        applied for a job
-        <span className="colored"> Software Engineer</span>
-      </li>
-      {/* End li */}
-
-      <li>
-        <span className="icon flaticon-briefcase"></span>
-        <strong>Wade Warren</strong> applied for a job
-        <span className="colored"> Web Developer</span>
-      </li>
-      {/* End li */}
-
-      <li className="success">
-        <span className="icon flaticon-briefcase"></span>
-        <strong>Michel Arian</strong>
-        applied for a job
-        <span className="colored"> Software Engineer</span>
-      </li>
-      {/* End li */}
+      {appliedJobs.map((notification, index) => (
+        notification.jobs.map((job, i) => (
+          <li key={`${index}-${i}`} className={job.isApplied ? "success" : ""}>
+            <span className="icon flaticon-briefcase"></span>
+            <strong>{notification.userName}</strong> applied for <span className="colored">{job.jobTitle}</span> job
+          </li>
+        ))
+      ))}
     </ul>
   );
 };

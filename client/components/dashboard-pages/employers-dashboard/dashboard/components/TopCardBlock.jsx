@@ -1,32 +1,119 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
 const TopCardBlock = () => {
+  const [stats, setStats] = useState({
+    totalJobApplications: 0,
+    totalJobs: 0,
+    totalAccepted: 0,
+    totalRejections: 0,
+  });
+
+  useEffect(() => {
+    // Fetch Total Applicants
+    const fetchTotalApplicants = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/fetchJobApplicationStatistics");
+        // Ensure the response has the expected structure
+        if (response.data && response.data.totalJobApplications !== undefined) {
+          setStats(prevStats => ({
+            ...prevStats,
+            totalJobApplications: response.data.totalJobApplications,
+          }));
+        } else {
+          console.error("Unexpected response structure:", response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching total applicants:", error.response ? error.response.data : error.message);
+      }
+    };
+
+    // Fetch Total Jobs
+    const fetchTotalJobs = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/fetchJobStatistics");
+        if (response.data && response.data.totalJobs !== undefined) {
+          setStats(prevStats => ({
+            ...prevStats,
+            totalJobs: response.data.totalJobs,
+          }));
+        } else {
+          console.error("Unexpected response structure for jobs:", response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching total jobs:", error.response ? error.response.data : error.message);
+      }
+    };
+
+    // Fetch Total Rejected Applicants
+    const fetchTotalRejected = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/fetchTotalRejectedJobs");
+        if (response.data && response.data.totalRejections !== undefined) {
+          setStats(prevStats => ({
+            ...prevStats,
+            totalRejections: response.data.totalRejections,
+          }));
+        } else {
+          console.error("Unexpected response structure for rejected applicants:", response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching total rejected applicants:", error.response ? error.response.data : error.message);
+      }
+    };
+
+    // Fetch Total Accepted Applicants
+    const fetchTotalAccepted = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/getTotalShortlistedApplicants");
+        if (response.data && response.data.totalShortlisted !== undefined) {
+          setStats(prevStats => ({
+            ...prevStats,
+            totalAccepted: response.data.totalShortlisted,
+          }));
+        } else {
+          console.error("Unexpected response structure for accepted applicants:", response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching total accepted applicants:", error.response ? error.response.data : error.message);
+      }
+    };
+
+    // Fetch all data
+    fetchTotalApplicants();
+    fetchTotalJobs();
+    fetchTotalRejected();
+    fetchTotalAccepted(); // Call the new function to fetch accepted applicants
+  }, []);
+
   const cardContent = [
     {
       id: 1,
       icon: "flaticon-briefcase",
-      countNumber: "22",
+      countNumber: stats.totalJobs,
       metaName: "Posted Jobs",
       uiClass: "ui-blue",
     },
     {
       id: 2,
       icon: "la-file-invoice",
-      countNumber: "9382",
-      metaName: "Application",
+      countNumber: stats.totalJobApplications,
+      metaName: "Total Applicants",
       uiClass: "ui-red",
     },
     {
       id: 3,
-      icon: "la-comment-o",
-      countNumber: "74",
-      metaName: "Messages",
-      uiClass: "ui-yellow",
+      icon: "la-check-circle",
+      countNumber: stats.totalAccepted, // This will now display totalShortlisted
+      metaName: "Accepted Applicants",
+      uiClass: "ui-green",
     },
     {
       id: 4,
-      icon: "la-bookmark-o",
-      countNumber: "32",
-      metaName: "Shortlist",
-      uiClass: "ui-green",
+      icon: "la-times-circle",
+      countNumber: stats.totalRejections,
+      metaName: "Rejected Applicants",
+      uiClass: "ui-orange",
     },
   ];
 
