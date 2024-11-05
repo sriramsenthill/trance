@@ -4,7 +4,7 @@
 Trance is an innovative recruiting platform designed to streamline the hiring process using advanced AI algorithms. Our platform enhances the recruitment experience for both recruiters and candidates, ensuring efficient and effective hiring.
 
 ## Project Live Link🌱
-https://main.dz5sherttwyud.amplifyapp.com	
+https://main.d3ephh2lbmu2zf.amplifyapp.com/
 
 ## Key Features
 
