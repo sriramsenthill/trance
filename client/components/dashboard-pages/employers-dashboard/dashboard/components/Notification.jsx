@@ -2,61 +2,79 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const Notification = () => {
-  const [appliedJobs, setAppliedJobs] = useState([]);
+  const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch applied jobs data
   useEffect(() => {
-    const fetchAppliedJobs = async () => {
+    const fetchNotifications = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/getAppliedJobs');
-        const jobs = response.data;
+        // Step 1: Get applied jobs
+        const appliedJobsResponse = await axios.get('http://localhost:3000/getAppliedJobs');
+        const appliedJobs = appliedJobsResponse.data;
+        console.log("Applied Jobs:", appliedJobs);
 
-        // Fetch user and job details in parallel
-        const notifications = await Promise.all(jobs.map(async (job) => {
-          const userResponse = await axios.get(`http://localhost:3000/profiles/${job.userID}`);
-          const user = userResponse.data;
+        // Step 2: Fetch data for notifications
+        const fetchedNotifications = await Promise.all(
+          appliedJobs.map(async (job) => {
+            try {
+              const userResponse = await axios.get(`http://localhost:3000/profiles/${job.userID}`);
+              const user = userResponse.data;
 
-          // Map job IDs to fetch job details
-          const jobDetails = await Promise.all(job.jobIDs.map(async (jobID) => {
-            const jobResponse = await axios.get(`http://localhost:3000/jobs/${jobID.jobId}`);
-            return {
-              jobTitle: jobResponse.data.jobTitle,
-              isApplied: jobID.isApplied,
-            };
-          }));
+              const jobDetails = await Promise.all(
+                job.jobIDs.map(async (jobIDObj) => {
+                  try {
+                    const jobResponse = await axios.get(`http://localhost:3000/jobs/${jobIDObj.jobId}`);
+                    return {
+                      jobTitle: jobResponse.data.jobTitle,
+                      isApplied: jobIDObj.isApplied,
+                    };
+                  } catch (jobError) {
+                    console.error("Error fetching job details:", jobError);
+                    return null;
+                  }
+                })
+              );
 
-          return {
-            userName: user.fullName, // Assuming the response has a 'fullName' field
-            jobs: jobDetails,
-          };
-        }));
+              return {
+                userName: user.fullName,
+                jobs: jobDetails.filter((job) => job !== null), // Filter out failed jobs
+              };
+            } catch (userError) {
+              console.error("Error fetching user profile:", userError);
+              return null;
+            }
+          })
+        );
 
-        setAppliedJobs(notifications);
-        setLoading(false);
+        setNotifications(fetchedNotifications.filter((notification) => notification !== null));
       } catch (error) {
-        console.error('Error fetching applied jobs:', error);
+        console.error("Error fetching notifications:", error);
+      } finally {
         setLoading(false);
       }
     };
 
-    fetchAppliedJobs();
+    fetchNotifications();
   }, []);
 
   if (loading) {
     return <p>Loading notifications...</p>;
   }
 
+  if (notifications.length === 0) {
+    return <p>No notifications available.</p>;
+  }
+
   return (
     <ul className="notification-list">
-      {appliedJobs.map((notification, index) => (
+      {notifications.map((notification, index) =>
         notification.jobs.map((job, i) => (
           <li key={`${index}-${i}`} className={job.isApplied ? "success" : ""}>
             <span className="icon flaticon-briefcase"></span>
             <strong>{notification.userName}</strong> applied for <span className="colored">{job.jobTitle}</span> job
           </li>
         ))
-      ))}
+      )}
     </ul>
   );
 };
