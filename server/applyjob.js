@@ -16,7 +16,7 @@ async function calculateSimilarity(companyDescription, companyValue, userDescrip
         messages: [
           {
             role: "user",
-            content: `how much would you rate the similarity in the range of 100 in rating between two JSON data. The two fields are ${companyDescription}=${companyValue} and ${userDescription}=${userValue}. I want you to give me only the number and no other text.`
+            content: `rate the similarity in the range of 100 in rating between two JSON data. give above 90 if job title mathces and less if dont. The two fields are ${companyDescription}=${companyValue} and ${userDescription}=${userValue}. I want you to give me only the number and no other text.`
           }
         ],
         temperature: 1
