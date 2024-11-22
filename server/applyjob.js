@@ -1,5 +1,47 @@
 const JobApply = require("./models/apply");
-const Job = require("./models/job"); 
+const Job = require("./models/job");
+const axios = require('axios');
+
+// Groq API configuration
+const GROQ_API_KEY = "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";
+const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
+
+// Function to calculate similarity using Groq
+async function calculateSimilarity(companyDescription, companyValue, userDescription, userValue) {
+  try {
+    const response = await axios.post(
+      GROQ_API_URL,
+      {
+        model: "llama-3.1-70b-versatile",
+        messages: [
+          {
+            role: "user",
+            content: `rate the similarity in the range of 100 in rating between two JSON data. give above 90 if job title mathces and less if dont. The two fields are ${companyDescription}=${companyValue} and ${userDescription}=${userValue}. I want you to give me only the number and no other text.`
+          }
+        ],
+        temperature: 1
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${GROQ_API_KEY}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    // Trim the response to ensure it's clean and log it
+    const match = response.data.choices[0].message.content.trim();
+    
+
+    // Return the response as a string
+    return match;
+
+  } catch (error) {
+    console.error("Error calculating similarity:", error);
+    return "error"; // Return "0" as a string in case of an error
+  }
+}
+
 
 const applyJob = async (req, res) => {
   let newJobApplication;
@@ -17,68 +59,99 @@ const applyJob = async (req, res) => {
       return res.status(400).json({ error: "userID and jobID must be numbers" });
     }
 
-    // Check if the user has already applied for any jobs
-    const existingApplication = await JobApply.findOne({ userID });
+    try {
+      // Fetch user profile and job details
+      const [userResponse, jobResponse] = await Promise.all([
+        axios.get(`http://localhost:3000/profiles/${userID}`),
+        axios.get(`http://localhost:3000/jobs/${jobID}`)
+      ]);
 
-    if (existingApplication) {
-      // Check if the user has already applied for the specific job
-      const jobExists = existingApplication.jobIDs.find(job => job.jobId === jobID);
+      const userData = userResponse.data;
+      const jobData = jobResponse.data;
+      
+      // Calculate similarity score
+      const similarityScore = await calculateSimilarity(
+        "company profile",
+        jobData,
+        "candidate profile",
+        userData
+      );
 
-      if (jobExists) {
-        return res.status(400).json({ error: "You have already applied for this job" });
+      // Check if the user has already applied for any jobs
+      const existingApplication = await JobApply.findOne({ userID });
+
+      if (existingApplication) {
+        // Check if the user has already applied for the specific job
+        const jobExists = existingApplication.jobIDs.find(job => job.jobId === jobID);
+
+        if (jobExists) {
+          return res.status(400).json({ error: "You have already applied for this job" });
+        }
+
+        // Append the new jobID object with similarity score
+        existingApplication.jobIDs.push({
+          jobId: jobID,
+          isApplied: true,
+          jobMatchingScore: similarityScore
+        });
+        await existingApplication.save();
+        newJobApplication = existingApplication;
+      } else {
+        // Create a new job application with similarity score
+        newJobApplication = new JobApply({
+          userID,
+          jobIDs: [{
+            jobId: jobID,
+            isApplied: true,
+            jobMatchingScore: similarityScore
+          }]
+        });
+
+        await newJobApplication.save();
       }
 
-      // Append the new jobID object to the existing array of jobIDs
-      existingApplication.jobIDs.push({ jobId: jobID, isApplied: true });
-      await existingApplication.save();
-    } else {
-      // Create a new job application instance with an array of jobIDs
-      newJobApplication = new JobApply({
-        userID,
-        jobIDs: [{ jobId: jobID, isApplied: true }],
+      // Update the job document with the new applicant
+      const job = await Job.findOne({ jobId: jobID });
+      if (!job) {
+        return res.status(404).json({ error: "Job not found" });
+      }
+
+      if (!job.userIDs.includes(userID)) {
+        job.userIDs.push(userID);
+        await job.save();
+      }
+
+      res.status(201).json({
+        message: "Job application submitted successfully",
+        application: newJobApplication,
+        similarityScore
       });
 
-      // Save the new job application to the database
-      await newJobApplication.save();
+    } catch (apiError) {
+      console.error("Error in API calls:", apiError);
+      return res.status(500).json({ 
+        error: "Error processing application",
+        details: apiError.message 
+      });
     }
 
-    // Find the job in the job database
-    const job = await Job.findOne({ jobId: jobID });
-
-    if (!job) {
-      return res.status(404).json({ error: "Job not found" });
-    }
-
-    // Check if the userID already exists in the userIDs array
-    if (!job.userIDs.includes(userID)) {
-      // Append the userID to the userIDs array
-      job.userIDs.push(userID);
-      await job.save();
-    }
-
-    res.status(201).json({
-      message: "Job application submitted successfully",
-      application: existingApplication || newJobApplication,
-    });
   } catch (error) {
-    console.error("Error in applyForJob:", error);
+    console.error("Error in applyJob:", error);
 
     if (error.name === 'ValidationError') {
-      // Mongoose validation error
       const errors = Object.values(error.errors).map(err => err.message);
       return res.status(400).json({ error: errors });
     }
 
-    // Check for duplicate application (if you still want to handle this)
     if (error.code === 11000) {
       return res.status(400).json({ error: "You have already applied for this job" });
     }
 
-    // Generic error handler
     res.status(500).json({ error: "Internal server error" });
   }
 };
 
+// Keep other existing functions unchanged
 const checkApplied = async (req, res) => {
   try {
     const { userID, jobID } = req.body;
@@ -160,7 +233,6 @@ const appliedJobs = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
 const getAppliedJobs = async (req, res) => {
   try {
 
@@ -280,5 +352,11 @@ const fetchJobApplicationStatistics = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 };
-
-module.exports = { applyJob, checkApplied, appliedJobs, getAppliedJobs, postJobScore, fetchJobApplicationStatistics };
+module.exports = {
+  applyJob,
+  checkApplied,
+  appliedJobs,
+  getAppliedJobs,
+  postJobScore,
+  fetchJobApplicationStatistics
+};

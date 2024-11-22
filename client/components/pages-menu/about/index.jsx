@@ -46,7 +46,7 @@ const index = () => {
       </section>
       {/* <!-- End About Section Three --> */}
 
-      <CallToAction2 />
+     
       {/* <!-- End CallToAction2 --> */}
 
       <section className="testimonial-section-two">

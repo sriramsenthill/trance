@@ -91,15 +91,15 @@ const WidgetContentBox = () => {
   return (
     <>
       <div className="chosen-outer" style={{ display: 'flex', justifyContent: 'flex-end', padding: '10px 0', marginRight: '20px' }}>
-        <select 
-          className="chosen-single form-select chosen-container" 
-          onChange={handleJobSelect} 
-          style={{ 
-            width: 'auto', 
-            maxWidth: '200px', 
-            overflow: 'hidden', 
-            whiteSpace: 'nowrap', 
-            padding: '8px',backgroundColor:'#F0F5F7' /* Padding inside the dropdown */
+        <select
+          className="chosen-single form-select chosen-container"
+          onChange={handleJobSelect}
+          style={{
+            width: 'auto',
+            maxWidth: '200px',
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            padding: '8px', backgroundColor: '#F0F5F7' /* Padding inside the dropdown */
           }}
         >
           <option value="">Select Jobs</option>
@@ -149,9 +149,9 @@ const WidgetContentBox = () => {
                           </h4>
                           <ul className="candidate-info">
                             <li className="designation">
-                              Job Similarity Score:
-                              {candidate.resumeScore}
+                              Job Similarity Score: {candidate.jobMatchingScore}%
                             </li>
+
                           </ul>
                           <ul className="candidate-info">
 
