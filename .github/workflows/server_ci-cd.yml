@@ -55,7 +55,7 @@ jobs:
     name: Deploy Docker Container to EC2
     needs: build-and-push-to-ecr
     runs-on: ubuntu-latest
-
+  
     steps:
       - name: Deploy Server to EC2
         uses: appleboy/ssh-action@v0.1.5
@@ -66,25 +66,29 @@ jobs:
           port: 22
           script: |
             sudo su
-            # Define the ECR repository URI
+            
+            # Log in to Amazon ECR
+            echo "Logging in to Amazon ECR..."
+            aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin 084375566744.dkr.ecr.eu-west-2.amazonaws.com
             
             # Pull the latest Docker image from ECR
             echo "Pulling Docker image from ECR..."
             docker pull 084375566744.dkr.ecr.eu-west-2.amazonaws.com/trance.backend:latest
-
+            
             # Stop and remove the previous container if it exists
             if [ "$(docker ps -aq -f name=app)" ]; then
                 echo "Stopping and removing the previous container..."
                 docker stop app
                 docker rm app
             fi
-
+            
             # Run the Docker container
             echo "Running the Docker container..."
-            docker run -d --name app -p 3000:3000 ${REPO_URI}:latest
-
+            docker run -d --name app -p 3000:3000 084375566744.dkr.ecr.eu-west-2.amazonaws.com/trance.backend:latest
+            
             # Prune unused Docker images
             echo "Pruning unused Docker images..."
             docker image prune -f
-
+            
             echo "Deployment to EC2 completed successfully."
+  
