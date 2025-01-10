@@ -69,7 +69,7 @@ jobs:
             
             # Pull the latest Docker image from ECR
             echo "Pulling Docker image from ECR..."
-            docker pull ${REPO_URI}:latest
+            docker pull 084375566744.dkr.ecr.eu-west-2.amazonaws.com/trance.backend:latest
 
             # Stop and remove the previous container if it exists
             if [ "$(docker ps -aq -f name=app)" ]; then
