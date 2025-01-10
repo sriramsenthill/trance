@@ -66,7 +66,8 @@ jobs:
           port: 22
           script: |
             # Define the ECR repository URI
-            REPO_URI="${{ secrets.ECR_REPOSITORY }}" # Replace with your ECR repository URI
+            aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin 084375566744.dkr.ecr.eu-west-2.amazonaws.com
+
 
             # Pull the latest Docker image from ECR
             echo "Pulling Docker image from ECR..."
