@@ -65,6 +65,7 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           port: 22
           script: |
+            sudo su
             # Define the ECR repository URI
             
             # Pull the latest Docker image from ECR
