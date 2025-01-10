@@ -65,30 +65,28 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           port: 22
           script: |
-            sudo su
-            
-            # Log in to Amazon ECR
-            echo "Logging in to Amazon ECR..."
-            aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin 084375566744.dkr.ecr.eu-west-2.amazonaws.com
-            
+            # Define the ECR repository URI
+            REPO_URI="${{ secrets.ECR_REPOSITORY }}" # Replace with your ECR repository URI
+            echo $REPO_URI
+
             # Pull the latest Docker image from ECR
             echo "Pulling Docker image from ECR..."
-            docker pull 084375566744.dkr.ecr.eu-west-2.amazonaws.com/trance.backend:latest
-            
+            docker pull ${REPO_URI}:latest
+
             # Stop and remove the previous container if it exists
             if [ "$(docker ps -aq -f name=app)" ]; then
                 echo "Stopping and removing the previous container..."
                 docker stop app
                 docker rm app
             fi
-            
+
             # Run the Docker container
             echo "Running the Docker container..."
-            docker run -d --name app -p 3000:3000 084375566744.dkr.ecr.eu-west-2.amazonaws.com/trance.backend:latest
-            
+            docker run -d --name app -p 3000:3000 ${REPO_URI}:latest
+
             # Prune unused Docker images
             echo "Pruning unused Docker images..."
             docker image prune -f
-            
+
             echo "Deployment to EC2 completed successfully."
   
