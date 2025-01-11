@@ -65,11 +65,6 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           port: 22
           script: |
-            aws configure
-            ${{ secrets.AWS_ACCESS_KEY_ID }}
-            ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            ${{ secrets.AWS_REGION }}
-            
             echo "Authenticating Docker with ECR..."
             # Define the ECR repository URI
             REPO_URI="${{ secrets.ECR_REPOSITORY }}" # Replace with your ECR repository URI
