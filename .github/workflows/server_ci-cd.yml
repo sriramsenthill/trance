@@ -65,15 +65,9 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           port: 22
           script: |
-            sudo su
-            aws sts get-caller-identity
-            # Authenticate Docker with ECR
             echo "Authenticating Docker with ECR..."
-            aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin 084375566744.dkr.ecr.eu-west-2.amazonaws.com
-            
             # Define the ECR repository URI
-            REPO_URI="084375566744.dkr.ecr.eu-west-2.amazonaws.com/trance.backend"
-  
+            REPO_URI="${{ secrets.ECR_REPOSITORY }}" # Replace with your ECR repository URI
             # Pull the latest Docker image from ECR
             echo "Pulling Docker image from ECR..."
             docker pull "${REPO_URI}:latest"
