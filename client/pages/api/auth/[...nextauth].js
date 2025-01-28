@@ -15,7 +15,7 @@ export const authOptions = {
                 const { email, password } = credentials;
 
                 try {
-                    const response = await axios.post(`${Config.BACKEND_URL}/signIn`, {
+                    const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_HOST}/signIn`, {
                         email,
                         password
                     });
