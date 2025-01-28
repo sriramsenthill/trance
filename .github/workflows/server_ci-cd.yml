@@ -3,7 +3,7 @@ name: Build and Deploy to EC2
 on:
   push:
     branches:
-      - prod-deploy
+      - main
 
 jobs:
   build-and-push-to-ecr:
