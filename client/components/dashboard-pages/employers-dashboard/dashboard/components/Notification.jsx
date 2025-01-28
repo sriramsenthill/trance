@@ -9,7 +9,7 @@ const Notification = () => {
     const fetchNotifications = async () => {
       try {
         // Step 1: Get applied jobs
-        const appliedJobsResponse = await axios.get('http://localhost:3000/getAppliedJobs');
+        const appliedJobsResponse = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_HOST}/getAppliedJobs`);
         const appliedJobs = appliedJobsResponse.data;
         console.log("Applied Jobs:", appliedJobs);
 
@@ -17,13 +17,13 @@ const Notification = () => {
         const fetchedNotifications = await Promise.all(
           appliedJobs.map(async (job) => {
             try {
-              const userResponse = await axios.get(`http://localhost:3000/profiles/${job.userID}`);
+              const userResponse = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_HOST}/profiles/${job.userID}`);
               const user = userResponse.data;
 
               const jobDetails = await Promise.all(
                 job.jobIDs.map(async (jobIDObj) => {
                   try {
-                    const jobResponse = await axios.get(`http://localhost:3000/jobs/${jobIDObj.jobId}`);
+                    const jobResponse = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_HOST}/jobs/${jobIDObj.jobId}`);
                     return {
                       jobTitle: jobResponse.data.jobTitle,
                       isApplied: jobIDObj.isApplied,

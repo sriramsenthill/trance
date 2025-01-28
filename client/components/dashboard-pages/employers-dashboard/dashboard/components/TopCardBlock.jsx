@@ -13,7 +13,7 @@ const TopCardBlock = () => {
     // Fetch Total Applicants
     const fetchTotalApplicants = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/fetchJobApplicationStatistics");
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_HOST}/fetchJobApplicationStatistics`);
         // Ensure the response has the expected structure
         if (response.data && response.data.totalJobApplications !== undefined) {
           setStats(prevStats => ({

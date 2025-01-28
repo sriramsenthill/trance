@@ -10,7 +10,7 @@ const Applicants = () => {
   useEffect(() => {
     const fetchApplicants = async () => {
       try {
-        const response = await axios.get(`${Config.BACKEND_URL}/getAllUserProfiles`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_HOST}/getAllUserProfiles`);
         setApplicants(response.data.users);
       } catch (error) {
         console.error("Error fetching applicants:", error);

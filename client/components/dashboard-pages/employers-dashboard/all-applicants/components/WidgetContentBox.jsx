@@ -14,7 +14,7 @@ const WidgetContentBox = () => {
   // Function to fetch jobs
   const fetchJobs = async () => {
     try {
-      const response = await axios.get(`${Config.BACKEND_URL}/getAllJobs`);
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_HOST}/getAllJobs`);
       setJobsData(response.data); // Assuming response contains an array of jobs
 
     } catch (error) {
