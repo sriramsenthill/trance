@@ -52,15 +52,15 @@ const ProfileChart = () => {
     const fetchData = async () => {
       try {
         // Fetch total job applications from the first API
-        const jobApplicationStats = await axios.get("http://localhost:3000/fetchJobApplicationStatistics");
+        const jobApplicationStats = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_HOST}/fetchJobApplicationStatistics`);
         const totalJobApplications = jobApplicationStats.data.totalJobApplications;
 
         // Fetch total rejected jobs from the second API
-        const rejectedJobsStats = await axios.get("http://localhost:3000/fetchTotalRejectedJobs");
+        const rejectedJobsStats = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_HOST}/fetchTotalRejectedJobs`);
         const totalRejections = rejectedJobsStats.data.totalRejections;
 
         // Fetch total shortlisted applicants from the third API
-        const shortlistedApplicants = await axios.get("http://localhost:3000/getTotalShortlistedApplicants");
+        const shortlistedApplicants = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_HOST}/getTotalShortlistedApplicants`);
         const totalShortlisted = shortlistedApplicants.data.totalShortlisted;
 
         // Define labels for each API field (excluding Recent Jobs Count)
