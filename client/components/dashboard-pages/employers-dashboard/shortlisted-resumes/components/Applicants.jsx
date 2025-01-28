@@ -14,7 +14,7 @@ const Applicants = () => {
   // Function to fetch jobs
   const fetchJobs = async () => {
     try {
-      const response = await axios.get(`${Config.BACKEND_URL}/getAllJobs`);
+      const response = await axios.get(`${Config.NEXT_PUBLIC_SERVER_HOST}/getAllJobs`);
       setJobsData(response.data); // Assuming response contains an array of jobs
     } catch (error) {
       console.error('Error fetching jobs:', error);
@@ -24,7 +24,7 @@ const Applicants = () => {
   // Function to fetch profiles based on selected jobId
   const fetchProfiles = async (jobId) => {
     try {
-      const response = await axios.get(`${Config.BACKEND_URL}/shortlistedProfile`, {
+      const response = await axios.get(`${Config.NEXT_PUBLIC_SERVER_HOST}/shortlistedProfile`, {
         params: {
           jobId: jobId // Pass the selected jobId
         }

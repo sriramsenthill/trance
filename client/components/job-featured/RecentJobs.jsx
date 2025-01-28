@@ -10,7 +10,7 @@ const RecentJobs = () => {
   // Function to fetch jobs from backend
   const fetchJobs = async () => {
     try {
-      const response = await axios.get(`${Config.BACKEND_URL}/getAllJobs`);
+      const response = await axios.get(`${Config.NEXT_PUBLIC_SERVER_HOST}/getAllJobs`);
       setJobs(response.data.slice(0, 2)); // Assuming response.data is an array of jobs
     } catch (err) {
       setError(err.message || 'Failed to fetch jobs');

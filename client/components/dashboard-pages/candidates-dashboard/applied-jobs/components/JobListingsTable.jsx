@@ -16,7 +16,7 @@ const JobListingsTable = () => {
     }
 
     try {
-      const response = await axios.get(`${Config.BACKEND_URL}/applied-jobs`, {
+      const response = await axios.get(`${Config.NEXT_PUBLIC_SERVER_HOST}/applied-jobs`, {
         params: { userID: session.user.userID }, // Send userID as a query parameter
       });
       setJobs(response.data.jobs); // Assuming the response contains a 'jobs' field

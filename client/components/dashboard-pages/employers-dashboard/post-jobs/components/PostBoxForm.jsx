@@ -182,7 +182,7 @@ const PostBoxForm = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `${Config.BACKEND_URL}/postJob`,
+        `${Config.NEXT_PUBLIC_SERVER_HOST}/postJob`,
         formData,
       );
       if (response.status === 201) {

@@ -13,7 +13,7 @@ const Candidates = () => {
   // Function to fetch profiles from backend
   const fetchProfile = async () => {
     try {
-      const response = await axios.get(`${Config.BACKEND_URL}/profiles`);
+      const response = await axios.get(`${Config.NEXT_PUBLIC_SERVER_HOST}/profiles`);
 
       // Check if response data has profiles key and it's an array
       if (response.data && Array.isArray(response.data.profiles)) {

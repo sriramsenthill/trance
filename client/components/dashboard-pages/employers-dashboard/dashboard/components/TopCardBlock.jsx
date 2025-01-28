@@ -13,7 +13,7 @@ const TopCardBlock = () => {
     // Fetch Total Applicants
     const fetchTotalApplicants = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_HOST}/fetchJobApplicationStatistics`);
+        const response = await axios.get(`${Config.NEXT_PUBLIC_SERVER_HOST}/fetchJobApplicationStatistics`);
         // Ensure the response has the expected structure
         if (response.data && response.data.totalJobApplications !== undefined) {
           setStats(prevStats => ({
@@ -31,7 +31,7 @@ const TopCardBlock = () => {
     // Fetch Total Jobs
     const fetchTotalJobs = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/fetchJobStatistics");
+        const response = await axios.get(`${Config.NEXT_PUBLIC_SERVER_HOST}/fetchJobStatistics`);
         if (response.data && response.data.totalJobs !== undefined) {
           setStats(prevStats => ({
             ...prevStats,
@@ -48,7 +48,7 @@ const TopCardBlock = () => {
     // Fetch Total Rejected Applicants
     const fetchTotalRejected = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/fetchTotalRejectedJobs");
+        const response = await axios.get(`${Config.NEXT_PUBLIC_SERVER_HOST}/fetchTotalRejectedJobs`);
         if (response.data && response.data.totalRejections !== undefined) {
           setStats(prevStats => ({
             ...prevStats,
@@ -65,7 +65,7 @@ const TopCardBlock = () => {
     // Fetch Total Accepted Applicants
     const fetchTotalAccepted = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/getTotalShortlistedApplicants");
+        const response = await axios.get(`${Config.NEXT_PUBLIC_SERVER_HOST}/getTotalShortlistedApplicants`);
         if (response.data && response.data.totalShortlisted !== undefined) {
           setStats(prevStats => ({
             ...prevStats,

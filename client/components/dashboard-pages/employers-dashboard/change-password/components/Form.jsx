@@ -31,7 +31,7 @@ const Form = () => {
     }
 
     try {
-      const response = await axios.post(`${Config.BACKEND_URL}/change-password`, {
+      const response = await axios.post(`${Config.NEXT_PUBLIC_SERVER_HOST}/change-password`, {
         userID: session.user.userID,
         oldPassword,
         newPassword,

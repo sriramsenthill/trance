@@ -56,7 +56,7 @@ const FormInfoBox = () => {
   const fetchUserProfile = async (userID) => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`${Config.BACKEND_URL}/profiles/${userID}`);
+      const response = await axios.get(`${Config.NEXT_PUBLIC_SERVER_HOST}/profiles/${userID}`);
       if (response.status === 200 && response.data) {
         setFormData(prevData => ({
           ...prevData,
@@ -81,7 +81,7 @@ const FormInfoBox = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${Config.BACKEND_URL}/createProfile`, 
+      const response = await axios.post(`${Config.NEXT_PUBLIC_SERVER_HOST}/createProfile`, 
         formData
       );
       if (response.status === 201) {

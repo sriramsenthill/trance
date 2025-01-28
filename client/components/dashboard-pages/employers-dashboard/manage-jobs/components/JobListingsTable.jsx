@@ -9,7 +9,7 @@ const JobListingsTable = () => {
   // Function to fetch jobs
   const fetchJobs = async () => {
     try {
-      const response = await axios.get(`${Config.BACKEND_URL}/getAllJobs`);
+      const response = await axios.get(`${Config.NEXT_PUBLIC_SERVER_HOST}/getAllJobs`);
       setJobs(response.data);
     } catch (error) {
       console.error('Error fetching jobs:', error);
@@ -24,7 +24,7 @@ const JobListingsTable = () => {
   // Function to handle job deletion
   const handleDeleteJob = async (jobId) => {
     try {
-      await axios.delete(`${Config.BACKEND_URL}/jobs/${jobId}`);
+      await axios.delete(`${Config.NEXT_PUBLIC_SERVER_HOST}/jobs/${jobId}`);
       // Refresh the job listings after deletion
       fetchJobs();
     } catch (error) {

@@ -20,7 +20,7 @@ const JobFavouriteTable = () => {
     }
 
     try {
-      const response = await axios.get(`${Config.BACKEND_URL}/getJobsForUser`, {
+      const response = await axios.get(`${Config.NEXT_PUBLIC_SERVER_HOST}/getJobsForUser`, {
         params: { userID: session.user.userID } // Pass userID as a query parameter
       });
       setJobsData(response.data.jobs); // Assuming response contains a 'jobs' array

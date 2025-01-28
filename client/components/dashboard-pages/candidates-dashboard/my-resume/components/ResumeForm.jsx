@@ -40,7 +40,7 @@ const ResumeForm = () => {
 
   const fetchResumeData = async (userID) => {
     try {
-      const response = await axios.get(`${Config.BACKEND_URL}/resumes/${userID}`);
+      const response = await axios.get(`${Config.NEXT_PUBLIC_SERVER_HOST}/resumes/${userID}`);
       if (response.status === 201 && response.data) {
         setFormData(response.data);
       }
@@ -98,7 +98,7 @@ const ResumeForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${Config.BACKEND_URL}/createResume`, formData);
+      const response = await axios.post(`${Config.NEXT_PUBLIC_SERVER_HOST}/createResume`, formData);
       if (response.status === 201) {
         console.log('Resume created successfully:', response.data);
         setSnackbarMessage("Resume created successfully.");

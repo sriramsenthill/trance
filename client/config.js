@@ -1,4 +1,4 @@
 export const Config = {
-    BACKEND_URL: 'https://transerver.ddns.net'
-    //BACKEND_URL: 'http://localhost:3000',
+    NEXT_PUBLIC_SERVER_HOST: 'https://transerver.ddns.net'
+    //NEXT_PUBLIC_SERVER_HOST: 'http://localhost:3000'
 };
