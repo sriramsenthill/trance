@@ -1,0 +1,116 @@
+[33mb258457[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Revert "update: nextjs upgrades fix"
+[33mdcd4cd7[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m update: nextjs upgrades fix
+[33md3470ac[m changes in config file for backend url
+[33mad50361[m chore: update backend URL in config file
+[33m40e5094[m Merge pull request #3 from sriramsenthill/revert-1-prod-deploy
+[33m79871c9[m Revert "Create server_ci-cd.yml"
+[33mbb90049[m Merge pull request #1 from sriramsenthill/prod-deploy
+[33m66c7245[m Create server_ci-cd.yml
+[33m26fcee8[m Update README.md
+[33m42d1573[m main merge
+[33m2afb135[m[33m ([m[1;31morigin/sriram[m[33m)[m changes in similarity score
+[33m0e0a0d9[m prompt and image changes
+[33m645bd77[m apply jobs
+[33md795d7c[m notification
+[33m1be2ac1[m Update config.js
+[33m1c05058[m Update config.js
+[33mf83469c[m Update config.js
+[33m7df3920[m Update config.js
+[33mcb118ec[m Update README.md
+[33m13ee35f[m changes in files
+[33m5a3d790[m switched/ replaced documentation images
+[33md0ffbf7[m Update config.js
+[33m1f77b41[m Update config.js
+[33mc36f4ad[m Update config.js
+[33mea1561a[m Update config.js
+[33m8c45eff[m about page changes
+[33mcf8940b[m favicon
+[33m53e1bb4[m emp dashboard
+[33mda5f812[m Update README.md
+[33m228eaf7[m main merge from sriram
+[33mfeb9d40[m main merge from sriram
+[33m200c46d[m changes in shortlisted jobs
+[33m64d619d[m implemented func for tot shortlisted
+[33md39f76a[m implemented funcs to fetch tot. applis., jobs
+[33m646f6d6[m changes by niranjan
+[33m2a6c18b[m changes by sriram
+[33m5734a9e[m changes in mobile nav bar
+[33m9960a6b[m changes in nav bar
+[33m3b5c14a[m changes in navbar
+[33m3a2f7de[m css changes in registration banner(home)
+[33m32942b7[m homepage css changes
+[33m992c7e6[m Update README.md
+[33m8c77348[m main merge
+[33mc1b85c0[m ui changes
+[33m41a2b74[m changes in ui
+[33m1853417[m resume changes
+[33mf9ab41c[m chanes in sriram
+[33m819d3e8[m changed by sriram
+[33me3a1eca[m changes in shortlisted
+[33m3aa982b[m added func to post simscore
+[33m9fcec4b[m changes on applied can
+[33m45b9910[m changes in form get candidates
+[33mf35b1fb[m changed candidate logo
+[33m8bc43f3[m getAppliedJobs
+[33m365d758[m changes in candidate applied
+[33m8a7a640[m main merge
+[33me0b410e[m changes in build
+[33m123f944[m changes in build
+[33m2d712d7[m Update README.md
+[33mbc47b94[m new image
+[33maca6512[m merge to main
+[33mf96d455[m Update README.md
+[33m71c3f2f[m images upload
+[33mb05e6cd[m Update README.md
+[33m26ffe1f[m Update README.md
+[33m3793d7e[m Update README.md
+[33m6011e59[m Post Enhancements
+[33mce5af81[m Post Enhancements
+[33m7407205[m changes in server
+[33m9222cd4[m changes in server url
+[33m8fa3e07[m changes by sriram
+[33macac182[m changes by sriram
+[33mfea5e7c[m changes in post job ai
+[33m6443e0e[m changes in skills
+[33m568d6ad[m AI PostJob
+[33m4e92a7c[m changes in userID resume and profile
+[33m2e7acca[m changes in apply server
+[33mc6928f5[m changes in resume ui
+[33maa58039[m changes in profile ui frontend
+[33m58eac08[m changes on resume ui
+[33m2f87099[m changes by pavan on resume
+[33ma1549e3[m changes in resume ui
+[33m477920a[m changes by sriram in password
+[33m34d47d5[m changes by sriram on change password
+[33m3aa3832[m changes in user profile
+[33m3ff8652[m changes in manage jobs
+[33m759addb[m delete function for manage jobs
+[33m3ba6295[m changes in form valaidation
+[33mddd9b8c[m changes in featured jobs
+[33m4da7c11[m changes in joblist-v1
+[33mfd3dbab[m changes in createResume routes
+[33m59d1fec[m new changes
+[33m01610bf[m changes by niranjan on resume and candidate
+[33m5fb8d89[m joblist connection
+[33m90f33b5[m day 1
+[33mf2b09a7[m changes in job logic
+[33m9e39476[m changes in frnt
+[33m497c452[m frnted postjob
+[33m8d5841b[m changes in uii
+[33m0a5e9a5[m changes in ui
+[33m1403636[m changes in job db
+[33mddb115a[m Merge branch 'sriram' of https://github.com/sriramsenthill/trance into sriram
+[33m8a866b0[m changes in find jobs
+[33m0b1fbab[m changes in candidate find jobs
+[33m3c1666d[m backend connection
+[33m0b26509[m Update README.md
+[33m80d45d5[m new server
+[33mc1bb10f[m changes in img
+[33mebcaaa4[m changes in about image
+[33m892269e[m changes in home screen
+[33m6feaa0b[m niranjan
+[33m1909c8b[m niranjan
+[33m60b1ae0[m pavan changes
+[33m4fef74c[m changes in auth and ui
+[33m33538f1[m[33m ([m[1;31morigin/aashith[m[33m)[m project files
+[33m8c9fc2c[m first commit
