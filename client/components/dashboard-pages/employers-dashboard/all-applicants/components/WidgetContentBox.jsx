@@ -14,7 +14,7 @@ const WidgetContentBox = () => {
   // Function to fetch jobs
   const fetchJobs = async () => {
     try {
-      const response = await axios.get(`${Config.NEXT_PUBLIC_SERVER_HOST}/getAllJobs`);
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_HOST}/getAllJobs`);
       setJobsData(response.data); // Assuming response contains an array of jobs
 
     } catch (error) {
@@ -25,7 +25,7 @@ const WidgetContentBox = () => {
   // Function to fetch profiles based on selected jobId
   const fetchProfiles = async (jobId) => {
     try {
-      const response = await axios.get(`${Config.NEXT_PUBLIC_SERVER_HOST}/allApplicants`, {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_HOST}/allApplicants`, {
         params: {
           jobId: jobId // Pass the selected jobId
         }
@@ -54,7 +54,7 @@ const WidgetContentBox = () => {
 
   const handleApprove = async (userId) => {
     try {
-      const response = await axios.post(`${Config.NEXT_PUBLIC_SERVER_HOST}/postShortlisted`, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_HOST}/postShortlisted`, {
         userID: userId,
         jobId: selectedJobId
       });
@@ -72,7 +72,7 @@ const WidgetContentBox = () => {
 
   const handleReject = async (userId) => {
     try {
-      const response = await axios.post(`${Config.NEXT_PUBLIC_SERVER_HOST}/postRejected`, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_HOST}/postRejected`, {
         userID: userId,
         jobId: selectedJobId
       });

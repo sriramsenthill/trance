@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { Groq } from "groq-sdk";
 import { Config } from "../../../../../config";
 const groq = new Groq({
-  apiKey: "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",
+  apiKey: "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",
   dangerouslyAllowBrowser: true,
 });
 
@@ -109,7 +109,7 @@ const PostBoxForm = () => {
                 Based on: ${userPromptData}`,
             },
           ],
-          model: "llama3-groq-70b-8192-tool-use-preview",
+          model: "deepseek-r1-distill-llama-70b",
         });
 
         const generatedContent = completion.choices[0]?.message?.content || "";

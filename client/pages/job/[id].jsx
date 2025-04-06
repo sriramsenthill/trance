@@ -41,11 +41,11 @@ const JobSingleDynamicV1 = () => {
     if (!id) return;
 
     try {
-      const jobResponse = await axios.get(`${Config.BACKEND_URL}/jobs/${id}`);
+      const jobResponse = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_HOST}/jobs/${id}`);
       setCandidates(jobResponse.data);
 
       if (session && session.user && session.user.userID) {
-        const checkResponse = await axios.post(`${Config.BACKEND_URL}/checkApplied`, {
+        const checkResponse = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_HOST}/checkApplied`, {
           userID: session.user.userID,
           jobID: parseInt(id, 10),
         });
@@ -72,7 +72,7 @@ const JobSingleDynamicV1 = () => {
     }
 
     try {
-      const response = await axios.post(`${Config.BACKEND_URL}/applyjob`, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_HOST}/applyjob`, {
         userID: session.user.userID,
         jobID: parseInt(id, 10),
       });

@@ -14,7 +14,7 @@ const FormContent2 = () => {
     e.preventDefault(); // Prevent default form submission
 
     try {
-      const response = await axios.post(`${Config.BACKEND_URL}/register`, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_HOST}/register`, {
         email,
         password,
         role,
